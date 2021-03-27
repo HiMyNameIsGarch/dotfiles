@@ -1,1 +1,60 @@
-/home/himynameisgarch/.config/aliasrc
+##############################
+#         Variables          #
+##############################
+
+EDITOR='vim'
+TERM="xterm-256color"
+
+##############################
+#          Aliases           #
+##############################
+
+# Ls commands with 'exa'
+alias ls="exa -al --color=always --group-directories-first"
+alias la="exa -a --color=always --group-directories-first"
+alias ll="exa -l --color=always --group-directories-first"
+alias lt="exa -aT --color=always --group-directories-first"
+
+# Navigation on directories with 'cd'
+alias ..="cd .."
+alias ...="cd ../.."
+alias .3="cd ../../.."
+alias .4="cd ../../../.."
+
+# Update the system
+alias pacsyyu="sudo pacman -Syyu"
+alias pacsy="sudo pacman -Syu"
+alias pacs="sudo pacman -S"
+alias pacr="sudo pacman -R"
+alias yays="yay -S"
+alias yaysua="sudo yay -Sua"
+alias yaysyu="sudo yay -Syu"
+alias yayr="sudo yay -R"
+
+# Get fastest mirrors using reflector
+alias mirror="reflector --country Romania --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
+alias mirrorl="reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist"
+alias mirrora="reflector --latest 50 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
+
+
+# Execute scripts
+alias open_camera="~/Scripts/open_camera.sh"
+alias change_rez_dc="~/Scripts/change_rez_droidcam.sh"
+alias create_csharp_vs_config="~/Scripts/create_csharp_vs_config.sh"
+
+# Open configs
+alias c-qtile="$EDITOR  ~/.config/qtile/config.py"
+alias c-qutebrowser="$EDITOR ~/.config/qutebrowser/config.py"
+alias c-rofi="$EDITOR ~/.config/rofi/config.rasi"
+alias c-picom="$EDITOR ~/.config/picom/picom.conf"
+alias c-bash="$EDITOR ~/.bashrc"
+alias c-fish="$EDITOR ~/.config/fish/config.fish"
+alias c-vim="$EDITOR ~/.vimrc"
+alias c-alacritty="$EDITOR ~/.config/alacritty/alacritty.yml"
+alias c-quickmarks="$EDITOR ~/.config/qutebrowser/quickmarks"
+alias c-zsh="$EDITOR ~/.zshrc"
+alias c-alias="$EDITOR ~/.config/aliasrc"
+
+# Open logs
+alias log-qtile="$EDITOR ~/.local/share/qtile/qtile.log"
+

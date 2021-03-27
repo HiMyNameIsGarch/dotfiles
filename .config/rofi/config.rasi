@@ -1,1 +1,3 @@
-/home/himynameisgarch/.config/rofi/config.rasi
+configuration {
+	theme: "~/.config/rofi/themes/default.rasi";
+}
