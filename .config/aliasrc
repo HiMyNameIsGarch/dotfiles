@@ -1,4 +1,14 @@
 ##############################
+#          Exports           #
+##############################
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export PATH=${PATH}:${HOME}/.local/bin:${HOME}/.local/bin/dmenu:${HOME}/.local/bin/dwm-bar
+#export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+
+##############################
 #         Variables          #
 ##############################
 
@@ -9,7 +19,16 @@ TERM="xterm-256color"
 #          Aliases           #
 ##############################
 
-# Ls commands with 'exa'
+# If the commands are too longs, just make them shorter!
+alias ka="killall"
+alias k="kill"
+
+# Prevent makings mistakes with rm/cp/mv
+alias rm="rm -I"
+alias mv="mv -i"
+alias cp="cp -i"
+
+# ls commands with 'exa'
 alias ls="exa -al --color=always --group-directories-first"
 alias la="exa -a --color=always --group-directories-first"
 alias ll="exa -l --color=always --group-directories-first"
@@ -32,15 +51,9 @@ alias yaysyu="sudo yay -Syu"
 alias yayr="sudo yay -R"
 
 # Get fastest mirrors using reflector
-alias mirror="reflector --country Romania --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
-alias mirrorl="reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist"
-alias mirrora="reflector --latest 50 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
-
-
-# Execute scripts
-alias open_camera="~/Scripts/open_camera.sh"
-alias change_rez_dc="~/Scripts/change_rez_droidcam.sh"
-alias create_csharp_vs_config="~/Scripts/create_csharp_vs_config.sh"
+alias mirror="sudo reflector --country Romania --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
+alias mirrorl="sudo reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist"
+alias mirrora="sudo reflector --latest 50 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
 
 # Open configs
 alias c-qtile="$EDITOR  ~/.config/qtile/config.py"
