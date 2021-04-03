@@ -1,0 +1,3 @@
+#!/bin/sh
+
+echo $(date -u '+%I:%M%p')

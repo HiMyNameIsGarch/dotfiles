@@ -1,0 +1,8 @@
+#!/bin/sh
+
+function getDiskSpace() {
+    echo $(df -h /dev/sd$1 --output=avail | tail -n 1)
+}
+
+echo "S:"$(getDiskSpace b1)" | H:"$(getDiskSpace d2)
+

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+echo " U:$(pacman -Qu | wc -l)"

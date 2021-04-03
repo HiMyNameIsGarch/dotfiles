@@ -1,0 +1,4 @@
+#!/bin/sh
+
+temp=$(sensors -A | awk '/^edge/ { print $2 }')
+echo "G:${temp:1}"

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+temp=$(sensors -A | awk '/^Core 0/ { print $3 }')
+
+echo "C:${temp:1}"
