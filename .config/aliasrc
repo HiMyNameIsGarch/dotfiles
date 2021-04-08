@@ -1,14 +1,4 @@
 ##############################
-#          Exports           #
-##############################
-
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
-export PATH=${PATH}:${HOME}/.local/bin:${HOME}/.local/bin/dmenu:${HOME}/.local/bin/dwm-bar
-#export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
-
-##############################
 #         Variables          #
 ##############################
 
@@ -18,6 +8,17 @@ TERM="xterm-256color"
 ##############################
 #          Aliases           #
 ##############################
+
+# Short some commands
+alias dev="cd ~/Dev && ls"
+alias gr="cd ~/GitRepos && ls"
+alias mo="cd ~/Media/Movies && ls"
+alias ph="cd ~/Media/Photos && ls"
+alias co="cd ~/Media/Courses && ls"
+alias wa="cd ~/Media/Wallpapers && ls"
+alias to="cd ~/Torrents && ls"
+alias md="cd ~/Media && ls"
+alias ldf="cd ~/Dev/linux-dotfiles && ls && git status"
 
 # If the commands are too longs, just make them shorter!
 alias ka="killall"
@@ -54,19 +55,6 @@ alias yayr="sudo yay -R"
 alias mirror="sudo reflector --country Romania --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
 alias mirrorl="sudo reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist"
 alias mirrora="sudo reflector --latest 50 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
-
-# Open configs
-alias c-qtile="$EDITOR  ~/.config/qtile/config.py"
-alias c-qutebrowser="$EDITOR ~/.config/qutebrowser/config.py"
-alias c-rofi="$EDITOR ~/.config/rofi/config.rasi"
-alias c-picom="$EDITOR ~/.config/picom/picom.conf"
-alias c-bash="$EDITOR ~/.bashrc"
-alias c-fish="$EDITOR ~/.config/fish/config.fish"
-alias c-vim="$EDITOR ~/.vimrc"
-alias c-alacritty="$EDITOR ~/.config/alacritty/alacritty.yml"
-alias c-quickmarks="$EDITOR ~/.config/qutebrowser/quickmarks"
-alias c-zsh="$EDITOR ~/.zshrc"
-alias c-alias="$EDITOR ~/.config/aliasrc"
 
 # Open logs
 alias log-qtile="$EDITOR ~/.local/share/qtile/qtile.log"

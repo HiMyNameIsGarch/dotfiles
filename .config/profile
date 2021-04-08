@@ -1,3 +1,16 @@
 #!/bin/sh
 
 export PATH=${PATH}:/home/himynameisgarch/.local/bin:/home/himynameisgarch/.local/bin/dmenu:/home/himynameisgarch/.local/bin/dwm-bar
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+export ANDROID_SDK_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/android"
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
+export NUGET_PACKAGES="$XDG_CACHE_HOME"/NuGetPackages
+export LESSKEY="$XDG_CONFIG_HOME"/less/lesskey
+export LESSHISTFILE="$XDG_CACHE_HOME"/less/history
+#export LESSHISTFILE=- # enable to disable this feature
+export CARGO_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/cargo"
+#export PYTHONHISTFILE="$XDG_CACHE_HOME/python/history"
