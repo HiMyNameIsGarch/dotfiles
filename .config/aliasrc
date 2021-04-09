@@ -19,6 +19,20 @@ alias wa="cd ~/Media/Wallpapers && ls"
 alias to="cd ~/Torrents && ls"
 alias md="cd ~/Media && ls"
 alias ldf="cd ~/Dev/linux-dotfiles && ls && git status"
+alias sc="cd ~/.local/bin && ls"
+alias sdm="cd ~/.local/bin/dmenu && ls"
+alias sdb="cd ~/.local/bin/dwm-bar && ls"
+
+# Git commands
+alias g="git"
+alias ga="git add"
+alias gs="git status"
+alias gc="git clone"
+alias gpl="git pull"
+alias gps="git push"
+alias grm="git rm"
+alias gmv="git mv"
+alias gre="git restore"
 
 # If the commands are too longs, just make them shorter!
 alias ka="killall"

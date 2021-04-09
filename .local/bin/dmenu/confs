@@ -1,0 +1,27 @@
+#!/bin/sh
+
+EDITOR="alacritty -e vim"
+
+declare -a configs=(
+"qutebrowser $HOME/.config/qutebrowser/config.py"
+"quickmarks $HOME/.config/qutebrowser/quickmarks"
+"alacritty $HOME/.config/alacritty/alacritty.yml"
+"qtile $HOME/.config/qtile/config.py"
+"dwmblocks $HOME/suckless/dwmblocks/blocks.def.h"
+"dwm $HOME/suckless/dwm/config.def.h"
+"bash $HOME/.bashrc"
+"zsh $HOME/.zshrc"
+"vim $HOME/.vimrc"
+"fish $HOME/.config/fish/config.rasi"
+"rofi $HOME/.config/rofi/config.rasi"
+"dmenu $HOME/suckless/dmenu/config.def.h"
+"picom $HOME/.config/picom/picom.conf"
+"aliases $HOME/.config/aliasrc"
+"profile $HOME/.config/profile"
+"quit" )
+
+choice=$(printf '%s\n' "${configs[@]}" | dmenu -i -l 10 -p 'Edit config: ')
+
+[[ "$choice" == "quit" || -z "$choice" ]] || 
+    $EDITOR "$(printf '%s\n' "${choice}" | awk '{print $2}')" && exit 1
+
