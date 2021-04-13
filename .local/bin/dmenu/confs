@@ -7,6 +7,7 @@ declare -a configs=(
 "quickmarks $HOME/.config/qutebrowser/quickmarks"
 "alacritty $HOME/.config/alacritty/alacritty.yml"
 "qtile $HOME/.config/qtile/config.py"
+"dunst $HOME/.config/dunst/dunstrc"
 "dwmblocks $HOME/suckless/dwmblocks/blocks.def.h"
 "dwm $HOME/suckless/dwm/config.def.h"
 "bash $HOME/.bashrc"

@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# Copy to USB (cptusb)
+# This script ensures the user that the size of the file/files that he is gonna 
+# copy over his USB will fit in
+#
+
+terminate() { echo "cptusb: $1" && exit 1 ; }
+
+[[ $# -lt 2 ]] && terminate "Not enough parameters" 
+
+file="$@"
+MPoint="${@: -1}"
+
+# check if the mount point exists and if it is mounted
+[ ! -d $MPoint ] && terminate "$MPoint does not exists".
+[[ -z "$(lsblk | grep "$MPoint")" ]] &&
+    terminate "$MPoint is not mounted! Try again!" || file="${file% *}"
+
+# check if all files are good
+for fl in "$(file $file)"; do
+    grep -q "No such file" <<< "$fl" && echo "${fl##: }" && exit 1        
+done
+
+# take the spaces from usb and files
+usbFree=$(df | grep $MPoint | awk '{ print $4 }')
+fileSize=$(du -sc $file | grep total | awk '{ print $1} ')
+
+convertB() { echo $1 | awk '{print $1/1024/1024 " GB "}' ; }
+
+# if the files are bigger than usb free space, print message
+[ $fileSize -gt $usbFree ] && 
+    terminate "The file that you wanna transfer is too big for the usb
+File: $(convertB $fileSize) 
+Usb: $(convertB $usbFree)"
+
+# g flag is for graphical output (you can remove it if you don't have that option)
+cp -gr $file $MPoint
+
