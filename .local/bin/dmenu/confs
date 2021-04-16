@@ -6,6 +6,7 @@ declare -a configs=(
 "qutebrowser $HOME/.config/qutebrowser/config.py"
 "quickmarks $HOME/.config/qutebrowser/quickmarks"
 "alacritty $HOME/.config/alacritty/alacritty.yml"
+"youtube-dl $HOME/.config/youtube-dl/config"
 "qtile $HOME/.config/qtile/config.py"
 "dunst $HOME/.config/dunst/dunstrc"
 "dwmblocks $HOME/suckless/dwmblocks/blocks.def.h"
@@ -19,10 +20,10 @@ declare -a configs=(
 "picom $HOME/.config/picom/picom.conf"
 "aliases $HOME/.config/aliasrc"
 "profile $HOME/.config/profile"
-"quit" )
+"this $HOME/.local/bin/dmenu/confs") # opens this file
 
 choice=$(printf '%s\n' "${configs[@]}" | dmenu -i -l 10 -p 'Edit config: ')
 
-[[ "$choice" == "quit" || -z "$choice" ]] || 
+[[ -z "$choice" ]] || 
     $EDITOR "$(printf '%s\n' "${choice}" | awk '{print $2}')" && exit 1
 

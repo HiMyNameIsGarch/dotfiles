@@ -1,0 +1,2 @@
+# Save all videos under Movies directory in your home directory
+-o ~/Media/Youtube/%(title)s.%(ext)s

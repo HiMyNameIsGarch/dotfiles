@@ -136,17 +136,13 @@ c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}',
 
 c.downloads.location.directory = '~/Downloads'
 
+# Bindings
+config.bind('M', 'hint links spawn mpv {hint-url}')
+config.bind('Z', 'hint links spawn alacritty -e youtube-dl {hint-url}')
 
-# Default font families to use. Whenever "default_family" is used in a
-# font setting, it's replaced with the fonts listed here. If set to an
-# empty value, a system-specific monospace default is used.
 # Type: List of Font, or Font
 c.fonts.default_family = '"SauceCodePro Nerd Font"'
 
-# Default font size to use. Whenever "default_size" is used in a font
-# setting, it's replaced with the size listed here. Valid values are
-# either a float value with a "pt" suffix, or an integer value with a
-# "px" suffix.
 # Type: String
 c.fonts.default_size = '11pt'
 
@@ -166,8 +162,6 @@ c.fonts.prompts = 'default_size sans-serif'
 # Type: Font
 c.fonts.statusbar = '11pt "SauceCodePro Nerd Font"'
 
-# base16-qutebrowser (https://github.com/theova/base16-qutebrowser)
-# Base16 qutebrowser template by theova
 # Black Metal (Venom) scheme by metalelf0 (https://github.com/metalelf0)
 
 base00 = "#000000"
@@ -189,8 +183,6 @@ base0F = "#444444"
 
 # set qutebrowser colors
 
-# Text color of the completion widget. May be a single color to use for
-# all columns or a list of three colors, one for each column.
 c.colors.completion.fg = base05
 
 # Background color of the completion widget for odd rows.
