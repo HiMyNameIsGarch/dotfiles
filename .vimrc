@@ -20,6 +20,7 @@ set noerrorbells
 set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
+set autoindent
 set smartindent
 set relativenumber
 set nohlsearch
@@ -28,6 +29,7 @@ set nowrap
 set noswapfile
 set nobackup
 set undodir=~/.vim/undodir
+set dir=~/.vim/tmp
 set undofile
 set incsearch
 set scrolloff=8
@@ -54,8 +56,12 @@ Plug 'leafgarland/typescript-vim'
 Plug 'posva/vim-vue'
 Plug 'pangloss/vim-javascript'
 Plug 'honza/vim-snippets'
+Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
+
+"       vim-vue
+let g:vue_pre_processors = 'detect_on_enter'
 
 "       Column
 highlight ColorColumn ctermbg=0 guibg=lightgrey

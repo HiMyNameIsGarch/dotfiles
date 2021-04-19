@@ -1,30 +1,24 @@
 #! /bin/sh
 
 # get the values from current dir
-
 basePath=$(pwd)
-dotnetVersion=$(echo "$(dotnet --version)" | head -c3)
-projName=$(basename $basePath)
-program="$basePath/bin/Debug/netcoreapp$dotnetVersion/$projName.dll"
-fileName=".vimspector.json"
-
-# make the file
-
-touch $fileName
+vs=$(dotnet --version)
+dotnetVersion="${vs:0:3}"
+projName="${basePath##*/}"
 
 # write config to it
+echo -e "{
+  \"configurations\": {
+     \"launch - netcoredbg\": {
+       \"adapter\": \"netcoredbg\",
+       \"configuration\": { 
+         \"request\": \"launch\",
+         \"program\":\"$basePath/bin/Debug/netcoreapp$dotnetVersion/$projName.dll\",
+         \"args\": [],
+         \"stopAtEntry\": true,
+         \"cwd\": \""$basePath"\"
+      }
+    }
+  }
+}" >> ".vimspector.json" 
 
-echo "{" >> $fileName
-echo '  "configurations": {' >> $fileName
-echo '    "launch - netcoredbg": {' >> $fileName
-echo '      "adapter": "netcoredbg",' >> $fileName
-echo '      "configuration": {' >> $fileName
-echo '        "request": "launch",' >> $fileName
-echo '        "program": "'"$program"'",' >> $fileName
-echo '        "args": [],' >> $fileName
-echo '        "stopAtEntry": true,' >> $fileName
-echo '        "cwd": "'"$basePath"'"' >> $fileName
-echo '      }' >> $fileName
-echo '    }' >> $fileName
-echo '  }' >> $fileName
-echo '}' >> $fileName
