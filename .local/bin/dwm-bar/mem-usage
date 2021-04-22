@@ -1,4 +1,4 @@
 #!/bin/sh
 
 mem=$(free -h | awk '/^Mem/ { print $3 }')
-echo "M:${mem%?}"
+printf "M:${mem%?}"

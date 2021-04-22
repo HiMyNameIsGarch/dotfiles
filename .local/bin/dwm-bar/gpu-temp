@@ -1,4 +1,4 @@
 #!/bin/sh
 
-temp=$(sensors -A | awk '/^edge/ { print $2 }')
-echo "G:${temp:1}"
+temp=$(sensors -A | awk '/^edge/ { print $2 }' | cut -c 2-5)
+printf "G:$temp"

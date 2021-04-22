@@ -1,5 +1,5 @@
 #!/bin/sh
 
-temp=$(sensors -A | awk '/^Core 0/ { print $3 }')
+temp=$(sensors -A | awk '/^Core 0/ { print $3 }' | cut -c 2-5)
 
-echo "C:${temp:1}"
+printf "C:$temp"
