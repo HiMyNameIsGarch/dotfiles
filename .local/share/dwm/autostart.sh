@@ -10,6 +10,7 @@ dwmblocks >/dev/null &
 picom --experimental-backends >/dev/null &
 
 # Start redshift
+killall redshift
 redshift >/dev/null &
 
 # Start dunst 
@@ -17,7 +18,7 @@ dunst &
 
 # Output sound to speaker 
 soundCard="HDA-Intel - HDA Intel PCH"
-cardNum="$(cat /proc/asound/cards | grep $soundCard | awk '{print $1}')"
+cardNum="$(cat /proc/asound/cards | grep "$soundCard" | awk '{print $1}')"
 amixer -c $cardNum sset "Auto-Mute Mode" 'Speaker Only' </dev/null
 
 

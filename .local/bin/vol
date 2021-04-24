@@ -1,0 +1,11 @@
+#!/bin/sh
+
+NUM="${2:-5}"
+mixerSet() { amixer sset Master "$1" ;}
+
+case "$1" in 
+    toggle) mixerSet "toggle" ;;
+    mute) mixerSet "mute" ;;
+    up) mixerSet "$NUM%+" ;;
+    down) mixerSet "$NUM%-" ;;
+esac >/dev/null 
