@@ -2,24 +2,30 @@
 
 # Create symbolic link (lk)
 # Basic script to create symbolic links for dotfiles directory more easily
-# Does not support multiple parameters
+# Does not support multiple files to link
 
-terminate() { echo "lk: $1" && exit 1 ; }
-[[ "$#" -gt 1 ]] && terminate "Too many parameters"
+terminate() { printf "lk: error: $1\n" && exit 1 ; }
+if [ "$#" -gt 1 ]; then # if there are more parameters
+    # use xargs to call this script with each parameter
+    printf '%s\n' "$@" | xargs -I {} lk '{}' 
+    exit 1
+fi
 file="$1"
-[[ ! -f "$file" ]] && terminate "File \"$file\" does not exist!"
-[[ "$(file $file)" == *"symbolic link"* ]] && 
+[ ! -f "$file" ] && terminate "File \"$file\" does not exist!"
+test "${file#*"/"}" != "$file" && 
+    terminate "Please go into the directory, then link the file ($file)"
+fileTypes=$(file $file)
+test "${fileTypes#*"symbolic link"}" != "$fileTypes" &&
     terminate "File \"$file\" is already a symbolic link"
-
 currentDir="$(pwd)"
 currentDir="${currentDir##$HOME}"
 dotfiles="$HOME/Dev/linux-dotfiles$currentDir"
-if [[ ! -d $dotfiles ]]; then 
-    echo "lk: $currentDir does not exists in dotfiles directory"
+if [ ! -d $dotfiles ]; then 
+    printf "lk: $currentDir does not exists in dotfiles directory\n"
     printf 'Wanna create it ? [y/n]: '
     read -r response
-    [[ "$response" = "y" ]] && mkdir -p $dotfiles || exit 1 
+    [ "$response" = "y" ] && mkdir -p $dotfiles || exit 1 
 fi
-mv $file $dotfiles && file="${file##*/}" ; currentDir="$HOME$currentDir" && 
+mv $file $dotfiles && file="${file##*/}" && currentDir="$HOME$currentDir" && 
     ln -s "$dotfiles/$file" "$currentDir/$file" || 
     terminate "Cannot link $dotfiles/$file to $currentDir/$file"
