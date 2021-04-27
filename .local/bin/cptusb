@@ -5,28 +5,28 @@
 # copy over his USB will fit in
 #
 
-terminate() { echo "cptusb: $1" && exit 1 ; }
+terminate() { printf "cptusb: $1\n" && exit 1 ; }
 
-[[ $# -lt 2 ]] && terminate "Not enough parameters" 
+[ $# -lt "2" ] && terminate "Not enough parameters" 
 
-file="$@"
-MPoint="${@: -1}"
+files="$@"
+MPoint="${files##* }"
 
 # check if the mount point exists and if it is mounted
 [ ! -d $MPoint ] && terminate "$MPoint does not exists".
-[[ -z "$(lsblk | grep "$MPoint")" ]] &&
-    terminate "$MPoint is not mounted! Try again!" || file="${file% *}"
+[ -z "$(lsblk | grep "$MPoint")" ] &&
+    terminate "$MPoint is not mounted! Try again!" || files="${files% *}"
 
 # check if all files are good
-for fl in "$(file $file)"; do
-    grep -q "No such file" <<< "$fl" && echo "${fl##: }" && exit 1        
-done
+fileStatus=$(file $files)
+test "${fileStatus#*"No such file"}" != "$fileStatus" && 
+    terminate "$(printf "$fileStatus" | grep "No such file")"
 
 # take the spaces from usb and files
 usbFree=$(df | grep $MPoint | awk '{ print $4 }')
-fileSize=$(du -sc $file | grep total | awk '{ print $1} ')
+fileSize=$(du -sc $files | grep total | awk '{ print $1} ')
 
-convertB() { echo $1 | awk '{print $1/1024/1024 " GB "}' ; }
+convertB() { printf "$1" | awk '{print $1/1024/1024 " GB "}' ; }
 
 # if the files are bigger than usb free space, print message
 [ $fileSize -gt $usbFree ] && 
@@ -37,7 +37,7 @@ Usb: $(convertB $usbFree)"
 notify() { sudo -u himynameisgarch DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus notify-send --urgency="$1" "$2" "$3" ; }
 
 # g flag is for graphical output (you can remove it if you don't have that option)
-cp -gr $file $MPoint && 
+cp -gr $files $MPoint && 
     notify normal "Doom Guy says:" "Your files has been copied succesfully\nYou can unmount your usb now" || 
     notify critical "Doom Guy says:" "Your files couldn't be copied"
 

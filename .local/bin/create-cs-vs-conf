@@ -2,12 +2,11 @@
 
 # get the values from current dir
 basePath=$(pwd)
-vs=$(dotnet --version)
-dotnetVersion="${vs:0:3}"
+dotnetVersion=$(dotnet --version | cut -c 1-3)
 projName="${basePath##*/}"
 
 # write config to it
-echo -e "{
+printf '%s\n' "{
   \"configurations\": {
      \"launch - netcoredbg\": {
        \"adapter\": \"netcoredbg\",
@@ -20,5 +19,5 @@ echo -e "{
       }
     }
   }
-}" >> ".vimspector.json" 
+}" > ".vimspector.json" 
 
