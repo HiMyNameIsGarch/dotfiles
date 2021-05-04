@@ -1,0 +1,6 @@
+#!/bin/sh
+
+for file in *; do
+    test "${file#*" "}" != "$file" &&
+        mv "$file" `echo "$file" | sed 's/  */-/g'`
+done
