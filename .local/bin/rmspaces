@@ -1,6 +1,12 @@
 #!/bin/sh
 
-for file in *; do
-    test "${file#*" "}" != "$file" &&
-        mv "$file" `echo "$file" | sed 's/  */-/g'`
-done
+files=""
+rnm() { mv "$1" `echo "$1" | sed 's/  */-/g'` ; }
+case $1 in
+    f) files="$(find . -name "* *" -type f)" ;;
+    d) files="$(find . -name "* *" -type d)" ;;
+    r) files="$(find . -name "* *")" ;;
+    *) for file in *\ *; do rnm "$file"; done ; exit 1 ;;
+esac
+export -f rnm
+echo "$files" | xargs -I {} /bin/sh -c 'rnm "{}"'
