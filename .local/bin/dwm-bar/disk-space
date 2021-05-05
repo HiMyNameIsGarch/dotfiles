@@ -1,8 +1,8 @@
 #!/bin/sh
 
 getDiskSpace() {
-    printf $(df -h /dev/sd$1 --output=avail | tail -n 1)
+    printf "%s" "$(df -h /dev/sd"$1" --output=avail | tail -n 1 | sed 's/  *//g')"
 }
 
-printf "S:"$(getDiskSpace b1)" | H:"$(getDiskSpace d2)
+printf "%s\n" "S:$(getDiskSpace b1) | H:$(getDiskSpace d2)"
 

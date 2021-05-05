@@ -1,3 +1,3 @@
 #!/bin/sh
 
-printf " U:$(pacman -Qu | wc -l)"
+printf "%s\n" " U:$(pacman -Qu | wc -l)"

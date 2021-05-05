@@ -2,8 +2,8 @@
 soundCard="HDA-Intel - HDA Intel PCH"
 
 alsa(){
-    local cardNum="$(cat /proc/asound/cards | grep "$soundCard" | awk '{print $1}')"
-    amixer -c $cardNum sset "Auto-Mute Mode" "$1" </dev/null
+    cardNum="$(cat < /proc/asound/cards | grep "$soundCard" | awk '{print $1}')"
+    amixer -c "$cardNum" sset "Auto-Mute Mode" "$1" </dev/null
 }
 
 case "$1" in

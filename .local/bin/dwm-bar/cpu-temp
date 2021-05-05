@@ -2,4 +2,4 @@
 
 temp=$(sensors -A | awk '/^Core 0/ { print $3 }' | cut -c 2-5)
 
-printf "C:$temp"
+printf  "%s\n" "C:$temp"

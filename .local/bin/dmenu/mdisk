@@ -2,46 +2,49 @@
 
 #
 # mdisk (mount disk)
-# A script that mounts/unmounts usb/disks
+# A script that mounts/unmounts usb
 #
 
 # run "lsblk > $HOME/.local/share/base-disks" with no usb inserted
 baseFile="$HOME/.local/share/base-disks"
 tempFile="/tmp/file"
 
-operation=$(echo -e "Mount\nUnmount" | dmenu -i -p "Choose: ")
-[[ -z "$operation" || ($operation != "Mount" && $operation != "Unmount") ]] && 
-    exit 1 || $(lsblk > $tempFile)
-disks=$(diff $baseFile $tempFile | grep part)
+operation=$(printf "Mount\nUnmount" | dmenu -i -p "Choose: ")
+[ -z "$operation" ] && exit 1
+[ "$operation" != "Mount" ] && [ "$operation" != "Unmount" ] && exit 1
+
+lsblk > $tempFile
+disks=$(diff "$baseFile" "$tempFile" | grep part)
+disks="$disks$(simple-mtpfs -l)"
 
 notify() { notify-send --urgency="$1" "Doom Guy says:" "$2" ; }
-isEmpty() { [[ -z $1 ]] && notify critical "$2" && exit 1 ; }
+isEmpty() { [ -z "$1" ] && notify critical "$2" && exit 1 ; }
 
 mountDisk(){
-    local filteredDisks="$(echo "$disks" | sed '/\//d')"
+    filteredDisks="$(echo "$disks" | sed '/\//d')"
     isEmpty "$filteredDisks" "No disks available to mount!"
     selectedDisk=$(printf '%s\n' "$filteredDisks" | dmenu -i -l 10 -p "Select Disk: ")
     isEmpty "$selectedDisk" "No disk selected!"
-    diskClean="${selectedDisk:4}"
+    diskClean=$(echo "$selectedDisk" | cut -c 4-)
     diskToMount="/dev/${diskClean%% *}"
     mountName=$(echo usb | dmenu -p "Mount name ~/:")
     isEmpty "$mountName" "Mount name was empty!"
     location="$HOME/$mountName"
-    mkdir -p $location
-    sudo -A mount $diskToMount $location && 
-        notify normal "$diskToMount mounted succesfully at \n~/$mountName!" ||
-        notify critical "$diskToMount failed to mount!"
+    mkdir -p "$location"
+    sudo -A mount "$diskToMount" "$location" && 
+        notify normal "$diskToMount mounted succesfully at \n~/$mountName!" && exit 1
+    notify critical "$diskToMount failed to mount!"
 }
 unmountDisk(){
-    local mountedDisks=$(echo "$disks" | grep "/")
+    mountedDisks=$(echo "$disks" | grep "/")
     isEmpty "$mountedDisks" "No disks available to unmount"
-    local selectedDisk=$(echo -e "$mountedDisks" | dmenu -i -l 10 -p "Select Disk: ")
+    selectedDisk=$(printf "%s\n" "$mountedDisks" | dmenu -i -l 10 -p "Select Disk: ")
     isEmpty "$selectedDisk" "No disk selected"
-    local diskToUnmount="${selectedDisk##* }"
-    local cleanDisk="~${diskToUnmount##$HOME}"
-    sudo -A umount $diskToUnmount && rm -r $diskToUnmount &&
-        notify normal "$cleanDisk unmounted succesfully!" ||
-        notify critical "$cleanDisk cannot be unmounted!"
+    diskToUnmount="${selectedDisk##* }"
+    cleanDisk="~${diskToUnmount##$HOME}"
+    sudo -A umount "$diskToUnmount" && rm -r "$diskToUnmount" &&
+        notify normal "$cleanDisk unmounted succesfully!" && exit 1
+    notify critical "$cleanDisk cannot be unmounted!"
 }
 
 case $operation in 
