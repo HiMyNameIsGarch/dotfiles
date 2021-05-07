@@ -1,22 +1,23 @@
 #!/bin/sh
 
-options="shutdown\nreboot\nlock screen"
+options="shutdown
+reboot
+lock screen"
 
-choice=$(printf "%s\n" "$options" | dmenu -i -p "Choose:")
+choice=$(printf "%s" "$options" | dmenu -i -p "Choose:")
 [ -z "$choice" ] && exit 1
 
 notify() { notify-send "Doom Guy says" "$1" ; }
 
 [ "$(printf "Yes\nNo" | dmenu -i -p "Are you sure?")" = "Yes" ] || exit 1
-
-option() { printf "%s\n" "$options" | sed "$1q;d" ; }
+option() { printf "%s" "$options" | sed "$1q;d" ; }
 case $choice in 
     "$(option 1)") 
         notify "Your computer will be shutdown in 5 seconds!" & 
         sleep 5 ; shutdown now || exit 1;;
-    "$(option 1)") 
+    "$(option 2)") 
         notify "Your computer will be rebooted in 5 seconds!" & 
         sleep 5 ; shutdown -r now || exit 1;;
-    "$(option 1)") notify "Your screen will be locked" ; i3lock-fancy ;;
+    "$(option 3)") notify "Your screen will be locked" ; i3lock-fancy ;;
     *) exit 1 ;; 
 esac

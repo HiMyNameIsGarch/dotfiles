@@ -11,7 +11,7 @@ TERM="xterm-256color"
 
 # Short some commands
 alias dev="cd ~/Dev && ls"
-alias gr="cd ~/GitRepos && ls"
+alias gr="cd ~/repos && ls"
 alias mo="cd ~/Media/Movies && ls"
 alias ph="cd ~/Media/Photos && ls"
 alias co="cd ~/Media/Courses && ls"
@@ -19,6 +19,7 @@ alias wa="cd ~/Media/Wallpapers && ls"
 alias yt="cd ~/Media/Youtube && ls"
 alias sch="cd ~/Media/School && ls"
 alias to="cd ~/Media/Torrents && ls"
+alias bo="cd ~/Media/Books && ls"
 alias md="cd ~/Media && ls"
 alias ldf="cd ~/Dev/linux-dotfiles && ls && git status"
 alias sc="cd ~/.local/bin && ls"
@@ -26,22 +27,28 @@ alias sdm="cd ~/.local/bin/dmenu && ls"
 alias sdb="cd ~/.local/bin/dwm-bar && ls"
 alias dl="cd ~/Downloads && ls"
 
+# Dotnet commands
+alias dn="dotnet"
+alias dnbr="dotnet build && dotnet run"
+
 # Git commands
 alias g="git"
-alias ga="git add"
-alias gst="git status"
-alias gcl="git clone"
-alias gpl="git pull"
-alias gps="git push"
+alias gadd="git add"
+alias gstat="git status"
+alias gclone="git clone"
+alias gpul="git pull"
+alias gpush="git push"
 alias grm="git rm"
 alias gmv="git mv"
-alias gre="git restore"
-alias gcm="git commit -m"
+alias gres="git restore"
+alias gcommit="git commit -m"
 
-# If the commands are too longs, just make them shorter!
+# If the commands are too long, just make them shorter!
 alias fs="ncdu"
 alias ka="killall"
 alias k="kill"
+alias isthere="pacman -Ss"
+alias checkbash="checkbashisms"
 
 # Prevent makings mistakes with rm/cp/mv
 alias rm="rm -I"
@@ -61,6 +68,7 @@ alias .3="cd ../../.."
 alias .4="cd ../../../.."
 
 # Update the system
+alias pacsyyy="sudo pacman -Syyy"
 alias pacsyyu="sudo pacman -Syyu"
 alias pacsy="sudo pacman -Syu"
 alias pacs="sudo pacman -S"
@@ -68,7 +76,7 @@ alias pacr="sudo pacman -R"
 alias yays="yay -S"
 alias yaysua="sudo yay -Sua"
 alias yaysyu="sudo yay -Syu"
-alias yayr="sudo yay -R"
+alias yayr="yay -R"
 
 # Get fastest mirrors using reflector
 alias mirror="sudo reflector --country Romania --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
@@ -77,4 +85,3 @@ alias mirrora="sudo reflector --latest 50 --protocol http --protocol https --sor
 
 # Open logs
 alias log-qtile="$EDITOR ~/.local/share/qtile/qtile.log"
-

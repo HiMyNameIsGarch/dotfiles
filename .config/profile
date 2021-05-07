@@ -1,7 +1,9 @@
 #!/bin/sh
 
-export PATH=${PATH}:/home/himynameisgarch/.local/bin:/home/himynameisgarch/.local/bin/dmenu:/home/himynameisgarch/.local/bin/dwm-bar
+export EDITOR="vim"
+export BROWSER="libreowolf"
 
+export PATH=${PATH}:/home/himynameisgarch/.local/bin:/home/himynameisgarch/.local/bin/dmenu:/home/himynameisgarch/.local/bin/dwm-bar
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -15,4 +17,4 @@ export LESSHISTFILE="$XDG_CACHE_HOME"/less/history
 export CARGO_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/cargo"
 #export PYTHONHISTFILE="$XDG_CACHE_HOME/python/history"
 export SUDO_ASKPASS=$HOME/.local/bin/dmenu/dpass
-
+export ERRFILE="$XDG_CACHE_HOME/.xsession-errors"

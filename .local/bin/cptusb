@@ -15,16 +15,16 @@ MPoint="${files##* }"
 # check if the mount point exists and if it is mounted
 [ ! -d "$MPoint" ] && terminate "$MPoint does not exists".
 [ -z "$(lsblk | grep "$MPoint")" ] &&
-    terminate "$MPoint is not mounted! Try again!" || files="${files% *}"
+    terminate "$MPoint is not mounted! Try again!"
 
-# check if all files are good
-fileStatus=$(file "$files")
+files="${files% *}" # remove last argument(mount point)
+fileStatus=$(file $files)
 test "${fileStatus#*"No such file"}" != "$fileStatus" && 
     terminate "$(printf "%s" "$fileStatus" | grep "No such file")"
 
 # take the spaces from usb and files
-usbFree=$(df | grep "$MPoint" | awk '{ print $4 }')
-fileSize=$(du -sc "$files" | grep total | awk '{ print $1} ')
+usbFree=$(df | grep $MPoint | awk '{ print $4 }')
+fileSize=$(du -sc $files | grep total | awk '{ print $1} ')
 
 convertB() { printf "%s" "$1" | awk '{print $1/1024/1024 " GB "}' ; }
 
@@ -37,7 +37,7 @@ Usb: $(convertB "$usbFree")"
 notify() { sudo -u himynameisgarch DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus notify-send --urgency="$1" "$2" "$3" ; }
 
 # g flag is for graphical output (you can remove it if you don't have that option)
-cp -gr "$files" "$MPoint" && 
+cp -gr $files $MPoint && 
     notify normal "Doom Guy says:" "Your files has been copied succesfully\nYou can unmount your usb now" && exit 1
 notify critical "Doom Guy says:" "Your files couldn't be copied"
 
