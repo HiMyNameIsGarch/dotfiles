@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Create script (csc)
+# This script creates a base script and it opens in your editor of choice!
+
+file="$1"
+terminate() { printf "%s\n" "$1" && exit 1 ; }
+[ -z "$file" ] && terminate "File name is invalid!"
+[ -f "$file" ] && terminate "File already exists!"
+touch "$file"
+option="${2-sh}"
+shebang=""
+
+case $option in
+    sh) shebang="#!/bin/sh";;
+    bash) shebang="#!/bin/bash";;
+esac
+
+echo "$shebang" >> "$file"
+chmod +x "$file" 
+$EDITOR "$file"
