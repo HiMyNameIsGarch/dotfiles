@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# Create a vimspector configuration file for debugging (vsconf)
+
+terminate() { printf "%s\n" "vsconf: $1" && exit 1 ; }
+[ -z "$1" ] && terminate "No language provided!"
+filename=".vimspector.json"
+
+csharp() {
+    basePath=$(pwd)
+    dotnetVersion=$(dotnet --version | cut -c 1-3)
+    projName="${basePath##*/}"
+
+    # write config to file
+    printf "%s\n" "{
+    \"configurations\": {
+        \"launch - netcoredbg\": {
+         \"adapter\": \"netcoredbg\",
+         \"configuration\": { 
+            \"request\": \"launch\",
+            \"program\":\"$basePath/bin/Debug/net$dotnetVersion/$projName.dll\",
+            \"args\": [],
+            \"stopAtEntry\": true,
+            \"cwd\": \""$basePath"\"
+      }
+    }
+  }
+}" > "$filename" 
+
+}
+
+typescript() {
+    printf "%s\n" "To be added" 
+}
+
+case "$1" in 
+    cs) csharp ;;
+    ts) typescript ;;
+    *) terminate "Invalid language!" ;;
+esac

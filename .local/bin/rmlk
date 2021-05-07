@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Remove symlinks (rmlk)
+
+terminate() { printf "%s\n" "rmlk: $1" && exit 1 ; }
+file="$1"
+[ -z "$file" ] && terminate "No file provided"
+if [ "$#" -gt 1 ]; then
+    printf "%s\n" "$@" | xargs -I {} rmlk '{}'
+    exit 1
+fi
+[ -f "$file" ] || terminate "File \"$file\" does not exists"
+fileStatus=$(file "$file")
+test "${fileStatus#*"symbolic link"}" != "$fileStatus" ||
+    terminate "File \"$1\" is not a symbolic link"
+dotfiles="$HOME/Dev/linux-dotfiles"
+test "${fileStatus#*$dotfiles}" != "$fileStatus" || 
+    terminate "This symbolic link is not in dotfiles directory:\n$dotfiles"
+symLinkPath="/${fileStatus#*/}"
+rm "$file"
+rm "$symLinkPath"
