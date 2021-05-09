@@ -27,13 +27,16 @@ mountDisk(){
     isEmpty "$selectedDisk" "No disk selected!"
     diskClean="${selectedDisk#*s}"
     diskToMount="/dev/s${diskClean%% *}"
-    mountName=$(echo usb | dmenu -p "Mount name ~/:")
+    mountName=$(printf "usb1\nusb2\nusb3" | dmenu -p "Mount name ~/:")
     isEmpty "$mountName" "Mount name was empty!"
     location="$HOME/$mountName"
+    currentDisks="$(lsblk)"
+    test "${currentDisks#*$location}" != "$currentDisks" &&
+        notify critical "You already have an usb mounted on\n$location" && exit 1
     mkdir -p "$location"
     sudo -A mount "$diskToMount" "$location" && 
         notify normal "$diskToMount mounted succesfully at \n~/$mountName!" ||
-        notify critical "$diskToMount failed to mount!"
+        notify critical "$diskToMount failed to mount!\nDirectory $location still exists!"
 }
 unmountDisk(){
     mountedDisks=$(echo "$disks" | grep "/")
