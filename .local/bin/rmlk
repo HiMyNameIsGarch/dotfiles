@@ -1,6 +1,10 @@
 #!/bin/sh
-
+#
 # Remove symlinks (rmlk)
+#
+# This script will remove the file/files in the dotfiles directory 
+# and add it in the current directory that this will run
+#
 
 terminate() { printf "%s\n" "rmlk: $1" && exit 1 ; }
 file="$1"
@@ -10,6 +14,8 @@ if [ "$#" -gt 1 ]; then
     exit 1
 fi
 [ -f "$file" ] || terminate "File \"$file\" does not exists"
+test "${file#*"/"}" != "$file" &&
+    terminate "Please go into the directory, then remove the file ($file)"
 fileStatus=$(file "$file")
 test "${fileStatus#*"symbolic link"}" != "$fileStatus" ||
     terminate "File \"$1\" is not a symbolic link"
@@ -18,4 +24,4 @@ test "${fileStatus#*$dotfiles}" != "$fileStatus" ||
     terminate "This symbolic link is not in dotfiles directory:\n$dotfiles"
 symLinkPath="/${fileStatus#*/}"
 rm "$file"
-rm "$symLinkPath"
+mv "$symLinkPath" "$(pwd)"
