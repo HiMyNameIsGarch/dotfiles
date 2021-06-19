@@ -162,27 +162,31 @@ c.fonts.prompts = 'default_size sans-serif'
 # Type: Font
 c.fonts.statusbar = '11pt "SauceCodePro Nerd Font"'
 
-# Black Metal (Venom) scheme by metalelf0 (https://github.com/metalelf0)
+# base16-qutebrowser (https://github.com/theova/base16-qutebrowser)
+# Base16 qutebrowser template by theova
+# Gruvbox dark, medium scheme by Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
 
-base00 = "#000000"
-base01 = "#121212"
-base02 = "#222222"
-base03 = "#333333"
-base04 = "#999999"
-base05 = "#c1c1c1"
-base06 = "#999999"
-base07 = "#c1c1c1"
-base08 = "#5f8787"
-base09 = "#aaaaaa"
-base0A = "#79241f"
-base0B = "#f8f7f2"
-base0C = "#aaaaaa"
-base0D = "#888888"
-base0E = "#999999"
-base0F = "#444444"
+base00 = "#282828"
+base01 = "#3c3836"
+base02 = "#504945"
+base03 = "#665c54"
+base04 = "#bdae93"
+base05 = "#ebdbb2"
+base06 = "#ebdbb2"
+base07 = "#fbf1c7"
+base08 = "#fb4934"
+base09 = "#fe8019"
+base0A = "#fe8019"
+base0B = "#b8bb26"
+base0C = "#8ec07c"
+base0D = "#83a598"
+base0E = "#d3869b"
+base0F = "#d65d0e"
 
 # set qutebrowser colors
 
+# Text color of the completion widget. May be a single color to use for
+# all columns or a list of three colors, one for each column.
 c.colors.completion.fg = base05
 
 # Background color of the completion widget for odd rows.
@@ -455,4 +459,3 @@ c.colors.tabs.selected.even.bg = base02
 # Background color for webpages if unset (or empty to use the theme's
 # color).
 # c.colors.webpage.bg = base00
-
