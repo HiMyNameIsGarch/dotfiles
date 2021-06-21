@@ -15,18 +15,14 @@ These are my personal dotfiles for my linux system.
  - aliases are set in `~/.config/alias`
 ## Usage
  - Window manager: 
-    - Dwm
-    - Qtile
+    - Dwm / Qtile
  - Application launcher:
-    - Rofi
-    - Dmenu
+    - Rofi / Dmenu
  - Terminal:
     - Alacritty
  - Browser:
-    - QuteBrowser
-    - LibreWolf
+    - QuteBrowser / LibreWolf
  - Media player:
-    - VLC
-    - MPV
+    - VLC / MPV
 ## Instalation
  > Work in progress
