@@ -6,18 +6,44 @@ lock screen"
 
 choice=$(printf "%s" "$options" | dmenu -i -p "Choose:")
 [ -z "$choice" ] && exit 1
+[ "$(printf "Yes\nNo" | dmenu -i -p "Are you sure?")" = "Yes" ] || exit 1
 
 notify() { notify-send "Doom Guy says" "$1" ; }
+notifyExit() { notify-send --urgency=critical "$1" "$2" && exit 1 ; }
 
-[ "$(printf "Yes\nNo" | dmenu -i -p "Are you sure?")" = "Yes" ] || exit 1
+checkDisks() {
+    baseFile="$HOME/.local/share/base-disks"
+    tempFile="/tmp/disksTemp"
+    lsblk > $tempFile
+    disks=$(diff "$baseFile" "$tempFile" | grep part)
+    mountedDisks=$(echo "$disks" | grep "/")
+    [ ! -n "$mountedDisks" ]
+}
+SLEEPNUM=5
+shutDown() {
+    notify "Shutdown not sir" &
+    sleep $SLEEPNUM
+    shutdown now
+}
+rebootSys(){
+    notify "Reboot not sir" &
+    sleep $SLEEPNUM
+    shutdown -r now
+}
+
 option() { printf "%s" "$options" | sed "$1q;d" ; }
 case $choice in 
     "$(option 1)") 
-        notify "Your computer will be shutdown in 5 seconds!" & 
-        sleep 5 ; shutdown now || exit 1;;
+        checkDisks || 
+            notifyExit "Mounted Disks detected!" "You can't shutdown because you have mounted disks!"
+        shutDown
+        ;;
     "$(option 2)") 
-        notify "Your computer will be rebooted in 5 seconds!" & 
-        sleep 5 ; shutdown -r now || exit 1;;
+        checkDisks || 
+            notifyExit "Mounted Disks detected!" "You can't reboot because you have mounted disks!"
+        rebootSys
+        ;;
     "$(option 3)") notify "Your screen will be locked" ; i3lock-fancy ;;
     *) exit 1 ;; 
 esac
+

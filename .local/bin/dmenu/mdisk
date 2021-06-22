@@ -2,12 +2,12 @@
 
 #
 # mdisk (mount disk)
-# A script that mounts/unmounts usb
+# A script that mounts/unmounts usbs
 #
 
 # run "lsblk > $HOME/.local/share/base-disks" with no usb inserted
 baseFile="$HOME/.local/share/base-disks"
-tempFile="/tmp/file"
+tempFile="/tmp/disksTemp"
 
 operation=$(printf "Mount\nUnmount" | dmenu -i -p "Choose: ")
 [ -z "$operation" ] && exit 1
@@ -15,7 +15,6 @@ operation=$(printf "Mount\nUnmount" | dmenu -i -p "Choose: ")
 
 lsblk > $tempFile
 disks=$(diff "$baseFile" "$tempFile" | grep part)
-#disks="$disks$(simple-mtpfs -l)"
 
 notify() { notify-send --urgency="$1" "Doom Guy says:" "$2" ; }
 isEmpty() { [ -z "$1" ] && notify critical "$2" && exit 1 ; }
@@ -27,7 +26,7 @@ mountDisk(){
     isEmpty "$selectedDisk" "No disk selected!"
     diskClean="${selectedDisk#*s}"
     diskToMount="/dev/s${diskClean%% *}"
-    mountName=$(printf "usb1\nusb2\nusb3" | dmenu -p "Mount name ~/:")
+    mountName=$(printf "usb\nusb1\nusb2\nusb3" | dmenu -p "Mount name ~/:")
     isEmpty "$mountName" "Mount name was empty!"
     location="$HOME/$mountName"
     currentDisks="$(lsblk)"
