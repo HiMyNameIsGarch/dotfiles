@@ -1,15 +1,37 @@
 ##############################
-#         Variables          #
+#          Projects          #
 ##############################
 
-EDITOR='vim'
-TERM="xterm-256color"
+# Lightdm theme
+LMPATH="$HOME/Dev/lightdm-webkit-doom-theme"
+alias lm="cd $LMPATH && ls"
+alias lm-edit="cd $LMPATH && $EDITOR $LMPATH"
+
+# Instagram bot
+alias ib="cd $HOME/Dev/instagram-bot && ls"
+alias ib-edit="cd $HOME/Dev/instagram-bot && $EDITOR main.py"
+
+# Digital Magazine
+projPath="$HOME/Dev/DigitalMagazine"
+alias opensheet="qutebrowser \"https://docs.google.com/spreadsheets/d/1Dxv6SarPMD09g71ETOdPz1_5WEa5ORjMLzW2oTTZTsQ/edit?usp=sharing_eip&invite=CIf41qIB&ts=60a6a05c\""
+alias initnvm='export NVM_DIR="$HOME/.local/share/nvm" ; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm use 12.14.0'
+alias dm="cd $projPath"
+alias dm-status="dm && ls && git status"
+alias dm-edit="dm && $EDITOR $projPath"
+alias dm-start="dm && initnvm && npm run dev"
+alias dm-db="dm && cd src/app/shared/services/Db && ls"
+alias dm-models="dm && cd src/app/shared/services/Db/Models && ls"
+alias dm-app="dm && cd src/app && ls"
+alias ntest="npm test -t "
 
 ##############################
 #          Aliases           #
 ##############################
 
 # Short some commands
+alias qbind="feh ~/Media/qb-bindings.png"
+alias pvim="nvim -c VimBeGood"
+alias copy="xclip -sel c <"
 alias dev="cd ~/Dev && ls"
 alias gr="cd ~/repos && ls"
 alias mo="cd ~/Media/Movies && ls"
@@ -26,6 +48,10 @@ alias sc="cd ~/.local/bin && ls"
 alias sdm="cd ~/.local/bin/dmenu && ls"
 alias sdb="cd ~/.local/bin/dwm-bar && ls"
 alias dl="cd ~/Downloads && ls"
+alias sl="cd ~/suckless && ls"
+alias sdwm="cd ~/suckless/dwm && ls"
+alias sdmenu="cd ~/suckless/dmenu && ls"
+alias sdwmbl="cd ~/suckless/dwmblocks && ls"
 
 # Dotnet commands
 alias dn="dotnet"
@@ -40,10 +66,12 @@ alias gpul="git pull"
 alias gpush="git push"
 alias grm="git rm"
 alias gmv="git mv"
-alias gres="git restore"
+alias grest="git restore"
+alias grests="git restore --staged"
 alias gcommit="git commit -m"
 
 # If the commands are too long, just make them shorter!
+alias :q="exit"
 alias fs="ncdu"
 alias ka="killall"
 alias k="kill"
@@ -74,14 +102,11 @@ alias pacsy="sudo pacman -Syu"
 alias pacs="sudo pacman -S"
 alias pacr="sudo pacman -R"
 alias yays="yay -S"
-alias yaysua="sudo yay -Sua"
-alias yaysyu="sudo yay -Syu"
+alias yaysua="yay -Sua"
+alias yaysyu="yay -Syu"
 alias yayr="yay -R"
 
 # Get fastest mirrors using reflector
 alias mirror="sudo reflector --country Romania --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
 alias mirrorl="sudo reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist"
 alias mirrora="sudo reflector --latest 50 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
-
-# Open logs
-alias log-qtile="$EDITOR ~/.local/share/qtile/qtile.log"

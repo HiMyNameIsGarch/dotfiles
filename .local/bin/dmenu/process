@@ -20,13 +20,25 @@ checkDisks() {
     [ ! -n "$mountedDisks" ]
 }
 SLEEPNUM=5
+logSysShutdown() {
+    DATE="$(date -u '+%A-%B-%Y')"
+    OPEN="$(uptime -s)"
+    TOTAL="$(uptime -p)"
+    FILE="/home/himynameisgarch/logs/sys/uptime"
+    echo "${1^} at: $(date -u '+%T')" >> "$FILE" 
+    echo "On $DATE you opened you pc at ${OPEN#* }" >> "$FILE"
+    echo "Total time spent: ${TOTAL#* }" >> "$FILE"
+    echo "---------------------" >> "$FILE"
+}
 shutDown() {
-    notify "Shutdown not sir" &
+    logSysShutdown "shutdown"
+    notify "Shutdown now sir" &
     sleep $SLEEPNUM
     shutdown now
 }
 rebootSys(){
-    notify "Reboot not sir" &
+    logSysShutdown "reboot"
+    notify "Reboot now sir" &
     sleep $SLEEPNUM
     shutdown -r now
 }
