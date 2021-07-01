@@ -1,0 +1,35 @@
+#!/bin/sh
+
+#
+# mstat (Music Status)
+#
+# It will display current music status from cmus
+#    {Music name}
+# {Artist} - {Album} 
+
+terminate(){ notify-send -u "$1" "$2" "$3" && exit 1 ; }
+getfrom() { echo "$1" | grep "$2" ; }
+replace() { echo "$1" | sed "s/$2//" ; }
+
+# check if cmus is even running
+cmus-remote -Q > /dev/null 2>&1 || terminate "critical" "Not Running!" "Cmus is not running!"
+STATUS="$(cmus-remote -Q)"
+# check if some music is running
+[ -z "$(getfrom "$STATUS" "status stopped")" ] || terminate "normal" "Music Stopped!" "Nothing is playing..."
+# get usefull information
+INFO="$(getfrom "$STATUS" " artist \| album \| title \|file")"
+# get music name
+TITLE="$(getfrom "$INFO" "title")"
+TITLE="$(replace "$TITLE" "tag title ")"
+# check if music is paused
+[ -z "$(getfrom "$STATUS" "status paused")" ] || TITLE="$TITLE - paused"
+# get artist
+ARTIST="$(getfrom "$INFO" "artist")"
+ARTIST="$(replace "$ARTIST" "tag artist ")"
+# get album name
+ALBUM="$(getfrom "$INFO" "album")"
+ALBUM="$(replace "$ALBUM" "tag album ")"
+# construct the subtitle
+SUBTITLE="$ARTIST - $ALBUM"
+
+notify-send -u "normal" "$TITLE" "$SUBTITLE" 
