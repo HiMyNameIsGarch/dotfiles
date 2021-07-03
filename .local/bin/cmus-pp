@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Play or pause music for cmus (usefull to bind to a key)
+
+cmus-remote -Q > /dev/null 2>&1 || exit 1
+STATUS="$(cmus-remote -Q | grep status)"
+STATUS="${STATUS#* }"
+case $STATUS in
+    playing) cmus-remote --pause ;;
+    paused) cmus-remote --play ;;
+esac
