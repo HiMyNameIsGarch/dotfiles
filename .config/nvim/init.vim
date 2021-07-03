@@ -14,7 +14,7 @@ set nu
 set smartcase
 set noswapfile
 set nobackup
-set undodir=~/.vim/undodir
+set undodir=~/.config/nvim/undodir
 set undofile
 set incsearch
 set scrolloff=8
@@ -33,7 +33,6 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 inoremap kj <esc>
-vnoremap kj <esc>
 vnoremap K :m '<-2<CR>gv=gv
 vnoremap J :m '>+1<CR>gv=gv
 nnoremap Q <nop>
@@ -41,8 +40,8 @@ nnoremap Q <nop>
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'itchyny/lightline.vim'
+Plug 'ThePrimeagen/vim-be-good'
 Plug 'gruvbox-community/gruvbox'
-Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
