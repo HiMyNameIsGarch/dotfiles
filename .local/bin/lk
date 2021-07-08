@@ -19,7 +19,7 @@ test "${fileTypes#*"symbolic link"}" != "$fileTypes" &&
     terminate "File \"$file\" is already a symbolic link"
 currentDir="$(pwd)"
 currentDir="${currentDir##$HOME}"
-dotfiles="$HOME/Dev/linux-dotfiles$currentDir"
+dotfiles="$HOME/Dev/dotfiles$currentDir"
 if [ ! -d "$dotfiles" ]; then 
     printf "%s\n" "lk: $currentDir does not exists in dotfiles directory"
     printf 'Wanna create it ? [y/n]: '

@@ -19,7 +19,7 @@ test "${file#*"/"}" != "$file" &&
 fileStatus=$(file "$file")
 test "${fileStatus#*"symbolic link"}" != "$fileStatus" ||
     terminate "File \"$1\" is not a symbolic link"
-dotfiles="$HOME/Dev/linux-dotfiles"
+dotfiles="$HOME/Dev/dotfiles"
 test "${fileStatus#*$dotfiles}" != "$fileStatus" || 
     terminate "This symbolic link is not in dotfiles directory:\n$dotfiles"
 symLinkPath="/${fileStatus#*/}"
