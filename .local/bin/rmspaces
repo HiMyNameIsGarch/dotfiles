@@ -1,12 +1,23 @@
 #!/bin/bash
 
 files=""
-rnm() { mv "$1" "$(echo "$1" | sed 's/  */-/g')" ; }
+rnm() { mv "$1" "$(echo "$1" | sed 's/\s\s*/-/g')" ; }
+help-menu(){
+    echo rmspaces - Remove spaces from files/directory names.
+    echo 
+    echo Options: 
+    echo f - all the files.
+    echo d - all directories.
+    echo r - recursevly all the elements.
+    echo e - all elements.
+}
 case $1 in
     f) files="$(find . -name "* *" -type f)" ;;
     d) files="$(find . -name "* *" -type d)" ;;
     r) files="$(find . -name "* *")" ;;
-    *) for file in *\ *; do rnm "$file"; done ; exit 1 ;;
+    e) for file in *\ *; do rnm "$file"; done ; exit 1 ;;
+    help | h | *) help-menu  && exit 1;;
 esac
+[ -z "$files" ] && echo No elements were found! && exit 1
 export -f rnm
 echo "$files" | xargs -I {} /bin/sh -c 'rnm "{}"'

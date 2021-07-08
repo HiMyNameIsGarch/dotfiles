@@ -5,11 +5,11 @@
 
 file="$1"
 terminate() { printf "%s\n" "csc: $1" && exit 1 ; }
-[ -z "$file" ] && terminate "File name is invalid!"
-[ -f "$file" ] && terminate "File already exists!"
+[ -z "$file" ] && terminate "Cannot create empty file!"
+[ -f "$file" ] && terminate "File '$file' already exists!"
+[ -d "$file" ] && terminate "Argument '$file' is a directory!"
 touch "$file"
 option="${2-sh}"
-shebang=""
 
 case $option in
     sh) shebang="#!/bin/sh";;

@@ -3,7 +3,10 @@
 # Change rezolution for DroidCam (crdc)
 # You need to have sudo access in order to change rezolution for the app
 
-acceptedRez="640 480\n960 720\n1280 720\n1920 1080"
+acceptedRez="640 480
+960 720
+1280 720
+1920 1080"
  
 dWidth="${1:-NULL}"
 dHeigth="${2:-NULL}"
@@ -14,7 +17,7 @@ if test "${acceptedRez#*$fullRez}" != "$acceptedRez"; then
     text="options v4l2loopback_dc width=$dWidth height=$dHeigth"
     echo "$text" > "/etc/modprobe.d/droidcam.conf" && printf "%s\n" "Done!"
 else
-    printf "Rezolution not supported\nChoose one below:\n"
+    printf '%s\n%s\n' "Rezolution not supported" "Choose one below:"
     printf "%s\n" "$acceptedRez" 
 fi
 
