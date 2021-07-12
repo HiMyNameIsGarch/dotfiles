@@ -44,6 +44,7 @@ bindkey -v '^?' backward-delete-char
 # Load aliases
 ALIASES="$HOME/.config/aliasrc"
 [ -f $ALIASES ] && source $ALIASES
+
 # Load functions
 FUNCS="$HOME/.config/functions"
 [ -f $FUNCS ] && source $FUNCS
