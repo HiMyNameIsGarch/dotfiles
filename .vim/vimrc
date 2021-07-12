@@ -55,8 +55,12 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Gruvbox
 Plug 'gruvbox-community/gruvbox'
+" Vuejs
+Plug 'posva/vim-vue'
 
 call plug#end()
 
 "       Gruvbox
 colorscheme gruvbox
+" Vuejs
+let g:vue_pre_processors = 'detect_on_enter'

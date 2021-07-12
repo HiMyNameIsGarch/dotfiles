@@ -1,16 +1,16 @@
 # Enable colors
 autoload -U colors && colors
 
-LEFTPROMPT="%B%{$fg[red]%}[%{$fg[magenta]%}%n%{$fg[yellow]%}"
-RIGHTPROMPT="%{$fg[green]%}%M %{$fg[blue]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+LEFTPROMPT="%B%{$fg[magenta]%}(%{$fg[yellow]%}"
+RIGHTPROMPT="%{$fg[blue]%}%1d%{$fg[magenta]%})%{$fg[green]%}->%b "
 
 PROMPTINSERT="$LEFTPROMPT-I-$RIGHTPROMPT" 
 PROMPTNORMAL="$LEFTPROMPT-N-$RIGHTPROMPT"  
 
 # History in cache directory:
+HISTFILE=~/.cache/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
-HISTFILE=~/.cache/zsh/history
 
 # vi mode
 bindkey -v
@@ -22,6 +22,9 @@ zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
+
+# Do not keep duplicate commands in history
+setopt HIST_IGNORE_ALL_DUPS
 
 function zle-line-init zle-keymap-select {
     PS1="${${KEYMAP/vicmd/$PROMPTNORMAL}/(main|viins)/$PROMPTINSERT}"
@@ -41,6 +44,9 @@ bindkey -v '^?' backward-delete-char
 # Load aliases
 ALIASES="$HOME/.config/aliasrc"
 [ -f $ALIASES ] && source $ALIASES
+# Load functions
+FUNCS="$HOME/.config/functions"
+[ -f $FUNCS ] && source $FUNCS
 
 export FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g "!{node_modules/*,.git/*}"'
 # Load zsh-syntax-highlighting; should be last.

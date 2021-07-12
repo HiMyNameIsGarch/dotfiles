@@ -3,9 +3,9 @@
 export EDITOR="vim"
 export BROWSER="libreowolf"
 
-export PATH=${PATH}:/home/himynameisgarch/.local/bin:/home/himynameisgarch/.local/bin/dmenu:/home/himynameisgarch/.local/bin/dwm-bar:/usr/share/bin
-export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
+export PATH=${PATH}:${XDG_DATA_HOME}/npm/bin:${HOME}/.local/bin:${HOME}/.local/bin/dmenu:${HOME}/.local/bin/dwm-bar:/usr/share/bin
+export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 export ANDROID_SDK_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/android"
@@ -18,3 +18,5 @@ export CARGO_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/cargo"
 export PYTHONHISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/python/history"
 export SUDO_ASKPASS=$HOME/.local/bin/dmenu/dpass
 export ERRFILE="$XDG_CACHE_HOME/x11/xsession-errors"
+export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
+export SSB_HOME="$XDG_DATA_HOME"/zoom
