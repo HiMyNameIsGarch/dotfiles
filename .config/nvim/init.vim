@@ -48,3 +48,4 @@ call plug#end()
 
 " Colorscheme
 colorscheme gruvbox
+let g:vim_be_good_log_file = 1

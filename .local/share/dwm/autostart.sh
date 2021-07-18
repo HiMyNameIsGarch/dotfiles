@@ -1,10 +1,13 @@
 #!/bin/sh
 
 # Put wallpaper
-feh --bg-scale --no-fehbg /home/himynameisgarch/Media/Wallpapers/coffeeBreak.png
+feh --bg-scale --no-fehbg /home/himynameisgarch/Media/Wallpapers/Simple/Arch.png
 
 # Start dwmblocks
 dwmblocks >/dev/null & 
+
+# Hide mouse when not needed
+unclutter --jitter 50 --ignore-scrolling & 
 
 # Start compositor picom
 # picom --experimental-backends >/dev/null &

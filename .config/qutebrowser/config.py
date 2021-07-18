@@ -125,10 +125,11 @@ config.set("colors.webpage.darkmode.enabled",True)
 #default search engines
 c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}',
         'aw': 'https://wiki.archlinux.org/?search={}',
-        'goog': 'https://www.google.com/search?q={}',
-        're': 'https://www.reddit.com/r/{}',
+        'gg': 'https://www.google.com/search?q={}',
+        'sr': 'https://www.reddit.com/r/{}',
         'wiki': 'https://en.wikipedia.org/wiki/{}',
         'yt': 'https://www.youtube.com/results?search_query={}',
+        'gr': 'https://www.github.com/HiMyNameIsGarch/{}',
         'dex':"https://dexonline.ro/definitie/{}",
         'tenro':"https://wordreference.com/enro/{}",
         'troen':"https://wordreference.com/roen/{}"

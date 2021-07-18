@@ -19,6 +19,7 @@ extract () {
          echo "'$1' is not a valid file"
      fi
 }
+# find alias more easy
 aliases() {
     alias | grep "$1"
 }
