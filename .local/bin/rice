@@ -23,7 +23,7 @@ mddwm(){
     getkeys "$FILE" "$CLEAN"
     [ -s "$CLEAN" ] || error "No keys found!"
     # clean up
-    sed -i -r 's/(^\s*\{\s*[0,\s]*)|((\{0)?(\s*\}){1,}\,?$)|(KEY|Mask|[A-Z0-9]*XK_)|(SHCMD\(\"?|\"?\))|(\{\s*\.[iufv]+\s*=\s*&?)//g; s/\s\s*//g; s/MOD/Super/g; s/ALT/Alt/g; s/\|/ + /g;' "$CLEAN"
+    sed -i -r 's/(^\s*\{\s*)|((\"\)|\s*\})?\s*\}\,?\s*$)|(Mask|KEY|MOD,)|([A-Z0-9]*XK_)|(SHCMD\(\"?)|((\s\"))|(\{0\})|(\{\s*\.[iufv]+\s*=\s*&?)//g; s/\s\s*/ /g; s/MOD/Super/g; s/ALT/Alt/g; s/\|/ + /g; s/^0\,\s*//g' "$CLEAN"
     # get commands
     grep -oP '\w+cmd' "$CLEAN" | while read -r line ; do
         [ -z "$line" ] && continue
@@ -55,8 +55,8 @@ mddwm(){
     while IFS= read -r l; do 
         NUM="$(echo "$l" | sed 's/[^,]//g')"
         case "${#NUM}" in 
-            2) echo "| $l |" | sed 's/,/ | /g; s/spawn,/spawns | /' >> "$RESULT" ;;
-            3) echo "| $l |" | sed 's/,/ | /g; s/,/ + /; s/spawn,/spawns | /' >> "$RESULT" ;;
+            2) echo "| $l |" | sed 's/,/ |/; s/spawn,/spawns |/; s/,/ | /' >> "$RESULT" ;;
+            3) echo "| $l |" | sed 's/,/ +/; s/,/ |/; s/spawn,/spawns |/; s/,/ | /' >> "$RESULT" ;;
         esac
     done < "$CLEAN"
     # remove unnecesarry files and display message
@@ -94,7 +94,7 @@ statdwm() {
     [ -s "$CLEAN" ] || error "No keys found!"
     NCLEAN="newclean"
     # get the current keys
-    grep -oP '\S\s[a-zA-Z0-9|_]+\,\s*[a-zA-Z0-9_]+' "$CLEAN" > "$NCLEAN"
+    grep -oP '\S\s[a-zA-Z0-9|_]+\,\s*[a-zA-Z0-9_,]+' "$CLEAN" > "$NCLEAN"
     # remove spaces and {
     sed -i -r 's/\{\s*|(KEY|Mask|[A-Z0-9]*XK_)//g; s/\s\s*/ /g; s/MOD/Super/g; s/ALT/Alt/g' "$NCLEAN"
     # display total bindings
