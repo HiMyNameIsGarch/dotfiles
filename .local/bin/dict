@@ -1,0 +1,109 @@
+#!/bin/sh
+
+helpmenu() {
+    echo dict - a tool that helps you to get better at words
+    echo
+    echo Usage: dict \[Options\]
+    echo 
+    echo Options:
+    echo "  start - to start the training."
+    echo "  add   - to add a new word in dictionary."
+    echo "  edit  - to edit the dictionary file."
+}
+error() { printf 'error: %s\n' "$1" && exit 1 ; }
+
+BASEDIR="$HOME/Media/Data/dict" # overwrite this location
+BDICT="$BASEDIR/dictionary"
+DICT="$BASEDIR/clean-dict"
+LOGS="$BASEDIR/logs"
+
+cleaninput() {
+    INPUT="$(echo "$1" | sed -r 's/\s+/ /g; s/\W+/, /g')"
+    [ "$INPUT" = "," ] && INPUT=""
+    echo "$INPUT"
+}
+loganswer() {
+    STATUS="$1" # Failed / Success
+    EXPECTED="$2" # The answers that were expected
+    GOT="$3" # The user answer
+    echo "Status: $STATUS" >> "$LOGS"
+    echo "Expected: $EXPECTED" >> "$LOGS"
+    echo "Got: $GOT" >> "$LOGS"
+    echo "" >> "$LOGS"
+}
+
+addentry() {
+    # Get key[s]
+    while [ -z "$KEYS" ]; do
+        printf '%s' "Enter keys: "
+        read -r KEYS
+        KEYS="$(cleaninput "$KEYS")"
+    done
+    # Get value[s]
+    while [ -z "$VALUES" ]; do
+        printf '%s' "Enter values: "
+        read -r VALUES
+        VALUES="$(cleaninput "$VALUES")"
+    done
+    # Append them in the dictionary file
+    echo "$KEYS | $VALUES" >> "$BDICT"
+}
+
+start() {
+    # Make sure the files are there
+    [ -d "$BASEDIR" ] || mkdir -p "$BASEDIR"
+    [ -f "$BDICT" ] || touch "$BDICT"
+    [ -f "$LOGS" ] || touch "$LOGS"
+    # Clean up the file
+    sed -r 's/\s*#.*//g; /^$/ d' "$BDICT" | shuf > "$DICT"
+    # Check for file length
+    LC="$(wc -l "$DICT")"
+    [ "${LC%% *}" -lt 10 ] && error "You need to have at least 10 pairs in your dictionary.
+Run 'dict add' or 'dict edit' to add some more!"
+    # Start the actual game
+    while IFS= read -r w; do
+        VALUE="${w##*| }"
+        KEY="$(echo "${w%%| *}" | sed 's/,/ or/g')"
+        RES=""
+        printf '%s\n\n' "----------------------------"
+        while [ -z "$RES" ]; do
+            printf '%s' "What means $KEY: "
+            read -r RES </dev/tty
+        done
+        # we got the result
+        AS=false
+        for v in $(echo "$VALUE" | sed 's/,//g'); do
+            if [ "$v" = "$RES" ]; then
+                echo Correct!
+                loganswer "Success" "$VALUE" "$RES"
+                AS=true
+                break
+            fi
+        done
+        if ! $AS; then
+            echo Incorrect, the answer is: "$(echo "$VALUE" | sed 's/,/ or/g')"
+            loganswer "Fail" "$VALUE" "$RES"
+        fi
+    done < "$DICT"
+}
+
+editfile() {
+    if [ -z "$EDITOR" ]; then
+        while [ -z "$EDITOR" ]; do
+            printf '%s' "Enter your editor of choice: "
+            read -r editor
+            [ -z "$editor" ] && continue 
+            which "$editor" > /dev/null 2>&1 || continue
+            EDITOR="$editor"
+        done
+    fi
+    "$EDITOR" "$BDICT"
+}
+
+case $1 in 
+    help  | h) helpmenu ;;
+    start | s) start ;;
+    add   | a) addentry ;;
+    edit  | e) editfile ;;
+    *) error "Option \"$1\" is invalid. Type 'dict help' for more information" ;; 
+esac
