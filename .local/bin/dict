@@ -16,6 +16,8 @@ BASEDIR="$HOME/Media/Data/dict" # overwrite this location
 BDICT="$BASEDIR/dictionary"
 DICT="$BASEDIR/clean-dict"
 LOGS="$BASEDIR/logs"
+CDICT="$XDG_CONFIG_HOME/dict"
+DCONF="$CDICT/config"
 
 cleaninput() {
     INPUT="$(echo "$1" | sed -r 's/\s+/ /g; s/\W+/, /g')"
@@ -33,6 +35,8 @@ loganswer() {
 }
 
 addentry() {
+    # Setup
+    setupconfig
     # Get key[s]
     while [ -z "$KEYS" ]; do
         printf '%s' "Enter keys: "
@@ -49,11 +53,43 @@ addentry() {
     echo "$KEYS | $VALUES" >> "$BDICT"
 }
 
-start() {
+getconfvalue() {
+    PR="$(grep "^$1" "$DCONF")"
+    if [ ! -z "$PR" ]; then
+        PR="${PR##*:}"
+        PR="$(echo "$PR" | sed 's/\s\s*//g')"
+        [ -z "$PR" ] || echo "$PR"
+    fi
+}
+
+setupconfig() {
+    # Make sure that config file is there
+    [ -d "$CDICT" ] || mkdir -p "$CDICT"
+    if [ ! -f "$DCONF" ]; then
+        touch "$DCONF"
+        # put some default values
+        echo "basedir: $BASEDIR" >> "$DCONF"
+        echo "file: main" >> "$DCONF"
+        echo "mode: easy" >> "$DCONF"
+    fi
+    # Read values
+    # Get base directory
+    BD="$(getconfvalue "basedir")"
+    [ ! -z "$BD" ] && BASEDIR="$BD"
+    # Get base file
+    FL="$(getconfvalue "file")"
+    [ -z "$FL" ] || BDICT="$BASEDIR/$FL"
+    # Get mode (future)
+
     # Make sure the files are there
     [ -d "$BASEDIR" ] || mkdir -p "$BASEDIR"
     [ -f "$BDICT" ] || touch "$BDICT"
     [ -f "$LOGS" ] || touch "$LOGS"
+}
+
+start() {
+    # Setup config
+    setupconfig
     # Clean up the file
     sed -r 's/\s*#.*//g; /^$/ d' "$BDICT" | shuf > "$DICT"
     # Check for file length
@@ -61,6 +97,7 @@ start() {
     [ "${LC%% *}" -lt 10 ] && error "You need to have at least 10 pairs in your dictionary.
 Run 'dict add' or 'dict edit' to add some more!"
     # Start the actual game
+    echo "Current file: ${BDICT##*/}"
     while IFS= read -r w; do
         VALUE="${w##*| }"
         KEY="$(echo "${w%%| *}" | sed 's/,/ or/g')"
@@ -68,7 +105,7 @@ Run 'dict add' or 'dict edit' to add some more!"
         printf '%s\n\n' "----------------------------"
         while [ -z "$RES" ]; do
             printf '%s' "What means $KEY: "
-            read -r RES </dev/tty
+            read -r -t 10 RES </dev/tty
         done
         # we got the result
         AS=false
@@ -88,6 +125,7 @@ Run 'dict add' or 'dict edit' to add some more!"
 }
 
 editfile() {
+    setupconfig
     if [ -z "$EDITOR" ]; then
         while [ -z "$EDITOR" ]; do
             printf '%s' "Enter your editor of choice: "
@@ -97,13 +135,15 @@ editfile() {
             EDITOR="$editor"
         done
     fi
-    "$EDITOR" "$BDICT"
+    FILE="$BDICT"
+    [ "$1" = "config" ] && FILE="$DCONF"
+    "$EDITOR" "$FILE"
 }
 
 case $1 in 
     help  | h) helpmenu ;;
     start | s) start ;;
     add   | a) addentry ;;
-    edit  | e) editfile ;;
+    edit  | e) editfile "$2" ;;
     *) error "Option \"$1\" is invalid. Type 'dict help' for more information" ;; 
 esac
