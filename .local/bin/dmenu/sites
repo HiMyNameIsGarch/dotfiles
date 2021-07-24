@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Sites, a dmenu script to open your favourite sites with less effort
+
+terminate() { notify-send -u "$1" "$2" "$3" && exit 1 ; }
+
+# Check if sites file exists
+SITESFILE="$HOME/Media/Data/sites" # Replace this with your path to sites file
+[ -f "$SITESFILE" ] || terminate "critical" "File does not exists!" "File \"$SITESFILE\"\n does not exists!"
+
+# Get user input
+CHOICE="$(awk '{print $1}' "$SITESFILE" | dmenu -i -l 10 -p "Open site: ")"
+
+# Open sites file to edit it
+[ -z "$EDITOR" ] && terminate "critical" "EDITOR not set" "Please set EDITOR variable to continue"
+[ "$CHOICE" = "edit" ] && "$EDITOR" "$SITESFILE"
+
+# Open site
+[ -z "$BROWSER" ] && terminate "critical" "BROWSER not set" "Please set BROWSER variable to continue"
+"$BROWSER" "$CHOICE"
