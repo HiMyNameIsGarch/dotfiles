@@ -9,6 +9,9 @@ dwmblocks >/dev/null &
 # Hide mouse when not needed
 unclutter --jitter 50 --ignore-scrolling & 
 
+# Map capslock to esc key
+xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+
 # Start compositor picom
 # picom --experimental-backends >/dev/null &
 
@@ -21,6 +24,6 @@ dunst &
 # Output sound to speaker 
 soundCard="HDA-Intel - HDA Intel PCH"
 cardNum="$(grep "$soundCard" "/proc/asound/cards" | awk '{print $1}')"
-amixer -c $cardNum sset "Auto-Mute Mode" 'Speaker Only' </dev/null
+amixer -c "$cardNum" sset "Auto-Mute Mode" 'Speaker Only' </dev/null
 
 

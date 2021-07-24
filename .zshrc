@@ -40,6 +40,9 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
+# Move better in history
+bindkey -v '^P' down-line-or-search
+bindkey -v '^N' up-line-or-search
 
 # Load aliases
 ALIASES="$HOME/.config/aliasrc"
@@ -49,6 +52,5 @@ ALIASES="$HOME/.config/aliasrc"
 FUNCS="$HOME/.config/functions"
 [ -f $FUNCS ] && source $FUNCS
 
-export FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g "!{node_modules/*,.git/*}"'
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
