@@ -31,5 +31,16 @@ ALBUM="$(getfrom "$INFO" "album")"
 ALBUM="$(replace "$ALBUM" "tag album ")"
 # construct the subtitle
 SUBTITLE="$ARTIST - $ALBUM"
+# get icon if exists
+# get directory from song
+DIR="$(getfrom "$INFO" "file")"
+DIR="${DIR%/*}"
+DIR="${DIR#* }"
+# go into dir
+cd "$DIR" || notify-send -u "critical" "Can't change directory" "Cannot change directory to\n$DIR"
+# find icon
+ICON="$DIR/$(printf '%s\n' * | grep '.jpe\?g$\|.png$' | head -n 1)"
+# If the file doesn't exists or it is empty use default icon
+{ [ ! -f "$ICON" ] || [ "$(file "$ICON" | grep empty > /dev/null)" ]; } && ICON=""
 
-notify-send -u "normal" "$TITLE" "$SUBTITLE" 
+notify-send -i "$ICON" -u "normal" "$TITLE" "$SUBTITLE" 
