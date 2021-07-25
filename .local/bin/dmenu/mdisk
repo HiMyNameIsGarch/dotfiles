@@ -5,52 +5,68 @@
 # A script that mounts/unmounts usbs
 #
 
-# run "lsblk > $HOME/.local/share/base-disks" with no usb inserted
-baseFile="$HOME/.local/share/base-disks"
-tempFile="/tmp/disksTemp"
+OPERATION=$(printf "Mount\nUnmount" | dmenu -i -p "Choose: ")
+[ -z "$OPERATION" ] && exit 1
+[ "$OPERATION" != "Mount" ] && [ "$OPERATION" != "Unmount" ] && exit 1
 
-operation=$(printf "Mount\nUnmount" | dmenu -i -p "Choose: ")
-[ -z "$operation" ] && exit 1
-[ "$operation" != "Mount" ] && [ "$operation" != "Unmount" ] && exit 1
+terminate() { notify-send -u "$1" "$2" "$3" && exit 1 ; }
 
-lsblk > $tempFile
-disks=$(diff "$baseFile" "$tempFile" | grep part)
+TMP="/tmp/tempdisks"
+# Make sure file is empty
+[ -f "$TMP" ] && rm "$TMP" && touch "$TMP"
+# get all usbs
+VOL=$(lsblk -d -o NAME,TRAN | grep usb | awk '{print $1}')
+for d in $VOL; do
+    lsblk | grep "$d.*part" >> "$TMP"
+done
 
-notify() { notify-send --urgency="$1" "Doom Guy says:" "$2" ; }
-isEmpty() { [ -z "$1" ] && notify critical "$2" && exit 1 ; }
+[ -s "$TMP" ] || terminate "critical" "No usb found" "No usb were found, try again!"
 
-mountDisk(){
-    filteredDisks="$(echo "$disks" | sed '/\//d')"
-    isEmpty "$filteredDisks" "No disks available to mount!"
-    selectedDisk=$(printf '%s\n' "$filteredDisks" | dmenu -i -l 10 -p "Select Disk: ")
-    isEmpty "$selectedDisk" "No disk selected!"
-    diskClean="${selectedDisk#*s}"
-    diskToMount="/dev/s${diskClean%% *}"
-    mountName=$(printf "usb\nusb1\nusb2\nusb3" | dmenu -p "Mount name ~/:")
-    isEmpty "$mountName" "Mount name was empty!"
-    location="$HOME/$mountName"
-    currentDisks="$(lsblk)"
-    test "${currentDisks#*$location}" != "$currentDisks" &&
-        notify critical "You already have an usb mounted on\n$location" && exit 1
-    mkdir -p "$location"
-    sudo -A mount "$diskToMount" "$location" && 
-        notify normal "$diskToMount mounted succesfully at \n~/$mountName!" ||
-        notify critical "$diskToMount failed to mount!\nDirectory $location still exists!"
-}
-unmountDisk(){
-    mountedDisks=$(echo "$disks" | grep "/")
-    isEmpty "$mountedDisks" "No disks available to unmount"
-    selectedDisk=$(printf "%s\n" "$mountedDisks" | dmenu -i -l 10 -p "Select Disk: ")
-    isEmpty "$selectedDisk" "No disk selected"
-    diskToUnmount="${selectedDisk##* }"
-    cleanDisk="~${diskToUnmount##$HOME}"
-    sudo -A umount "$diskToUnmount" && rm -r "$diskToUnmount" &&
-        notify normal "$cleanDisk unmounted succesfully!" ||
-        notify critical "$cleanDisk cannot be unmounted!"
+getoption() { dmenu -i -l 10 -p "Select Usb: " < "$TMP" ; }
+
+getdisk() { DC="${OPTION#*s}" ; echo "/dev/s${DC%% *}" ; }
+
+getlocation() {
+    rm "$TMP"
+    DC="${OPTION#*s}"
+    LOC="$HOME/Media/Devices/s${DC%% *}" # change this if you want another location
+    mkdir -p "$LOC"
+    echo "$LOC"
 }
 
-case $operation in 
+mountDisk() {
+    sed -i '/\//d' "$TMP" 
+    [ -s "$TMP" ] || terminate "critical" "No usb found to mount!"
+    OPTION="$(getoption)"
+    [ -z "$OPTION" ] && exit 1
+    LOC="$(getlocation)"
+    DM="$(getdisk)"
+    # Check if dir is empty (make sure you don't mount on something existing)
+    cd "$LOC" || terminate "critical" "Cannot change directory to\n$LOC"
+    [ "$(ls | wc -l)" = "0" ] || terminate "critical" "Cannot mount" "Cannot mount on \n$LOC \nThere are files"
+    if sudo -A mount "$DM" "$LOC"; then
+        terminate "normal" "Success" "Usb mounted on\n$LOC"
+    else
+        terminate "critical" "Usb cannot be mounted, run in terminal to get more output"
+    fi
+}
+
+unmountDisk() {
+    sed -i '/\//!d' "$TMP"
+    [ -s "$TMP" ] || terminate "critical" "No usb found to unmount!"
+    OPTION="$(getoption)"
+    [ -z "$OPTION" ] && exit 1
+    LOC="$(getlocation)"
+    DM="$(getdisk)"
+    if sudo -A umount "$DM"; then
+        rm -r "$LOC" 
+        terminate "normal" "Success" "Usb unmounted succesfully"
+    else
+        terminate "critical" "Usb cannot be unmounted, run in terminal to get more output"
+    fi
+}
+
+case $OPERATION in 
     Mount) mountDisk ;;
     Unmount) unmountDisk ;;
 esac
-
