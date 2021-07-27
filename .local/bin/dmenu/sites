@@ -11,9 +11,7 @@ SITESFILE="$HOME/Media/Data/sites" # Replace this with your path to sites file
 # Get user input
 CHOICE="$(awk '{print $1}' "$SITESFILE" | dmenu -i -l 10 -p "Open site: ")"
 
-# Open sites file to edit it
-[ -z "$EDITOR" ] && terminate "critical" "EDITOR not set" "Please set EDITOR variable to continue"
-[ "$CHOICE" = "edit" ] && "$EDITOR" "$SITESFILE"
+# If you wanna edit sites file use 'confs' script
 
 # Open site
 [ -z "$BROWSER" ] && terminate "critical" "BROWSER not set" "Please set BROWSER variable to continue"

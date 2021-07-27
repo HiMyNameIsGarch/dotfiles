@@ -11,7 +11,7 @@ These are my personal dotfiles for my linux system.
     - picom (compositor)
  - In order to keep `~` cleaner I moved all posible configs under `~/.config`
  - enviroment variables are set in `~/.config/profile`
- - aliases are set in `~/.config/alias`
+ - aliases are set in `~/.config/aliasrc`
 ## Usage
  - Window manager: 
     - Dwm

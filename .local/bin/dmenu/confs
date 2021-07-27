@@ -1,6 +1,6 @@
 #!/bin/sh
 
-EDITOR="alacritty -e vim"
+EDITOR="alacritty -e nvim"
 
 configs="qutebrowser $HOME/.config/qutebrowser/config.py
 quickmarks $HOME/.config/qutebrowser/quickmarks
@@ -12,12 +12,14 @@ dwm-autostart $HOME/.local/share/dwm/autostart.sh
 dwmblocks $HOME/suckless/dwmblocks/blocks.def.h
 bash $HOME/.bashrc 
 zsh $HOME/.config/zsh/.zshrc
-vim $HOME/.vimrc 
+vim $HOME/.vim/vimrc 
 nvim $HOME/.config/nvim/init.vim 
 dmenu $HOME/suckless/dmenu/config.def.h
 picom $HOME/.config/picom/picom.conf
 aliases $HOME/.config/aliasrc 
 profile $HOME/.config/profile
+functions $HOME/.config/functions
+sites $HOME/Media/Data/sites
 this $HOME/.local/bin/dmenu/confs" # opens this file
 
 choice=$(printf '%s' "$configs" | dmenu -i -l 10 -p 'Edit config: ' | awk '{print $2}')
@@ -25,5 +27,4 @@ choice=$(printf '%s' "$configs" | dmenu -i -l 10 -p 'Edit config: ' | awk '{prin
 [ ! -f "$choice" ] && 
     notify-send -u critical "Error" "File $choice\nDoes not exist!" && exit 1
 
-$EDITOR "$choice" && exit 1
-
+$EDITOR "$choice"

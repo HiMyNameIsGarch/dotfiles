@@ -43,4 +43,4 @@ ICON="$DIR/$(printf '%s\n' * | grep '.jpe\?g$\|.png$' | head -n 1)"
 # If the file doesn't exists or it is empty use default icon
 { [ ! -f "$ICON" ] || [ "$(file "$ICON" | grep empty > /dev/null)" ]; } && ICON=""
 
-notify-send -i "$ICON" -u "normal" "$TITLE" "$SUBTITLE" 
+notify-send --icon="$ICON" -u "normal" "$TITLE" "$SUBTITLE" 
