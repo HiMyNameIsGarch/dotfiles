@@ -1,57 +1,37 @@
 ##############################
-#          Projects          #
-##############################
-
-# Lightdm theme
-LMPATH="$HOME/Dev/lightdm-webkit-doom-theme"
-alias lm="cd $LMPATH && ls"
-alias lm-edit="cd $LMPATH && $EDITOR $LMPATH"
-
-# Instagram bot
-alias ib="cd $HOME/Dev/instagram-bot && ls"
-alias ib-edit="cd $HOME/Dev/instagram-bot && $EDITOR main.py"
-
-# Digital Magazine
-projPath="$HOME/Dev/DigitalMagazine"
-alias opensheet="qutebrowser \"https://docs.google.com/spreadsheets/d/1Dxv6SarPMD09g71ETOdPz1_5WEa5ORjMLzW2oTTZTsQ/edit?usp=sharing_eip&invite=CIf41qIB&ts=60a6a05c\""
-alias initnvm='export NVM_DIR="$HOME/.local/share/nvm" ; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm use 12.14.0'
-alias dm="cd $projPath"
-alias dm-status="dm && ls && git status"
-alias dm-edit="dm && $EDITOR $projPath"
-alias dm-start="dm && initnvm && npm run dev"
-alias dm-db="dm && cd src/app/shared/services/Db && ls"
-alias dm-models="dm && cd src/app/shared/services/Db/Models && ls"
-alias dm-app="dm && cd src/app && ls"
-alias ntest="npm test -t "
-
-##############################
-#          Aliases           #
+#           System           #
 ##############################
 
 # Short some commands
-alias qbind="feh ~/Media/qb-bindings.png"
+alias ed="element-desktop"
+alias hist="$EDITOR ~/.cache/zsh/history"
+alias qbind="feh ~/Media/Data/qb-bindings.png &"
 alias pvim="nvim -c VimBeGood"
+alias gvim="nvim -c Git"
 alias copy="xclip -sel c <"
 alias dev="cd ~/Dev && ls"
 alias gr="cd ~/repos && ls"
-alias mo="cd ~/Media/Movies && ls"
-alias ph="cd ~/Media/Photos && ls"
-alias co="cd ~/Media/Courses && ls"
-alias wa="cd ~/Media/Wallpapers && ls"
-alias yt="cd ~/Media/Youtube && ls"
-alias sch="cd ~/Media/School && ls"
-alias to="cd ~/Media/Torrents && ls"
-alias bo="cd ~/Media/Books && ls"
-alias md="cd ~/Media && ls"
-alias ldf="cd ~/Dev/linux-dotfiles && ls && git status"
+alias ldf="cd ~/Dev/dotfiles && ls && git status"
 alias sc="cd ~/.local/bin && ls"
 alias sdm="cd ~/.local/bin/dmenu && ls"
 alias sdb="cd ~/.local/bin/dwm-bar && ls"
 alias dl="cd ~/Downloads && ls"
 alias sl="cd ~/suckless && ls"
-alias sdwm="cd ~/suckless/dwm && ls"
 alias sdmenu="cd ~/suckless/dmenu && ls"
-alias sdwmbl="cd ~/suckless/dwmblocks && ls"
+# Media 
+alias AND="cd ~/Media/Youtube/Arhiva-Nationala-Diaconu && ls"
+alias md="cd ~/Media && ls"
+alias bo="cd ~/Media/Books && ls"
+alias co="cd ~/Media/Courses && ls"
+alias da="cd ~/Media/Data && ls"
+alias mo="cd ~/Media/Movies && ls"
+alias mu="cd ~/Media/Music && ls"
+alias ph="cd ~/Media/Photos && ls"
+alias sch="cd ~/Media/School && ls"
+alias to="cd ~/Media/Torrents && ls"
+alias vs="cd ~/Media/Videos && ls"
+alias wa="cd ~/Media/Wallpapers && ls"
+alias yt="cd ~/Media/Youtube && ls"
 
 # Dotnet commands
 alias dn="dotnet"
@@ -59,22 +39,26 @@ alias dnbr="dotnet build && dotnet run"
 
 # Git commands
 alias g="git"
+alias ginit="git init"
+alias gclone="git clone"
 alias gadd="git add"
 alias gstat="git status"
-alias gclone="git clone"
-alias gpul="git pull"
+alias gpull="git pull"
 alias gpush="git push"
 alias grm="git rm"
 alias gmv="git mv"
 alias grest="git restore"
 alias grests="git restore --staged"
 alias gcommit="git commit -m"
+alias gcheckout="git checkout"
+alias gbranch="git branch"
 
 # If the commands are too long, just make them shorter!
-alias :q="exit"
 alias fs="ncdu"
 alias ka="killall"
+alias ka9="killall -9"
 alias k="kill"
+alias k9="kill -9"
 alias isthere="pacman -Ss"
 alias checkbash="checkbashisms"
 
@@ -95,16 +79,18 @@ alias ...="cd ../.."
 alias .3="cd ../../.."
 alias .4="cd ../../../.."
 
-# Update the system
+# Short pacman commands
 alias pacsyyy="sudo pacman -Syyy"
 alias pacsyyu="sudo pacman -Syyu"
-alias pacsy="sudo pacman -Syu"
+alias pacsyu="sudo pacman -Syu"
 alias pacs="sudo pacman -S"
 alias pacr="sudo pacman -R"
+alias pacrs="sudo pacman -Rs"
 alias yays="yay -S"
 alias yaysua="yay -Sua"
 alias yaysyu="yay -Syu"
 alias yayr="yay -R"
+alias yayrs="yay -Rs"
 
 # Get fastest mirrors using reflector
 alias mirror="sudo reflector --country Romania --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
