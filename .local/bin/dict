@@ -20,8 +20,7 @@ CDICT="$XDG_CONFIG_HOME/dict"
 DCONF="$CDICT/config"
 
 cleaninput() {
-    INPUT="$(echo "$1" | sed -r 's/\s+/ /g; s/\W+/, /g')"
-    [ "$INPUT" = "," ] && INPUT=""
+    INPUT="$(echo "$1" | sed -r 's/\s+/ /g')"
     echo "$INPUT"
 }
 loganswer() {
@@ -102,26 +101,29 @@ Run 'dict add' or 'dict edit' to add some more!"
         VALUE="${w##*| }"
         KEY="$(echo "${w%%| *}" | sed 's/,/ or/g')"
         RES=""
-        printf '%s\n\n' "----------------------------"
+        printf '%s\n' "----------------------------"
         while [ -z "$RES" ]; do
             printf '%s' "What means $KEY: "
-            read -r -t 10 RES </dev/tty
+            read -r RES </dev/tty
         done
         # we got the result
         AS=false
-        for v in $(echo "$VALUE" | sed 's/,//g'); do
+        echo "$VALUE" | tr ',' '\n' | sed -r 's/^\s*|\s*$//g' > "options"
+        while IFS= read -r v; do
             if [ "$v" = "$RES" ]; then
                 echo Correct!
                 loganswer "Success" "$VALUE" "$RES"
                 AS=true
                 break
             fi
-        done
+        done < options
         if ! $AS; then
             echo Incorrect, the answer is: "$(echo "$VALUE" | sed 's/,/ or/g')"
             loganswer "Fail" "$VALUE" "$RES"
         fi
+        rm options
     done < "$DICT"
+    rm "$DICT"
 }
 
 editfile() {
