@@ -3,6 +3,7 @@
 ##############################
 
 # Short some commands
+alias t="touch"
 alias ed="element-desktop"
 alias hist="$EDITOR ~/.cache/zsh/history"
 alias qbind="feh ~/Media/Data/qb-bindings.png &"
@@ -32,6 +33,7 @@ alias to="cd ~/Media/Torrents && ls"
 alias vs="cd ~/Media/Videos && ls"
 alias wa="cd ~/Media/Wallpapers && ls"
 alias yt="cd ~/Media/Youtube && ls"
+alias de="cd ~/Media/Devices && ls"
 
 # Dotnet commands
 alias dn="dotnet"
@@ -39,6 +41,7 @@ alias dnbr="dotnet build && dotnet run"
 
 # Git commands
 alias g="git"
+alias glog="git log"
 alias ginit="git init"
 alias gclone="git clone"
 alias gadd="git add"
@@ -51,7 +54,12 @@ alias grest="git restore"
 alias grests="git restore --staged"
 alias gcommit="git commit -m"
 alias gcheckout="git checkout"
+alias gbcheckout="git checkout"
 alias gbranch="git branch"
+alias gundo="git reset --soft HEAD~1"
+alias gundoH="git reset --hard HEAD~1"
+alias ggraph="git log --graph --decorate --oneline"
+alias ggraphfull="git log --graph --full-history --all --pretty=format:\"%h%x09%d%x20%s\""
 
 # If the commands are too long, just make them shorter!
 alias fs="ncdu"
