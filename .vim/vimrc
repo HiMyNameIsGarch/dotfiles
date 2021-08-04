@@ -62,5 +62,6 @@ call plug#end()
 
 "       Gruvbox
 colorscheme gruvbox
+hi Normal guibg=NONE ctermbg=NONE
 " Vuejs
 let g:vue_pre_processors = 'detect_on_enter'

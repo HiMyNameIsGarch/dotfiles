@@ -25,6 +25,7 @@ _comp_options+=(globdots)		# Include hidden files.
 
 # Do not keep duplicate commands in history
 setopt HIST_IGNORE_ALL_DUPS
+setopt autocd nomatch
 
 function zle-line-init zle-keymap-select {
     PS1="${${KEYMAP/vicmd/$PROMPTNORMAL}/(main|viins)/$PROMPTINSERT}"
@@ -43,6 +44,7 @@ bindkey -v '^?' backward-delete-char
 # Move better in history
 bindkey -v '^P' down-line-or-search
 bindkey -v '^N' up-line-or-search
+zle_highlight="(paste:none)"
 
 # Load aliases
 ALIASES="$HOME/.config/aliasrc"

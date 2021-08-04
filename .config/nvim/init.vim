@@ -48,4 +48,5 @@ call plug#end()
 
 " Colorscheme
 colorscheme gruvbox
+hi Normal guibg=NONE ctermbg=NONE
 let g:vim_be_good_log_file = 1

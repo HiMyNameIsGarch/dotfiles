@@ -1,0 +1,28 @@
+#!/bin/sh
+
+#
+# Lyrics in browser, it will open a browser with the search query: 
+# {Title} - {Artist} lyrics 
+# cmus required!
+#
+
+terminate() { notify-send -u "$1" "$2" "$3" && exit 1 ; }
+getfrom() { echo "$1" | grep "$2" ; }
+replace() { echo "$1" | sed "s/$2//" ; }
+
+# check if cmus is even running
+cmus-remote -Q > /dev/null 2>&1 || terminate "critical" "Not Running!" "Cmus is not running!"
+STATUS="$(cmus-remote -Q)"
+# get usefull information
+INFO="$(getfrom "$STATUS" " artist \| album \| title \|file")"
+# check if some music is running
+[ -z "$(getfrom "$STATUS" "status stopped")" ] || terminate "normal" "Music Stopped!" "Nothing is playing..."
+# get music name
+TITLE="$(getfrom "$INFO" "title")"
+TITLE="$(replace "$TITLE" "tag title ")"
+# get artist
+ARTIST="$(getfrom "$INFO" "artist")"
+ARTIST="$(replace "$ARTIST" "tag artist ")"
+BROWSER="qutebrowser" # delete this line if you want your default browser
+QUERY="$TITLE $ARTIST lyrics"
+"$BROWSER" ":open -t $QUERY"
