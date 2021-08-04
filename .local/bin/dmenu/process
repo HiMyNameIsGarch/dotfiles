@@ -12,33 +12,29 @@ notify() { notify-send "Doom Guy says" "$1" ; }
 notifyExit() { notify-send --urgency=critical "$1" "$2" && exit 1 ; }
 
 checkDisks() {
-    baseFile="$HOME/.local/share/base-disks"
-    tempFile="/tmp/disksTemp"
-    lsblk > $tempFile
-    disks=$(diff "$baseFile" "$tempFile" | grep part)
-    mountedDisks=$(echo "$disks" | grep "/")
-    [ ! -n "$mountedDisks" ]
+    MOUNTEDDISKS="$(mount | tail -n1 | grep "^/dev/sd.*")"
+    [ ! -n "$MOUNTEDDISKS" ]
 }
 SLEEPNUM=5
 logSysShutdown() {
-    DATE="$(date -u '+%A-%B-%Y')"
+    DATE="$(date '+%A-%B-%Y')"
     OPEN="$(uptime -s)"
     TOTAL="$(uptime -p)"
     FILE="/home/himynameisgarch/logs/sys/uptime"
-    echo "${1^} at: $(date -u '+%T')" >> "$FILE" 
+    echo "${1^} at: $(date '+%T')" >> "$FILE" 
     echo "On $DATE you opened you pc at ${OPEN#* }" >> "$FILE"
     echo "Total time spent: ${TOTAL#* }" >> "$FILE"
     echo "---------------------" >> "$FILE"
 }
 shutDown() {
     logSysShutdown "shutdown"
-    notify "Shutdown now sir" &
+    notify "God Rested On The Seventh Day" &
     sleep $SLEEPNUM
     shutdown now
 }
 rebootSys(){
     logSysShutdown "reboot"
-    notify "Reboot now sir" &
+    notify "Don't Leave That Plasma Cutter Running" &
     sleep $SLEEPNUM
     shutdown -r now
 }
@@ -48,13 +44,11 @@ case $choice in
     "$(option 1)") 
         checkDisks || 
             notifyExit "Mounted Disks detected!" "You can't shutdown because you have mounted disks!"
-        shutDown
-        ;;
+        shutDown ;;
     "$(option 2)") 
         checkDisks || 
             notifyExit "Mounted Disks detected!" "You can't reboot because you have mounted disks!"
-        rebootSys
-        ;;
+        rebootSys ;;
     "$(option 3)") notify "Your screen will be locked" ; i3lock-fancy ;;
     *) exit 1 ;; 
 esac
