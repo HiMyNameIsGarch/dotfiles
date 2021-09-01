@@ -1,6 +1,3 @@
-##############################
-#           System           #
-##############################
 
 # Short some commands
 alias t="touch"
@@ -19,6 +16,7 @@ alias sdb="cd ~/.local/bin/dwm-bar && ls"
 alias dl="cd ~/Downloads && ls"
 alias sl="cd ~/suckless && ls"
 alias sdmenu="cd ~/suckless/dmenu && ls"
+
 # Media 
 alias AND="cd ~/Media/Youtube/Arhiva-Nationala-Diaconu && ls"
 alias md="cd ~/Media && ls"
@@ -38,6 +36,15 @@ alias de="cd ~/Media/Devices && ls"
 # Dotnet commands
 alias dn="dotnet"
 alias dnbr="dotnet build && dotnet run"
+
+# System information
+alias psa="ps auxf"
+
+# Parameterless
+alias df='df -h'
+alias du='du -h'
+alias free='free -m'
+alias ping="ping -c4"
 
 # Git commands
 alias g="git"
@@ -60,6 +67,11 @@ alias gundo="git reset --soft HEAD~1"
 alias gundoH="git reset --hard HEAD~1"
 alias ggraph="git log --graph --decorate --oneline"
 alias ggraphfull="git log --graph --full-history --all --pretty=format:\"%h%x09%d%x20%s\""
+
+# Grep
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
 
 # If the commands are too long, just make them shorter!
 alias fs="ncdu"
