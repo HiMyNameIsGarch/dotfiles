@@ -17,6 +17,6 @@ export LESSHISTFILE="$XDG_CACHE_HOME"/less/history
 export CARGO_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/cargo"
 export PYTHONHISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/python/history"
 export SUDO_ASKPASS=$HOME/.local/bin/dmenu/dpass
-export ERRFILE="$XDG_CACHE_HOME/x11/xsession-errors"
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 export SSB_HOME="$XDG_DATA_HOME"/zoom
+export WGETRC="$XDG_CONFIG_HOME/wgetrc"

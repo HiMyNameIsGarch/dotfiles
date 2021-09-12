@@ -20,6 +20,7 @@ aliases $HOME/.config/aliasrc
 profile $HOME/.config/profile
 functions $HOME/.config/functions
 sites $HOME/Media/Data/sites
+insults $HOME/Media/Data/insults
 this $HOME/.local/bin/dmenu/confs" # opens this file
 
 choice=$(printf '%s' "$configs" | dmenu -i -l 10 -p 'Edit config: ' | awk '{print $2}')

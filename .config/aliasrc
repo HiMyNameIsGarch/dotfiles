@@ -79,7 +79,6 @@ alias ka="killall"
 alias ka9="killall -9"
 alias k="kill"
 alias k9="kill -9"
-alias isthere="pacman -Ss"
 alias checkbash="checkbashisms"
 
 # Prevent makings mistakes with rm/cp/mv
@@ -106,6 +105,7 @@ alias pacsyu="sudo pacman -Syu"
 alias pacs="sudo pacman -S"
 alias pacr="sudo pacman -R"
 alias pacrs="sudo pacman -Rs"
+alias pacrns="sudo pacman -Rns"
 alias yays="yay -S"
 alias yaysua="yay -Sua"
 alias yaysyu="yay -Syu"
@@ -113,6 +113,6 @@ alias yayr="yay -R"
 alias yayrs="yay -Rs"
 
 # Get fastest mirrors using reflector
-alias mirror="sudo reflector --country Romania --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
+alias mirror="sudo reflector -c Romania -c Bulgaria -a 12 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist"
 alias mirrorl="sudo reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist"
 alias mirrora="sudo reflector --latest 50 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist"

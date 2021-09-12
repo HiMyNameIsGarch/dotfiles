@@ -20,10 +20,26 @@ extract () {
          echo "'$1' is not a valid file"
      fi
 }
-# find alias more easy
+# find aliases more easy
 aliases() {
     alias | grep "$1"
 }
+
+isthere() {
+    [ -z "$1" ] && echo No argument provided && return 0
+    echo "###############################"
+    echo "|     Results from Pacman     |"
+    echo "###############################"
+    echo
+    pacman -Ss "$1"
+    echo
+    echo "###############################"
+    echo "|      Results from AUR       |"
+    echo "###############################"
+    echo
+    yay -Ss "$1"
+}
+
 
 dm() {
     BASE="$HOME/Dev/DigitalMagazine"
