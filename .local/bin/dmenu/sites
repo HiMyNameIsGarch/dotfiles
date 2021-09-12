@@ -7,12 +7,21 @@ terminate() { notify-send -u "$1" "$2" "$3" && exit 1 ; }
 # Check if sites file exists
 SITESFILE="$HOME/Media/Data/sites" # Replace this with your path to sites file
 [ -f "$SITESFILE" ] || terminate "critical" "File does not exists!" "File \"$SITESFILE\"\n does not exists!"
+# Create the cache file
+CACHEDIR=${XDG_CACHE_HOME:-"$HOME/.cache"}
+CACHE="$CACHEDIR/sites_recent"
+touch "$CACHE"
 
-# Get user input
-CHOICE="$(awk '{print $1}' "$SITESFILE" | dmenu -i -l 10 -p "Open site: ")"
+# Get sites from cache 
+MOSTUSED=$(sort "$CACHE" | uniq -c | sort -rh | awk -F" " '{print $2}')
+# Combine cache with sites then output
+CHOICE=$((echo "$MOSTUSED"; awk '{print $1}' "$SITESFILE" | grep -vxF "$MOSTUSED") | 
+    dmenu -i -l 10 -p "Open site: ")
+[ -z "$CHOICE" ] && terminate "critical" "Warning" "No site selected, abording..."
 
 # If you wanna edit sites file use 'confs' script
 
 # Open site
 [ -z "$BROWSER" ] && terminate "critical" "BROWSER not set" "Please set BROWSER variable to continue"
+echo "$CHOICE" >> "$CACHE"
 "$BROWSER" "$CHOICE"
