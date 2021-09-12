@@ -1,32 +1,86 @@
 #!/bin/sh
+
 # Function To Extract File Archives Of Various Types
-extract () {
-     if [ -f "$1" ] ; then
-         case $1 in
-             *.tar.bz2)   tar xjf "$1"     ;;
-             *.tar.gz | *.tar.xz)    tar xzf "$1"     ;;
-             *.bz2)       bunzip2  "$1"    ;;
-             *.rar)       rar x "$1"       ;;
-             *.gz)        gunzip "$1"      ;;
-             *.tar)       tar xf "$1"      ;;
-             *.tbz2)      tar xjf "$1"     ;;
-             *.tgz)       tar xzf "$1"     ;;
-             *.zip)       unzip "$1"       ;;
-             *.Z)         uncompress "$1"  ;;
-             *.7z)        7z x "$1"        ;;
-             *)           echo "'$1' cannot be extracted via extract()" ;;
-         esac
-     else
-         echo "'$1' is not a valid file"
-     fi
+extract() {
+ if [ -z "$1" ]; then
+    # display usage if no parameters given
+    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+    echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
+ else
+    for n in "$@"
+    do
+      if [ -f "$n" ] ; then
+          case "${n%,}" in
+            *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
+                         tar xvf "$n"       ;;
+            *.lzma)      unlzma ./"$n"      ;;
+            *.bz2)       bunzip2 ./"$n"     ;;
+            *.cbr|*.rar)       
+                         unrar x -ad ./"$n" ;;
+            *.gz)        gunzip ./"$n"      ;;
+            *.cbz|*.epub|*.zip)       
+                         unzip ./"$n"       ;;
+            *.z)         uncompress ./"$n"  ;;
+            *.7z|*.arj|*.cab|*.cb7|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar)
+                         7z x ./"$n"        ;;
+            *.xz)        unxz ./"$n"        ;;
+            *.exe)       cabextract ./"$n"  ;;
+            *.cpio)      cpio -id < ./"$n"  ;;
+            *.cba|*.ace)      
+                         unace x ./"$n"      ;;
+            *)
+                echo "extract: '$n' - unknown archive method"
+                return 1 ;;
+          esac
+      else
+          echo "'$n' - file does not exist"
+          return 1
+      fi
+    done
+fi
 }
-# find aliases more easy
+
+# Play youtube playlist with mpv
+yplay() {
+    [ -z "$1" ] && echo "Please provide a playlist in order to continue..." && return 1
+    local ARGS=""
+    case "$2" in 
+        audio | a) ARGS="--no-video" ;;
+        video | v) ARGS="--fs" ;;
+    esac
+    mpv "https://youtube.com/playlist?list=$1" "$ARGS"
+}
+
+# BANGERS
+bangers() {
+    mpv "https://youtube.com/playlist?list=PLm323Lc7iSW9oSIDihesMJXmMNfh8U59k" --no-video --shuffle
+}
+# DOOM 
+doom() {
+    mpv "https://youtube.com/playlist?list=PL9qahmMHuxzSpTHbPNJfLlLN1HpzKNH2A" --no-video
+}
+
+# Mkdir and cd into one command
+mkd() {
+    mkdir -p "$1"
+    cd "$1"
+}
+
+# Find aliases more easy
 aliases() {
     alias | grep "$1"
 }
 
+hist() { 
+    grep "$1" "$HISTFILE" 
+}
+
+ehist() { # edit the history file
+    $EDITOR "$HISTFILE"
+}
+
 isthere() {
-    [ -z "$1" ] && echo No argument provided && return 0
+    [ -z "$1" ] && echo No argument provided && return 1
     echo "###############################"
     echo "|     Results from Pacman     |"
     echo "###############################"
@@ -40,11 +94,14 @@ isthere() {
     yay -Ss "$1"
 }
 
+clear() { # Don't type clear, use CTRL+l instead!
+    shuf -n 1 "$HOME/Media/Data/insults"
+}
 
 dm() {
-    BASE="$HOME/Dev/DigitalMagazine"
+    local BASE="$HOME/Dev/DigitalMagazine"
     initnvm() {
-        NVM_DIR="$HOME/.local/share/nvm"
+        local NVM_DIR="$HOME/.local/share/nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm use 12.14.0
     }
     cdm() { cd "$BASE" ; }

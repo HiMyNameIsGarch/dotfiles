@@ -2,7 +2,6 @@
 # Short some commands
 alias t="touch"
 alias ed="element-desktop"
-alias hist="$EDITOR ~/.cache/zsh/history"
 alias qbind="feh ~/Media/Data/qb-bindings.png &"
 alias pvim="nvim -c VimBeGood"
 alias gvim="nvim -c Git"
@@ -10,6 +9,7 @@ alias copy="xclip -sel c <"
 alias dev="cd ~/Dev && ls"
 alias gr="cd ~/repos && ls"
 alias ldf="cd ~/Dev/dotfiles && ls && git status"
+alias co="cd ~/.config && ls"
 alias sc="cd ~/.local/bin && ls"
 alias sdm="cd ~/.local/bin/dmenu && ls"
 alias sdb="cd ~/.local/bin/dwm-bar && ls"
@@ -21,7 +21,7 @@ alias sdmenu="cd ~/suckless/dmenu && ls"
 alias AND="cd ~/Media/Youtube/Arhiva-Nationala-Diaconu && ls"
 alias md="cd ~/Media && ls"
 alias bo="cd ~/Media/Books && ls"
-alias co="cd ~/Media/Courses && ls"
+alias cs="cd ~/Media/Courses && ls"
 alias da="cd ~/Media/Data && ls"
 alias mo="cd ~/Media/Movies && ls"
 alias mu="cd ~/Media/Music && ls"
@@ -69,9 +69,9 @@ alias ggraph="git log --graph --decorate --oneline"
 alias ggraphfull="git log --graph --full-history --all --pretty=format:\"%h%x09%d%x20%s\""
 
 # Grep
-alias grep='grep --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
+alias grep='grep --color=always'
+alias egrep='egrep --color=always'
+alias fgrep='fgrep --color=always'
 
 # If the commands are too long, just make them shorter!
 alias fs="ncdu"

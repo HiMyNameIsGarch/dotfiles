@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export EDITOR="vim"
+export EDITOR="nvim"
 export BROWSER="librewolf"
 
 export XDG_DATA_HOME="$HOME/.local/share"
