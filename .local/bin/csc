@@ -1,13 +1,21 @@
 #!/bin/sh
 
-# Create script (csc)
+# Create SCript (csc)
 # This script creates a base script and it opens in your editor of choice!
 
+# Get helper script
+SHELPER="$HOME/.local/bin/shelper"
+if [ -f "$SHELPER" ]; then
+    # shellcheck disable=SC1090,SC1091
+    . "$SHELPER"
+else
+    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"
+    exit 1
+fi
 file="$1"
-terminate() { printf "%s\n" "csc: $1" && exit 1 ; }
-[ -z "$file" ] && terminate "Cannot create empty file!"
-[ -f "$file" ] && terminate "File '$file' already exists!"
-[ -d "$file" ] && terminate "Argument '$file' is a directory!"
+[ -z "$file" ] && s_err "Cannot create empty file!"
+[ -f "$file" ] && s_err "File '$file' already exists!"
+[ -d "$file" ] && s_err "Argument '$file' is a directory!"
 touch "$file"
 option="${2-sh}"
 

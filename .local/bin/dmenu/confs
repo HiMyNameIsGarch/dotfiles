@@ -1,6 +1,14 @@
 #!/bin/sh
 
-EDITOR="alacritty -e nvim"
+# Get script helper
+SHELPER="$HOME/.local/bin/shelper"
+if [ -f "$SHELPER" ]; then
+    # shellcheck disable=SC1090,SC1091
+    . "$SHELPER"
+else
+    notify-send -u critical "Error" "Cannot source helper script!"
+    exit 1
+fi
 
 configs="qutebrowser $HOME/.config/qutebrowser/config.py
 quickmarks $HOME/.config/qutebrowser/quickmarks
@@ -21,11 +29,12 @@ profile $HOME/.config/profile
 functions $HOME/.config/functions
 sites $HOME/Media/Data/sites
 insults $HOME/Media/Data/insults
-this $HOME/.local/bin/dmenu/confs" # opens this file
+this $HOME/.local/bin/dmenu/confs" # Opens this file
 
 choice=$(printf '%s' "$configs" | dmenu -i -l 10 -p 'Edit config: ' | awk '{print $2}')
 [ -z "$choice" ] && exit 1
 [ ! -f "$choice" ] && 
-    notify-send -u critical "Error" "File $choice\nDoes not exist!" && exit 1
+    s_notify critical "File Error" "File $choice \nDoes not exist!" && exit 1
 
+EDITOR="alacritty -e nvim"
 $EDITOR "$choice"
