@@ -10,7 +10,14 @@ helpmenu() {
     echo "  add   - to add a new word in dictionary."
     echo "  edit  - to edit the dictionary file."
 }
-error() { printf 'error: %s\n' "$1" && exit 1 ; }
+# Get helper script
+SHELPER="$HOME/.local/bin/shelper"
+if [ -f "$SHELPER" ]; then
+    # shellcheck disable=SC1090,SC1091
+    . "$SHELPER"
+else
+    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1
+fi
 
 BASEDIR="$HOME/Media/Data/dict" # overwrite this location
 BDICT="$BASEDIR/dictionary"
@@ -93,7 +100,7 @@ start() {
     sed -r 's/\s*#.*//g; /^$/ d' "$BDICT" | shuf > "$DICT"
     # Check for file length
     LC="$(wc -l "$DICT")"
-    [ "${LC%% *}" -lt 10 ] && error "You need to have at least 10 pairs in your dictionary.
+    [ "${LC%% *}" -lt 10 ] && s_err "You need to have at least 10 pairs in your dictionary.
 Run 'dict add' or 'dict edit' to add some more!"
     # Start the actual game
     echo "Current file: ${BDICT##*/}"
@@ -147,5 +154,5 @@ case $1 in
     start | s) start ;;
     add   | a) addentry ;;
     edit  | e) editfile "$2" ;;
-    *) error "Option \"$1\" is invalid. Type 'dict help' for more information" ;; 
+    *) s_err "Option \"$1\" is invalid. Type 'dict help' for more information" ;; 
 esac

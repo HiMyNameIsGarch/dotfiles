@@ -4,22 +4,34 @@
 # Basic script to create symbolic links for dotfiles directory more easily
 # Does not support multiple files to link
 
-terminate() { printf "lk: error: %s\n" "$1"&& exit 1 ; }
-if [ "$#" -gt 1 ]; then # if there are more parameters
+# Get helper script
+SHELPER="$HOME/.local/bin/shelper"
+if [ -f "$SHELPER" ]; then
+    # shellcheck disable=SC1090,SC1091
+    . "$SHELPER"
+else
+    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1
+fi
+
+# Check if user run the script in dotfiles dir
+dotfiles="$HOME/Dev/dotfiles"
+pwd | grep "^$dotfiles" >/dev/null && s_err "You are in dotfiles directory, you can't link the files here!"
+
+if [ "$#" -gt 1 ]; then
     # use xargs to call this script with each parameter
     printf '%s\n' "$@" | xargs -I {} lk '{}' 
     exit 1
 fi
 file="$1"
-[ ! -f "$file" ] && terminate "File \"$file\" does not exist!"
+[ ! -f "$file" ] && s_err "File \"$file\" does not exist!"
 test "${file#*"/"}" != "$file" && 
-    terminate "Please go into the directory, then link the file ($file)"
+    s_err "Please go into the directory, then link the file ($file)"
 fileTypes=$(file "$file")
 test "${fileTypes#*"symbolic link"}" != "$fileTypes" &&
-    terminate "File \"$file\" is already a symbolic link"
+    s_err "File \"$file\" is already a symbolic link"
 currentDir="$(pwd)"
 currentDir="${currentDir##$HOME}"
-dotfiles="$HOME/Dev/dotfiles$currentDir"
+dotfiles="$dotfiles$currentDir"
 if [ ! -d "$dotfiles" ]; then 
     printf "%s\n" "lk: $currentDir does not exists in dotfiles directory"
     printf 'Wanna create it ? [y/n]: '
@@ -28,4 +40,4 @@ if [ ! -d "$dotfiles" ]; then
 fi
 mv "$file" "$dotfiles" && file="${file##*/}" && currentDir="$HOME$currentDir" && 
     ln -s "$dotfiles/$file" "$currentDir/$file" && exit 1
-terminate "Cannot link $dotfiles/$file to $currentDir/$file"
+s_err "Cannot link $dotfiles/$file to $currentDir/$file"

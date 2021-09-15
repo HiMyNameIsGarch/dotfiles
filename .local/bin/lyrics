@@ -6,17 +6,25 @@
 # cmus required!
 #
 
-terminate() { notify-send -u "$1" "$2" "$3" && exit 1 ; }
+# Get helper script
+SHELPER="$HOME/.local/bin/shelper"
+if [ -f "$SHELPER" ]; then
+    # shellcheck disable=SC1090,SC1091
+    . "$SHELPER"
+else
+    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1
+fi
+
 getfrom() { echo "$1" | grep "$2" ; }
 replace() { echo "$1" | sed "s/$2//" ; }
 
 # check if cmus is even running
-cmus-remote -Q > /dev/null 2>&1 || terminate "critical" "Not Running!" "Cmus is not running!"
+cmus-remote -Q > /dev/null 2>&1 || s_notify_exit "critical" "Not Running!" "Cmus is not running!"
 STATUS="$(cmus-remote -Q)"
 # get usefull information
 INFO="$(getfrom "$STATUS" " artist \| album \| title \|file")"
 # check if some music is running
-[ -z "$(getfrom "$STATUS" "status stopped")" ] || terminate "normal" "Music Stopped!" "Nothing is playing..."
+[ -z "$(getfrom "$STATUS" "status stopped")" ] || s_notify_exit "normal" "Music Stopped!" "Nothing is playing..."
 # get music name
 TITLE="$(getfrom "$INFO" "title")"
 TITLE="$(replace "$TITLE" "tag title ")"

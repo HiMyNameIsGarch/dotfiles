@@ -2,11 +2,18 @@
 
 # Sites, a dmenu script to open your favourite sites with less effort
 
-terminate() { notify-send -u "$1" "$2" "$3" && exit 1 ; }
+# Get helper script
+SHELPER="$HOME/.local/bin/shelper"
+if [ -f "$SHELPER" ]; then
+    # shellcheck disable=SC1090,SC1091
+    . "$SHELPER"
+else
+    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1
+fi
 
 # Check if sites file exists
 SITESFILE="$HOME/Media/Data/sites" # Replace this with your path to sites file
-[ -f "$SITESFILE" ] || terminate "critical" "File does not exists!" "File \"$SITESFILE\"\n does not exists!"
+[ -f "$SITESFILE" ] || s_notify_exit "critical" "File does not exists!" "File \"$SITESFILE\"\n does not exists!"
 # Create the cache file
 CACHEDIR=${XDG_CACHE_HOME:-"$HOME/.cache"}
 CACHE="$CACHEDIR/sites_recent"
@@ -17,11 +24,11 @@ MOSTUSED=$(sort "$CACHE" | uniq -c | sort -rh | awk -F" " '{print $2}')
 # Combine cache with sites then output
 CHOICE=$((echo "$MOSTUSED"; awk '{print $1}' "$SITESFILE" | grep -vxF "$MOSTUSED") | 
     dmenu -i -l 10 -p "Open site: ")
-[ -z "$CHOICE" ] && terminate "critical" "Warning" "No site selected, abording..."
+[ -z "$CHOICE" ] && s_notify_exit "critical" "Warning" "No site selected, abording..."
 
 # If you wanna edit sites file use 'confs' script
 
 # Open site
-[ -z "$BROWSER" ] && terminate "critical" "BROWSER not set" "Please set BROWSER variable to continue"
+[ -z "$BROWSER" ] && s_notify_exit "critical" "BROWSER not set" "Please set BROWSER variable to continue"
 echo "$CHOICE" >> "$CACHE"
 "$BROWSER" "$CHOICE"

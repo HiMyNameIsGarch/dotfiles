@@ -5,11 +5,18 @@
 # A script that mounts/unmounts usbs
 #
 
+# Get helper script
+SHELPER="$HOME/.local/bin/shelper"
+if [ -f "$SHELPER" ]; then
+    # shellcheck disable=SC1090,SC1091
+    . "$SHELPER"
+else
+    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1
+fi
+
 OPERATION=$(printf "Mount\nUnmount" | dmenu -i -p "Choose: ")
 [ -z "$OPERATION" ] && exit 1
 [ "$OPERATION" != "Mount" ] && [ "$OPERATION" != "Unmount" ] && exit 1
-
-terminate() { notify-send -u "$1" "$2" "$3" && exit 1 ; }
 
 TMP="/tmp/tempdisks"
 # Make sure file is empty
@@ -20,7 +27,7 @@ for d in $VOL; do
     lsblk | grep "$d.*part" >> "$TMP"
 done
 
-[ -s "$TMP" ] || terminate "critical" "No usb found" "No usb were found, try again!"
+[ -s "$TMP" ] || s_notify_exit "critical" "No usb found" "No usb were found, try again!"
 
 getoption() { dmenu -i -l 10 -p "Select Usb: " < "$TMP" ; }
 
@@ -36,33 +43,33 @@ getlocation() {
 
 mountDisk() {
     sed -i '/\//d' "$TMP" 
-    [ -s "$TMP" ] || terminate "critical" "No usb found to mount!"
+    [ -s "$TMP" ] || s_notify_exit "critical" "No usb found to mount!"
     OPTION="$(getoption)"
     [ -z "$OPTION" ] && exit 1
     LOC="$(getlocation)"
     DM="$(getdisk)"
     # Check if dir is empty (make sure you don't mount on something existing)
-    cd "$LOC" || terminate "critical" "Cannot change directory to\n$LOC"
-    [ "$(ls | wc -l)" = "0" ] || terminate "critical" "Cannot mount" "Cannot mount on \n$LOC \nThere are files"
+    cd "$LOC" || s_notify_exit "critical" "Cannot change directory to\n$LOC"
+    [ "$(ls | wc -l)" = "0" ] || s_notify_exit "critical" "Cannot mount" "Cannot mount on \n$LOC \nThere are files"
     if sudo -A mount "$DM" "$LOC"; then
-        terminate "normal" "Success" "Usb mounted on\n$LOC"
+        s_notify_exit "normal" "Success" "Usb mounted on\n$LOC"
     else
-        terminate "critical" "Usb cannot be mounted, run in terminal to get more output"
+        s_notify_exit "critical" "Usb cannot be mounted, run in terminal to get more output"
     fi
 }
 
 unmountDisk() {
     sed -i '/\//!d' "$TMP"
-    [ -s "$TMP" ] || terminate "critical" "No usb found to unmount!"
+    [ -s "$TMP" ] || s_notify_exit "critical" "No usb found to unmount!"
     OPTION="$(getoption)"
     [ -z "$OPTION" ] && exit 1
     LOC="$(getlocation)"
     DM="$(getdisk)"
     if sudo -A umount "$DM"; then
         rm -r "$LOC" 
-        terminate "normal" "Success" "Usb unmounted succesfully"
+        s_notify_exit "normal" "Success" "Usb unmounted succesfully"
     else
-        terminate "critical" "Usb cannot be unmounted, run in terminal to get more output"
+        s_notify_exit "critical" "Usb cannot be unmounted, run in terminal to get more output"
     fi
 }
 

@@ -6,22 +6,30 @@
 # and add it in the current directory that this will run
 #
 
-terminate() { printf "%s\n" "rmlk: $1" && exit 1 ; }
+# Get helper script
+SHELPER="$HOME/.local/bin/shelper"
+if [ -f "$SHELPER" ]; then
+    # shellcheck disable=SC1090,SC1091
+    . "$SHELPER"
+else
+    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1
+fi
+
 file="$1"
-[ -z "$file" ] && terminate "No file provided"
+[ -z "$file" ] && s_err "No file provided"
 if [ "$#" -gt 1 ]; then
     printf "%s\n" "$@" | xargs -I {} rmlk '{}'
     exit 1
 fi
-[ -f "$file" ] || terminate "File \"$file\" does not exists"
+[ -f "$file" ] || s_err "File \"$file\" does not exists"
 test "${file#*"/"}" != "$file" &&
-    terminate "Please go into the directory, then remove the file ($file)"
+    s_err "Please go into the directory, then remove the file ($file)"
 fileStatus=$(file "$file")
 test "${fileStatus#*"symbolic link"}" != "$fileStatus" ||
-    terminate "File \"$1\" is not a symbolic link"
+    s_err "File \"$1\" is not a symbolic link"
 dotfiles="$HOME/Dev/dotfiles"
 test "${fileStatus#*$dotfiles}" != "$fileStatus" || 
-    terminate "This symbolic link is not in dotfiles directory:\n$dotfiles"
+    s_err "This symbolic link is not in dotfiles directory:\n$dotfiles"
 symLinkPath="/${fileStatus#*/}"
 rm "$file"
 mv "$symLinkPath" "$(pwd)"

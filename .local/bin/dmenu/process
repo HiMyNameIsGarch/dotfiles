@@ -1,5 +1,14 @@
 #!/bin/sh
 
+# Get helper script
+SHELPER="$HOME/.local/bin/shelper"
+if [ -f "$SHELPER" ]; then
+    # shellcheck disable=SC1090,SC1091
+    . "$SHELPER"
+else
+    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1
+fi
+
 options="shutdown
 reboot
 lock screen"
@@ -7,9 +16,6 @@ lock screen"
 choice=$(printf "%s" "$options" | dmenu -i -p "Choose:")
 [ -z "$choice" ] && exit 1
 [ "$(printf "Yes\nNo" | dmenu -i -p "Are you sure?")" = "Yes" ] || exit 1
-
-notify() { notify-send "Doom Guy says" "$1" ; }
-notifyExit() { notify-send --urgency=critical "$1" "$2" && exit 1 ; }
 
 checkDisks() {
     MOUNTEDDISKS="$(mount | tail -n1 | grep "^/dev/sd.*")"
@@ -28,13 +34,13 @@ logSysShutdown() {
 }
 shutDown() {
     logSysShutdown "shutdown"
-    notify "God Rested On The Seventh Day" &
+    s_notify "Doom Guy says" "God Rested On The Seventh Day" &
     sleep $SLEEPNUM
     shutdown now
 }
 rebootSys(){
     logSysShutdown "reboot"
-    notify "Don't Leave That Plasma Cutter Running" &
+    s_notify "Doom Guy says" "Don't Leave That Plasma Cutter Running" &
     sleep $SLEEPNUM
     shutdown -r now
 }
@@ -43,13 +49,13 @@ option() { printf "%s" "$options" | sed "$1q;d" ; }
 case $choice in 
     "$(option 1)") 
         checkDisks || 
-            notifyExit "Mounted Disks detected!" "You can't shutdown because you have mounted disks!"
+            s_notify_exit "critical"  "Mounted Disks detected!" "You can't shutdown because you have mounted disks!"
         shutDown ;;
     "$(option 2)") 
         checkDisks || 
-            notifyExit "Mounted Disks detected!" "You can't reboot because you have mounted disks!"
+            s_notify_exit "critical"  "Mounted Disks detected!" "You can't reboot because you have mounted disks!"
         rebootSys ;;
-    "$(option 3)") notify "Your screen will be locked" ; i3lock-fancy ;;
+    "$(option 3)") s_notify "Doom Guy says" "Your screen will be locked" ; i3lock-fancy ;;
     *) exit 1 ;; 
 esac
 

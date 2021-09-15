@@ -9,8 +9,7 @@ if [ -f "$SHELPER" ]; then
     # shellcheck disable=SC1090,SC1091
     . "$SHELPER"
 else
-    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"
-    exit 1
+    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1
 fi
 file="$1"
 [ -z "$file" ] && s_err "Cannot create empty file!"

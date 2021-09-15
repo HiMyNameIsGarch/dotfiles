@@ -13,15 +13,22 @@ helpmenu() {
     echo "  status   - to give some status about your bindings from your config."
     echo "  key      - to see if a key is available to map, if not will display the maps you already have."
 }
+# Get helper script
+SHELPER="$HOME/.local/bin/shelper"
+if [ -f "$SHELPER" ]; then
+    # shellcheck disable=SC1090,SC1091
+    . "$SHELPER"
+else
+    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1
+fi
 
-error() { printf 'error: %s\n' "$1" && exit 1 ; }
 CLEAN="cleanup"
 getkeys() { grep -oP '^\s*\{\s*[a-zA-Z0].*\}\,' "$1" | grep -v 'NULL\|Clk\| KEY,' > "$2" ; }
 
 mddwm(){
     # select the relevant keys
     getkeys "$FILE" "$CLEAN"
-    [ -s "$CLEAN" ] || error "No keys found!"
+    [ -s "$CLEAN" ] || s_err "No keys found!"
     # clean up
     sed -i -r 's/(^\s*\{\s*)|((\"\)|\s*\})?\s*\}\,?\s*$)|(Mask|KEY|MOD,)|([A-Z0-9]*XK_)|(SHCMD\(\"?)|((\s\"))|(\{0\})|(\{\s*\.[iufv]+\s*=\s*&?)//g; s/\s\s*/ /g; s/MOD/Super/g; s/ALT/Alt/g; s/\|/ + /g; s/^0\,\s*//g' "$CLEAN"
     # get commands
@@ -61,18 +68,18 @@ mddwm(){
     done < "$CLEAN"
     # remove unnecesarry files and display message
     rm "$CLEAN" "$LAYOUTS"
-    echo Done! Markdown written in "$RESULT"
+    echo "Done! Markdown written in $RESULT"
 }
 
 keydwm() {
-    [ -z "$1" ] && error "No key provided"
+    [ -z "$1" ] && s_err "No key provided"
     # get relevant keys
     getkeys "$FILE" "$CLEAN"
-    [ -s "$CLEAN" ] || error "No keys found!"
+    [ -s "$CLEAN" ] || s_err "No keys found!"
     # get keys with input from the user
     MKEYS="matched_keys"
     grep "XK_$1," "$CLEAN" > "$MKEYS"
-    [ -s "$MKEYS" ] || error "You have no mapped keys!"
+    [ -s "$MKEYS" ] || s_err "You have no mapped keys!"
     # clean up
     sed -i -r 's/(^\s*\{\s*)|([a-zA-Z0-9]+_)|(KEY|Mask)|\s*\}\,?$//g; s/\s\s*/ /g; s/MOD/Super/g; s/\|/ + /g' "$MKEYS"
     # display keys
@@ -91,7 +98,7 @@ printkeys() {
 
 statdwm() {
     getkeys "$FILE" "$CLEAN"
-    [ -s "$CLEAN" ] || error "No keys found!"
+    [ -s "$CLEAN" ] || s_err "No keys found!"
     NCLEAN="newclean"
     # get the current keys
     grep -oP '\S\s[a-zA-Z0-9|_]+\,\s*[a-zA-Z0-9_,]+' "$CLEAN" > "$NCLEAN"
@@ -110,17 +117,17 @@ statdwm() {
 }
 
 checkdwm(){
-    [ ! -f "$FILE" ] && error "File '$FILE' is invalid!"
+    [ ! -f "$FILE" ] && s_err "File '$FILE' is invalid!"
     case $1 in 
         markdown | md) mddwm  "$2" ;;
         status   | s)  statdwm ;;
         key      | k)  keydwm "$2" ;;
-        *) error "You must provide an argument for the file! Type 'rice help' to get more information!"
+        *) s_err "You must provide an argument for the file! Type 'rice help' to get more information!"
     esac
 }
 FILE="$1"
 case $1 in
     help | h) helpmenu ;;
     *.h) checkdwm "$2" "$3" "$4";;
-    *) error "File '$1' is invalid" ;;
+    *) s_err "File '$1' is invalid" ;;
 esac
