@@ -10,14 +10,11 @@ helpmenu() {
     echo "  add   - to add a new word in dictionary."
     echo "  edit  - to edit the dictionary file."
 }
+
 # Get helper script
-SHELPER="$HOME/.local/bin/shelper"
-if [ -f "$SHELPER" ]; then
-    # shellcheck disable=SC1090,SC1091
-    . "$SHELPER"
-else
-    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1
-fi
+# shellcheck disable=SC1090,SC1091
+if [ -f "$SHELPER" ]; then . "$SHELPER"; else
+    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1; fi
 
 BASEDIR="$HOME/Media/Data/dict" # overwrite this location
 BDICT="$BASEDIR/dictionary"

@@ -3,13 +3,9 @@
 # Sites, a dmenu script to open your favourite sites with less effort
 
 # Get helper script
-SHELPER="$HOME/.local/bin/shelper"
-if [ -f "$SHELPER" ]; then
-    # shellcheck disable=SC1090,SC1091
-    . "$SHELPER"
-else
-    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1
-fi
+# shellcheck disable=SC1090,SC1091
+if [ -f "$SHELPER" ]; then . "$SHELPER"; else
+    notify-send -u critical "Error" "Cannot source helper script!"; exit 1; fi
 
 # Check if sites file exists
 SITESFILE="$HOME/Media/Data/sites" # Replace this with your path to sites file

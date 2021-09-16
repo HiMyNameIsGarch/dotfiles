@@ -2,6 +2,7 @@
 
 export EDITOR="nvim"
 export BROWSER="librewolf"
+export SHELPER="$HOME/.local/bin/shelper"
 
 export XDG_DATA_HOME="$HOME/.local/share"
 export PATH=${PATH}:${XDG_DATA_HOME}/npm/bin:${HOME}/.local/bin:${HOME}/.local/bin/dmenu:${HOME}/.local/bin/dwm-bar:/usr/share/bin

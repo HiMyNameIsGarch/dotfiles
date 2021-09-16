@@ -1,14 +1,9 @@
 #!/bin/sh
 
-# Get script helper
-SHELPER="$HOME/.local/bin/shelper"
-if [ -f "$SHELPER" ]; then
-    # shellcheck disable=SC1090,SC1091
-    . "$SHELPER"
-else
-    notify-send -u critical "Error" "Cannot source helper script!"
-    exit 1
-fi
+# Get helper script
+# shellcheck disable=SC1090,SC1091
+if [ -f "$SHELPER" ]; then . "$SHELPER"; else
+    notify-send -u critical "Error" "Cannot source helper script!"; exit 1; fi
 
 configs="qutebrowser $HOME/.config/qutebrowser/config.py
 quickmarks $HOME/.config/qutebrowser/quickmarks
