@@ -3,9 +3,14 @@
 NUM="${2:-5}"
 mixerSet() { amixer sset Master "$1" ;}
 
+notifyVolume() {
+    VOLUME="$(amixer -D default -M get Master | grep -oP "\d{1,3}(?=\%\])" | sed '1d')"
+    notify-send "Volume now at: $VOLUME%" -h int:value:"$VOLUME" -h string:synchronous:"-"
+}
+
 case "$1" in 
     toggle) mixerSet "toggle" ;;
     mute) mixerSet "mute" ;;
-    up) mixerSet "$NUM%+" ;;
-    down) mixerSet "$NUM%-" ;;
+    up) mixerSet "$NUM%+"; notifyVolume ;;
+    down) mixerSet "$NUM%-"; notifyVolume ;;
 esac >/dev/null 
