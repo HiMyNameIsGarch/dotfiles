@@ -41,7 +41,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim', { 'do': 'make' }
 " Preview some markdown files 
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-" Pairs
+" Pair
 Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
