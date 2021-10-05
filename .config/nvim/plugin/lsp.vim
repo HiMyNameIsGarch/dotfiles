@@ -1,9 +1,17 @@
 " Language servers
 lua << EOF
+
     require'lspconfig'.tsserver.setup{}
     require'lspconfig'.vuels.setup{}
     require'lspconfig'.vimls.setup{}
     require'lspconfig'.bashls.setup{}
+
+    -- OmniSharp
+    local pid = vim.fn.getpid()
+    local omnisharp_bin = "/home/himynameisgarch/.local/share/nvim/omnisharp/run"
+    require'lspconfig'.omnisharp.setup{
+        cmd = { omnisharp_bin, "--languageserver", "hostPID", tostring(pid) };
+    }
 
 EOF
 
