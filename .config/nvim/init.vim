@@ -31,7 +31,9 @@ Plug 'gruvbox-community/gruvbox'
 " Language server protocol
 Plug 'neovim/nvim-lspconfig' 
 " Completion
-Plug 'nvim-lua/completion-nvim'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/nvim-cmp'
 " Tree-sitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 " Telescope to see files better

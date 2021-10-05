@@ -1,1 +1,15 @@
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+" Config for cmp plugin
+lua << EOF
+
+local cmp = require('cmp')
+
+cmp.setup({
+  sources = {
+    { name = 'buffer' },
+    { name = 'nvim_lsp' },
+    { name = 'treesitter' },
+    { name = 'tags' },
+  },
+})
+
+EOF
