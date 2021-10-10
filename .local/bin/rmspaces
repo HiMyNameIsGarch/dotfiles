@@ -1,21 +1,22 @@
 #!/bin/bash
 
-files=""
-rnm() { mv "$1" "$(echo "$1" | sed 's/\s\s*/-/g')" ; }
+rnm() { mv "$1" "$(echo "$1" | sed -r 's/\s+/-/g; s/\-+/-/g')" ; }
+
 help-menu(){
     echo rmspaces - Remove spaces from files/directory names.
     echo 
     echo Options: 
-    echo f - all the files.
-    echo d - all directories.
-    echo r - recursevly all the elements.
-    echo e - all elements.
+    echo f - all the files in this directory.
+    echo d - all directories in this directory.
+    echo r - recursevly all the elements from this directory.
+    echo e - all elements in this directory.
 }
+
 case $1 in
-    f) files="$(find . -name "* *" -type f)" ;;
-    d) files="$(find . -name "* *" -type d)" ;;
+    f) files="$(find . -maxdepth 1 -name "* *" -type f)" ;;
+    d) files="$(find . -maxdepth 1 -name "* *" -type d)" ;;
+    e) files="$(find . -maxdepth 1 -name "* *")" ;;
     r) files="$(find . -name "* *")" ;;
-    e) for file in *\ *; do rnm "$file"; done ; exit 1 ;;
     help | h | *) help-menu  && exit 1;;
 esac
 [ -z "$files" ] && echo No elements were found! && exit 1
