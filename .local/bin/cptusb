@@ -5,20 +5,26 @@
 # copy over his USB will fit in
 #
 
+[ $# -lt "2" ] && s_err "Not enough parameters" 
+
 # Get helper script
 # shellcheck disable=SC1090,SC1091
 if [ -f "$SHELPER" ]; then . "$SHELPER"; else
     printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1; fi
 
-[ $# -lt "2" ] && s_err "Not enough parameters" 
-
 files="$*"
 MPoint="${files##* }"
 
+BASEPATH="$HOME/Media/Devices/"
+MPoint="$(echo "$MPoint" | grep -oP "sd[a-z][1-9](\/.*)*")"
+[ -z "$MPoint" ] && s_err "Invalid USB mount point: ${files##* }"
+MPoint="$BASEPATH${MPoint%/}"
+SMP="$(echo "$MPoint" | grep -oP "sd[a-z][1-9]" | head -n1)"
+
 # check if the mount point exists and if it is mounted
-[ ! -d "$MPoint" ] && s_err "$MPoint does not exists".
-[ -z "$(lsblk | grep "$MPoint")" ] &&
-    s_err "$MPoint is not mounted! Try again!"
+[ ! -d "$MPoint" ] && s_err "Mount point: $MPoint does not exists".
+[ -z "$(lsblk | grep "$SMP$")" ] &&
+    s_err "No disk mounted on $SMP! Try again!"
 
 files="${files% *}" # remove last argument(mount point)
 fileStatus=$(file $files)
@@ -26,8 +32,8 @@ test "${fileStatus#*"No such file"}" != "$fileStatus" &&
     s_err "$(printf "%s" "$fileStatus" | grep "No such file")"
 
 # take the spaces from usb and files
-usbFree=$(df | grep $MPoint | awk '{ print $4 }')
-fileSize=$(du -sc $files | grep total | awk '{ print $1} ')
+usbFree=$(df | awk " /$SMP\$/ {print \$4}")
+fileSize=$(du -sc $files | awk '/total/ {print $1}')
 
 convertB() { printf "%s" "$1" | awk '{print $1/1024/1024 " GB "}' ; }
 
@@ -40,6 +46,6 @@ Usb: $(convertB "$usbFree")"
 notify() { sudo -u himynameisgarch DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus notify-send --urgency="$1" "$2" "$3" ; }
 
 # g flag is for graphical output (you can remove it if you don't have that option)
-cp -gr $files $MPoint && 
+sudo cp -gr $files $MPoint && 
     notify normal "Doom Guy says:" "Your files has been copied succesfully\nYou can unmount your usb now" && exit 1
 notify critical "Doom Guy says:" "Your files couldn't be copied"
