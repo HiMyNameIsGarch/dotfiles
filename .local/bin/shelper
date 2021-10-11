@@ -5,6 +5,17 @@
 
 #            ! Source it in order to have access to the functions !           #
 
+# Colors for terminal output
+nc="\033[0m"
+black="\033[30m"
+red="\033[0;31m"
+green="\033[0;32m"
+orange="\033[0;33m"
+blue="\033[0;34m"
+purple="\033[0;35m"
+cyan="\033[0;36m"
+lgray="\033[0;37m"
+
 # Notifications
 s_notify() { # Just add a notification
     # shellcheck disable=SC2068
@@ -19,11 +30,6 @@ s_notify() { # Just add a notification
 s_notify_exit() {
     s_notify "$@" && exit 1
 }
-
-# Colors for terminal output
-red="\033[0;31m"
-orange="\033[0;33m"
-nc="\033[0m"
 
 # Print information from the current script
 s_err() { # Print an error than exit
