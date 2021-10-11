@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# Get helper script
+# shellcheck disable=SC1090,SC1091
+if [ -f "$SHELPER" ]; then . "$SHELPER"; else
+    printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1; fi
+
+# Colors
+blue="\033[0;34m"
+green="\033[0;32m"
+nc="\033[0;m"
+
+# Functions to print with colors
+printi() { printf "$blue***  %s   ***$nc\n" "$1"; }
+prints() { printf "$green***  %s   ***$nc\n" "$1"; }
+
+printi "Remove the current droidcam:"
+# shellcheck disable=SC2046
+if [ $(sudo /opt/droidcam-uninstall) ]; then
+    prints "Droidcam removed succesfully"
+else
+    s_err "Cannot remove droidcam, exiting"
+fi
+
+installDroidCam() {
+    printi "Going in /tmp directory"
+    cd /tmp/ || return 0
+
+    printi "Getting the zip"
+    if wget -O droidcam_latest.zip https://files.dev47apps.net/linux/droidcam_1.8.0.zip ; then
+        prints "Done"
+    else
+        s_err "Cannot get the zip file"
+    fi
+
+    printi "Unziping the archive" 
+    # shellcheck disable=SC2046
+    if [ $(unzip droidcam_latest.zip -d droidcam) ]; then
+        prints "Done"
+    else
+        s_err "Cannot unzip the archive"
+    fi
+
+    printi "Going in droidcam folder"
+    cd droidcam || return 0
+
+    printi "Installing the main client" 
+    # shellcheck disable=SC2046
+    if [ $(sudo ./install-client) ]; then
+        prints "Done"
+    else
+        s_err "Cannot install the client"
+    fi
+
+    printi "Installing video" 
+    # shellcheck disable=SC2046
+    if [ $(sudo ./install-video) ]; then
+        prints "Done"
+    else
+        s_err "Cannot install video client"
+    fi
+}
+
+printi "Begin the new installation"
+installDroidCam || 
+    s_err "Cannot reinstall droidcam, you can install it manually from here: https://www.dev47apps.com/droidcam/linux/"
+
+prints "Success, now you can use your Droidcam"
