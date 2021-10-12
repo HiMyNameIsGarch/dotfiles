@@ -5,13 +5,14 @@
 if [ -f "$SHELPER" ]; then . "$SHELPER"; else
     printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1; fi
 
-# Functions to print with colors
+# Functions to print with colors(the colors are from SHELPER script)
+# shellcheck disable=SC2154
 printi() { printf "$blue***  %s   ***$nc\n" "$1"; }
+# shellcheck disable=SC2154
 prints() { printf "$green***  %s   ***$nc\n" "$1"; }
 
 printi "Remove the current droidcam:"
-# shellcheck disable=SC2046
-if [ $(sudo /opt/droidcam-uninstall) ]; then
+if sudo /opt/droidcam-uninstall; then
     prints "Droidcam removed succesfully"
 else
     s_err "Cannot remove droidcam, exiting"
@@ -29,8 +30,7 @@ installDroidCam() {
     fi
 
     printi "Unziping the archive" 
-    # shellcheck disable=SC2046
-    if [ $(unzip droidcam_latest.zip -d droidcam) ]; then
+    if unzip droidcam_latest.zip -d droidcam; then
         prints "Done"
     else
         s_err "Cannot unzip the archive"
@@ -40,16 +40,14 @@ installDroidCam() {
     cd droidcam || return 0
 
     printi "Installing the main client" 
-    # shellcheck disable=SC2046
-    if [ $(sudo ./install-client) ]; then
+    if sudo ./install-client; then
         prints "Done"
     else
         s_err "Cannot install the client"
     fi
 
     printi "Installing video" 
-    # shellcheck disable=SC2046
-    if [ $(sudo ./install-video) ]; then
+    if sudo ./install-video; then
         prints "Done"
     else
         s_err "Cannot install video client"
