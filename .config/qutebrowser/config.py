@@ -125,9 +125,8 @@ config.set("colors.webpage.darkmode.enabled",True)
 #default search engines
 c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}',
         'aw': 'https://wiki.archlinux.org/?search={}',
-        'gg': 'https://www.google.com/search?q={}',
         'sr': 'https://www.reddit.com/r/{}',
-        'wiki': 'https://en.wikipedia.org/wiki/{}',
+        'wk': 'https://en.wikipedia.org/wiki/{}',
         'yt': 'https://www.youtube.com/results?search_query={}',
         'gr': 'https://www.github.com/HiMyNameIsGarch/{}',
         'dex':"https://dexonline.ro/definitie/{}",
@@ -140,20 +139,23 @@ c.downloads.location.directory = '~/Downloads'
 # Bindings
 config.bind('M', 'hint links spawn mpv {hint-url}')
 config.bind('Z', 'hint links spawn alacritty -e youtube-dl {hint-url}')
+# Move through completion items more easy
+config.bind('<Ctrl-n>', 'completion-item-focus next', mode='command')
+config.bind('<Ctrl-p>', 'completion-item-focus prev', mode='command')
 
 # Type: List of Font, or Font
 c.fonts.default_family = '"SauceCodePro Nerd Font"'
 
 # Type: String
-c.fonts.default_size = '11pt'
+c.fonts.default_size = '12pt'
 
 # Font used in the completion widget.
 # Type: Font
-c.fonts.completion.entry = '11pt "SauceCodePro Nerd Font"'
+c.fonts.completion.entry = '12pt "SauceCodePro Nerd Font"'
 
 # Font used for the debugging console.
 # Type: Font
-c.fonts.debug_console = '11pt "SauceCodePro Nerd Font"'
+c.fonts.debug_console = '12pt "SauceCodePro Nerd Font"'
 
 # Font used for prompts.
 # Type: Font
@@ -161,7 +163,7 @@ c.fonts.prompts = 'default_size sans-serif'
 
 # Font used in the statusbar.
 # Type: Font
-c.fonts.statusbar = '11pt "SauceCodePro Nerd Font"'
+c.fonts.statusbar = '12pt "SauceCodePro Nerd Font"'
 
 # base16-qutebrowser (https://github.com/theova/base16-qutebrowser)
 # Base16 qutebrowser template by theova
