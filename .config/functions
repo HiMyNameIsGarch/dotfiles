@@ -40,6 +40,38 @@ extract() {
 fi
 }
 
+db() { # Directory Browser 
+    while [ : ]; do # use Ctrl-C to quit || select "." to go back one dir
+        current_dir="$(find . -maxdepth 1 -type d | sed -r 's/\.\///g' | fzf)"
+        [ -z "$current_dir" ] && break
+        [ "$current_dir" = "." ] && current_dir=".."
+        cd "$current_dir"
+    done
+    ls
+}
+
+isprime() {
+    #storing the number to be checked
+    number=$1
+    i=2
+    #flag variable
+    f=0
+    
+    #running a loop from 2 to number/2
+    while test $i -le $(expr $number / $i); do
+    
+        #checking if i is factor of number
+        test $(expr $number % $i) -eq 0 && f=1
+    
+        #increment the loop variable
+        i=$(expr $i + 1)
+
+    done
+    test $f -eq 1 && 
+        echo -e "\e[31m$number is Not Prime" || 
+        echo -e "\e[32m$number is Prime"
+}
+
 # Play youtube playlist with mpv
 yplay() {
     [ -z "$1" ] && echo "Please provide a playlist in order to continue..." && return 1
@@ -55,7 +87,6 @@ yplay() {
 bangers() {
     mpv "https://youtube.com/playlist?list=PLm323Lc7iSW9oSIDihesMJXmMNfh8U59k" --no-video --shuffle
 }
-# DOOM 
 doom() {
     mpv "https://youtube.com/playlist?list=PL9qahmMHuxzSpTHbPNJfLlLN1HpzKNH2A" --no-video
 }
@@ -66,7 +97,7 @@ mkd() {
     cd "$1"
 }
 
-# Find aliases more easy
+# find aliases more easy
 aliases() {
     alias | grep "$1"
 }
