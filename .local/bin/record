@@ -24,8 +24,8 @@ esac
 # grab last argument, the file name
 A="$*"
 LAST_ARG="${A##* }"
-if  test "$LAST_ARG" = "mic" || test "$LAST_ARG" = "desktop"; then
-    echo "Please, provide a file name for the record!"
+if  test "$LAST_ARG" = "mic" || test "$LAST_ARG" = "desktop" || test "$LAST_ARG" = ""; then
+    echo "Please, provide a file name to start recording!"
     exit 1
 fi
 # Values
