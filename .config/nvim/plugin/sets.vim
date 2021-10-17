@@ -9,6 +9,7 @@ set shiftwidth=4
 set expandtab
 set nowrap
 set nu
+set hidden
 set smartcase
 set noswapfile
 set nobackup
