@@ -1,0 +1,48 @@
+#!/bin/sh
+
+help_menu() {
+    surround "Install Garch's system configuration and programs."
+    echo ""
+    echo "Usage: install <option>"
+    echo ""
+    echo "Options:"
+    echo "    full      - Install full system ( programs + configs )"
+    echo "    programs  - Install only programs"
+    echo "    configs   - Install only configs"
+}
+
+surround() {
+    # Prepare lengths for the surround characters
+    TEXT_LENGTH="${#1}"
+    WIDE_CHARS="$(( TEXT_LENGTH + 10 ))" # Tabs ( 2 * 4 ) + Margins ( 2 * 1 )
+    # Build the front and bottom lines
+    i=0
+    while [ "$i" -ne  "$WIDE_CHARS" ]; do
+        i="$(( i + 1 ))"
+        BAR="$BAR="
+    done
+    # Display the text surrounded
+    echo "$BAR"
+    echo "|    $1    |"
+    echo "$BAR"
+}
+
+full_install() {
+    surround beggining full install...
+}
+
+configs_install() {
+    surround beggining configs install 
+}
+
+programs_install() {
+    surround beggining programs install
+}
+
+case $1 in 
+    help | h) help_menu && exit 1;;
+    full) full_install ;;
+    programs) programs_install ;;
+    configs) configs_install ;;
+    *) surround "Invalid choice, run 'install help' to see options" && exit 1 ;;
+esac
