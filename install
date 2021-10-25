@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# Usefull functions for the install
 surround() {
     COLOR="$2"
     case $COLOR in 
@@ -23,8 +24,14 @@ surround() {
     printf "%s\n" "$BAR"
 }
 
+create_backup() {
+    [ -d "$HOME/.$1" ] && sudo mkdir -p /etc/backup/"$1" && 
+        sudo mv "$HOME/.$1/" "/etc/backup/$1"
+}
+
 error() { surround "$1" "error" ; exit 1 ; }
 
+# Presentation prompt
 surround "Install Garch's system configuration and programs." "warn"
 surround "It's recommended to run this script on a base install of Arch based distro!" "warn"
 surround "If you find any bugs please make an issue". "warn"
@@ -37,15 +44,14 @@ case $RESPONSE in
     *) exit 1 ;;
 esac
 
+# Main functions
 install_programs() {
     surround "Syncing the repos"
     sudo pacman --noconfirm -Sy || error "Cannot syncing the repos"
     surround "Installing necessary packages"
-    sudo pacman --needed -S - < pkgs.txt || error "Cannot install packages"
+    sudo cat pkgs.txt | sudo pacman --needed -S - || error "Cannot install packages"
     surround "Programs installed succesfully" "success"
 }
-
-#install_programs || error "Error installing programs!"
 
 compile_programs() {
     surround "Clonning dwm repo"
@@ -73,13 +79,6 @@ compile_programs() {
 
     # Compile yay
     surround "All the programs compiled succesfully" "success"
-}
-
-compile_programs || error "Error while compilling programs!"
-
-create_backup() {
-    [ -d "$HOME/.$1" ] && sudo mkdir -p /etc/backup/"$1" && 
-        sudo mv "$HOME/.$1/" "/etc/backup/$1"
 }
 
 install_configs() {
@@ -110,16 +109,31 @@ install_configs() {
     surround "Success creating the configuration files." "success"
 }
 
-install_configs || error "Error installing configuration files."
-
 # Make some additional changes to the system to work properly
 make_configs() {
     surround "Change zsh to default shell"
     sudo usermod --shell /usr/bin/zsh "$USER" || error "Cannot change default shell"
     surround "Source the profile file in .xprofile file"
+    # Final step
 }
 
-make_configs || error "Cannot make modification to system"
+# Ask the user for a reboot in order the changes to take effect
+reboot_time() {
+    surround "Success, your system is ready to rock" "success"
+    surround "But you need to reboot in order the changes to take effect" "success"
+    surround "It will be the last reboot you need to do!" "success"
+    printf '\n%s' "Reboot? (y/n): "
+    read -r RES
+    case $RES in
+        [yY]* ) echo "Wise move!" ; echo reboot ;;
+        *) echo "To bad man..." && exit 1 ;;
+    esac
+}
 
-# Final step
+# Call all the functions to begin the installation
+install_programs || error "Error installing programs!"
+compile_programs || error "Error while compilling programs!"
+install_configs || error "Error installing configuration files."
+make_configs || error "Cannot make modification to system"
 # Ask for reboot for changes to take effect
+reboot_time || error "Cannot reboot"
