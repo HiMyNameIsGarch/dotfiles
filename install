@@ -30,11 +30,10 @@ surround "It's recommended to run this script on a base install of Arch based di
 surround "If you find any bugs please make an issue". "warn"
 surround "TIP: To download programs faster, please enable parallel downloads" "warn"
 printf '\n\n%s' "Continue installation? (y/n): "
-read -r -N 1 RESPONSE
-printf '\n'
+read -r RESPONSE
 
 case $RESPONSE in 
-    y | Y)  continue ;;
+    [yY]* ) printf '\n' ;;
     *) exit 1 ;;
 esac
 
@@ -48,17 +47,44 @@ install_programs() {
 
 #install_programs || error "Error installing programs!"
 
+compile_programs() {
+    surround "Clonning dwm repo"
+    DWMPATH="$HOME/Dev/dwm"
+    # Make sure dwm folder does not exists
+    [ -d "$DWMPATH" ] && sudo rm -r "$DWMPATH"
+    mkdir -p "$DWMPATH"
+    git clone "https://github.com/HiMyNameIsGarch/dwm" "$DWMPATH" || 
+        error "Cannot clone dwm's repo"
+
+    # Compiling dwm
+    cd "$DWMPATH" || error "Cannot change directory to dwm"
+    surround "Compiling dwm"
+    sudo make clean install || error "Cannot compile dwm"
+
+    # Compiling dwmblocks
+    cd "$DWMPATH/dwmblocks" || error "Cannot change directory to dwmblocks"
+    surround "Compiling dwmblocks"
+    sudo make clean install || error "Cannot compile dwmblocks"
+
+    # Compiling dmenu
+    cd "$DWMPATH/dmenu" || error "Cannot change directory to dmenu"
+    surround "Compiling dmenu"
+    sudo make clean install || "Cannot compile dmenu"
+
+    # Compile yay
+    surround "All the programs compiled succesfully" "success"
+}
+
+compile_programs || error "Error while compilling programs!"
 
 create_backup() {
-    [ -d "$HOME/.$1" ] && sudo mkdir -p /etc/backup/$1 && 
+    [ -d "$HOME/.$1" ] && sudo mkdir -p /etc/backup/"$1" && 
         sudo mv "$HOME/.$1/" "/etc/backup/$1"
 }
 
 install_configs() {
     # TODO
-    # Make zsh default shell
-    # Source the profile file in xprofile script
-    # The configs needs a reboot in order to work properly or just source the profile file
+    # Compile yay
     surround "Beginning config installation"
     [ "$(basename "$PWD")" != "dotfiles" ] && error "Not in dotfiles directory, abording"
     
@@ -78,10 +104,22 @@ install_configs() {
     # Symlink the current config files
     surround "Copy the configuration files"
     find . -type f | sed -r '/.*\.git.*|.*\.\/(README|LICENSE|install).*/d; s/\.\///g' | 
-        xargs -t -I {} ln -s $PWD/{} ~/{} || error "Cannot copy the configuation files"
+        xargs -t -I {} ln -s "$PWD"/{} ~/{} || error "Cannot copy the configuation files"
 
     # Display nice message
     surround "Success creating the configuration files." "success"
 }
 
 install_configs || error "Error installing configuration files."
+
+# Make some additional changes to the system to work properly
+make_configs() {
+    surround "Change zsh to default shell"
+    sudo usermod --shell /usr/bin/zsh "$USER" || error "Cannot change default shell"
+    surround "Source the profile file in .xprofile file"
+}
+
+make_configs || error "Cannot make modification to system"
+
+# Final step
+# Ask for reboot for changes to take effect
