@@ -48,34 +48,40 @@ install_programs() {
 
 #install_programs || error "Error installing programs!"
 
+
+create_backup() {
+    [ -d "$HOME/.$1" ] && sudo mkdir -p /etc/backup/$1 && 
+        sudo mv "$HOME/.$1/" "/etc/backup/$1"
+}
+
 install_configs() {
     # TODO
     # Make zsh default shell
     # Source the profile file in xprofile script
     # The configs needs a reboot in order to work properly or just source the profile file
     surround "Beginning config installation"
-    if [ "$(basename "$PWD")" != "dotfiles" ]; then
-        echo Not in dotfiles directory, abording...
-        exit 1
-    fi
-    echo
-    echo "Recreating the folder structure"
-    echo
+    [ "$(basename "$PWD")" != "dotfiles" ] && error "Not in dotfiles directory, abording"
+    
+    # Create backup folder
+    [ -d "/etc/backup" ] && sudo rm -r /etc/backup ; sudo mkdir -p /etc/backup
+
+    # Backup current configs
+    surround "Backup config folder" ; create_backup "config"
+    surround "Backup vim folder" ; create_backup "vim"
+    surround "Backup local folder" ; create_backup "local"
+
     # Create the same folder structrure
-    if find . -type d | sed -r '/.*(\.git).*|^\.$/d; s/\.\///g' | xargs -t -I {} mkdir -p ~/{}; then
-        echo Success creating the folders
-    else
-        echo Cannot create folders, abording...
-        exit 1
-    fi
-    echo
-    echo "Copy the configuration files"
-    echo
-    if find . -type f | sed -r '/.*\.git.*|.*\.\/(README|LICENSE|install).*/d; s/\.\///g' | xargs -I {} ln -s $PWD/{} ~/{}; then
-        echo Success creating the configuration files.
-    else
-        echo Cannot create config files.
-        exit 1
-    fi
+    surround "Recreating the folder structure"
+    find . -type d | sed -r '/.*(\.git).*|^\.$/d; s/\.\///g' | 
+        xargs -t -I {} mkdir -p ~/{} || error "Cannot create the same folder structure."
+
+    # Symlink the current config files
+    surround "Copy the configuration files"
+    find . -type f | sed -r '/.*\.git.*|.*\.\/(README|LICENSE|install).*/d; s/\.\///g' | 
+        xargs -t -I {} ln -s $PWD/{} ~/{} || error "Cannot copy the configuation files"
+
+    # Display nice message
+    surround "Success creating the configuration files." "success"
 }
-install_configs || error "Error installing configurations."
+
+install_configs || error "Error installing configuration files."
