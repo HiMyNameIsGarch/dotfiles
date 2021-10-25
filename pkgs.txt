@@ -1,0 +1,5 @@
+qutebrowser
+alacritty
+exa
+firefox
+

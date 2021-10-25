@@ -1,48 +1,81 @@
 #!/bin/sh
 
-help_menu() {
-    surround "Install Garch's system configuration and programs."
-    echo ""
-    echo "Usage: install <option>"
-    echo ""
-    echo "Options:"
-    echo "    full      - Install full system ( programs + configs )"
-    echo "    programs  - Install only programs"
-    echo "    configs   - Install only configs"
-}
-
 surround() {
+    COLOR="$2"
+    case $COLOR in 
+        error | err) COLOR="\033[0;31m" ;;
+        success | succ) COLOR="\033[0;32m" ;;
+        warning | warn) COLOR="\033[0;33m" ;;
+    esac
     # Prepare lengths for the surround characters
     TEXT_LENGTH="${#1}"
     WIDE_CHARS="$(( TEXT_LENGTH + 10 ))" # Tabs ( 2 * 4 ) + Margins ( 2 * 1 )
     # Build the front and bottom lines
     i=0
+    BAR=""
     while [ "$i" -ne  "$WIDE_CHARS" ]; do
         i="$(( i + 1 ))"
         BAR="$BAR="
     done
     # Display the text surrounded
-    echo "$BAR"
-    echo "|    $1    |"
-    echo "$BAR"
+    printf "%s\n" "$BAR"
+    printf "|$COLOR%s\033[0m|\n" "    $1    "
+    printf "%s\n" "$BAR"
 }
 
-full_install() {
-    surround beggining full install...
-}
+error() { surround "$1" "error" ; exit 1 ; }
 
-configs_install() {
-    surround beggining configs install 
-}
+surround "Install Garch's system configuration and programs." "warn"
+surround "It's recommended to run this script on a base install of Arch based distro!" "warn"
+surround "If you find any bugs please make an issue". "warn"
+surround "TIP: To download programs faster, please enable parallel downloads" "warn"
+printf '\n\n%s' "Continue installation? (y/n): "
+read -r -N 1 RESPONSE
+printf '\n'
 
-programs_install() {
-    surround beggining programs install
-}
-
-case $1 in 
-    help | h) help_menu && exit 1;;
-    full) full_install ;;
-    programs) programs_install ;;
-    configs) configs_install ;;
-    *) surround "Invalid choice, run 'install help' to see options" && exit 1 ;;
+case $RESPONSE in 
+    y | Y)  continue ;;
+    *) exit 1 ;;
 esac
+
+install_programs() {
+    surround "Syncing the repos"
+    sudo pacman --noconfirm -Sy || error "Cannot syncing the repos"
+    surround "Installing necessary packages"
+    sudo pacman --needed -S - < pkgs.txt || error "Cannot install packages"
+    surround "Programs installed succesfully" "success"
+}
+
+#install_programs || error "Error installing programs!"
+
+install_configs() {
+    # TODO
+    # Make zsh default shell
+    # Source the profile file in xprofile script
+    # The configs needs a reboot in order to work properly or just source the profile file
+    surround "Beginning config installation"
+    if [ "$(basename "$PWD")" != "dotfiles" ]; then
+        echo Not in dotfiles directory, abording...
+        exit 1
+    fi
+    echo
+    echo "Recreating the folder structure"
+    echo
+    # Create the same folder structrure
+    if find . -type d | sed -r '/.*(\.git).*|^\.$/d; s/\.\///g' | xargs -t -I {} mkdir -p ~/{}; then
+        echo Success creating the folders
+    else
+        echo Cannot create folders, abording...
+        exit 1
+    fi
+    echo
+    echo "Copy the configuration files"
+    echo
+    if find . -type f | sed -r '/.*\.git.*|.*\.\/(README|LICENSE|install).*/d; s/\.\///g' | xargs -I {} ln -s $PWD/{} ~/{}; then
+        echo Success creating the configuration files.
+    else
+        echo Cannot create config files.
+        exit 1
+    fi
+}
+install_configs || error "Error installing configurations."
