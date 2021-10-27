@@ -73,9 +73,9 @@ compile_programs() {
     sudo make clean install || error "Cannot compile dwmblocks"
 
     # Compiling dmenu
-    cd "$DWMPATH/dmenu" || error "Cannot change directory to dmenu"
-    surround "Compiling dmenu"
-    sudo make clean install || "Cannot compile dmenu"
+    #cd "$DWMPATH/dmenu" || error "Cannot change directory to dmenu"
+    #surround "Compiling dmenu"
+    #sudo make clean install || "Cannot compile dmenu"
 
     # Compile yay
     surround "All the programs compiled succesfully" "success"
@@ -102,14 +102,30 @@ install_configs() {
 
     # Symlink the current config files
     surround "Copy the configuration files"
-    find . -type f | sed -r '/.*\.git.*|.*\.\/(README|LICENSE|install).*/d; s/\.\///g' | 
-        xargs -t -I {} ln -s "$PWD"/{} ~/{} || error "Cannot copy the configuation files"
+    find . -type f | sed -r '/.*\.git.*|.*\.\/(README|LICENSE|install|pkgs).*/d; s/\.\///g' | 
+        xargs -t -I {} ln -sf "$PWD"/{} ~/{} || error "Cannot copy the configuation files"
 
     surround "Success creating the configuration files." "success"
 }
 
 # Make some additional changes to the system to work properly
 make_configs() {
+    # Fonts
+    surround "Installing fonts"
+    FONTSPATH="$HOME/Dev/nerd-fonts"
+    # Make sure nerd fonts folder does not exists
+    [ -d "$FONTSPATH" ] && sudo rm -r "$FONTSPATH"
+    mkdir -p "$FONTSPATH"
+    surround "Cloning nerd fonts repository"
+    git clone "https://github.com/ryanoasis/nerd-fonts" "$FONTSPATH" || 
+        error "Cannot clone nerd fonts repository"
+
+    # Install fonts
+    surround "Running install fonts script"
+    printf 'AnonymousPro\nUbuntuMono\nRobotoMono\nSauceCodePro\nDejaVuSansMono\n' | 
+        xargs -t -I {} $FONTSPATH/install.sh {} || error "Cannot install fonts"
+
+    # Change default shell
     surround "Change zsh to default shell"
     sudo usermod --shell /usr/bin/zsh "$USER" || error "Cannot change default shell"
 
@@ -128,10 +144,7 @@ make_configs() {
     } >> "$PROFILE"
 
     surround "Starting Lightdm"
-    if [ "$(sudo systemctl is-active lightdm)" != "active" ]; then
-        sudo systemctl start lightdm || error "Cannot start lightdn"
-        sudo systemctl enable lightdm || error "Cannot enable lightdm"
-    fi
+    #sudo systemctl enable lightdm || error "Cannot enable lightdm at startup"
 
     # In order for dwm to work with lightdm you need to create manually an entry
     surround "Creating dwm entry for Lightdm"
