@@ -105,7 +105,6 @@ install_configs() {
     find . -type f | sed -r '/.*\.git.*|.*\.\/(README|LICENSE|install).*/d; s/\.\///g' | 
         xargs -t -I {} ln -s "$PWD"/{} ~/{} || error "Cannot copy the configuation files"
 
-    # Display nice message
     surround "Success creating the configuration files." "success"
 }
 
@@ -113,8 +112,60 @@ install_configs() {
 make_configs() {
     surround "Change zsh to default shell"
     sudo usermod --shell /usr/bin/zsh "$USER" || error "Cannot change default shell"
-    surround "Source the profile file in .xprofile file"
-    # Final step
+
+    # Many env variables are set in profile file, so we need to source it in xprofile
+    surround "Sourcing the profile file in .xprofile file"
+    PROFILE="$HOME/.xprofile"
+    if [ ! -f "$PROFILE" ]; then
+        touch "$PROFILE"
+        chmod +x "$PROFILE"
+        echo -e "#!/bin/sh\n" >> "$PROFILE"
+    fi
+    {
+        echo "profile=\"/home/$USER/.config/profile\" "
+        echo "# shellcheck source=/dev/null "
+        echo "[ -f \"\$profile\" ] && . \"\${profile}\""
+    } >> "$PROFILE"
+
+    surround "Starting Lightdm"
+    if [ "$(sudo systemctl is-active lightdm)" != "active" ]; then
+        sudo systemctl start lightdm || error "Cannot start lightdn"
+        sudo systemctl enable lightdm || error "Cannot enable lightdm"
+    fi
+
+    # In order for dwm to work with lightdm you need to create manually an entry
+    surround "Creating dwm entry for Lightdm"
+    sudo mkdir -p "/usr/share/xsessions" || error "Cannot create folder for xsessions"
+    DWMENTRY="/usr/share/xsessions/dwm.desktop" 
+    sudo touch "$DWMENTRY" || error "Cannot create desktop entry"
+    echo "[Desktop Entry]" | sudo tee "$DWMENTRY" > /dev/null
+    {
+        echo "Encoding=UTF-8"
+        echo "Name=dwm"
+        echo "Comment=Dynamic window manager"
+        echo "Exec=startdwm"
+        echo "Icon=dwm"
+        echo "Type=XSession"
+    } | sudo tee -a "$DWMENTRY" > /dev/null || 
+        error "Cannot create dwm desktop entry"
+
+    # Create a script to start dwm - log the output in a file 
+    surround "Create dwm start script"
+    # Create the folder logs for dwm
+    mkdir -p "$HOME/logs/dwm" || error "Cannot create dwm logs folder"
+    DWMSCRIPT="/usr/local/bin/startdwm"
+    # Put dwm in an infinite loop so when restarting you don't need to login again
+    sudo touch "$DWMSCRIPT" || error "Cannot create dwm start script"
+    echo "#!/bin/sh" | sudo tee "$DWMSCRIPT" > /dev/null
+    {
+        echo "while true; do"
+        echo "    dwm >> /home/$USER/logs/dwm/\$(date +%Y-%m-%d.log)"
+        echo "done"
+    } | sudo tee -a "$DWMSCRIPT" >/dev/null || 
+        error "Cannot create dwm start script"
+    sudo chmod +x "$DWMSCRIPT" || error "Cannot change permission to dwm script"
+
+    surround "Success creating last changes for the system" "success"
 }
 
 # Ask the user for a reboot in order the changes to take effect
@@ -125,7 +176,7 @@ reboot_time() {
     printf '\n%s' "Reboot? (y/n): "
     read -r RES
     case $RES in
-        [yY]* ) echo "Wise move!" ; echo reboot ;;
+        [yY]* ) echo "Wise move!" ; sudo reboot ;;
         *) echo "To bad man..." && exit 1 ;;
     esac
 }
