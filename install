@@ -49,18 +49,19 @@ install_programs() {
     surround "Syncing the repos"
     sudo pacman --noconfirm -Sy || error "Cannot syncing the repos"
     surround "Installing necessary packages"
-    sudo cat pkgs.txt | sudo pacman --needed -S - || error "Cannot install packages"
+    sudo cat pkgs.txt | sudo pacman --noconfirm --needed -S - || 
+        error "Cannot install packages"
     surround "Programs installed succesfully" "success"
 }
 
 compile_programs() {
-    surround "Clonning dwm repo"
+    surround "Clonning dwm repository"
     DWMPATH="$HOME/Dev/dwm"
     # Make sure dwm folder does not exists
     [ -d "$DWMPATH" ] && sudo rm -r "$DWMPATH"
     mkdir -p "$DWMPATH"
     git clone "https://github.com/HiMyNameIsGarch/dwm" "$DWMPATH" || 
-        error "Cannot clone dwm's repo"
+        error "Cannot clone dwm's repository"
 
     # Compiling dwm
     cd "$DWMPATH" || error "Cannot change directory to dwm"
@@ -77,14 +78,25 @@ compile_programs() {
     #surround "Compiling dmenu"
     #sudo make clean install || "Cannot compile dmenu"
 
-    # Compile yay
+    # Compile paru
+    surround "Clonning paru repository"
+    PARUPATH="$HOME/Dev/paru"
+    [ -d "$PARUPATH" ] && sudo rm -r "$PARUPATH"
+    mkdir -p "$PARUPATH"
+    git clone "https://aur.archlinux.org/paru.git" "$PARUPATH" || 
+        error "Cannot clone paru's repository"
+
+    # Compile paru
+    cd "$PARUPATH" || error "Cannot change diretory to paru"
+    surround "Compiling paru"
+    makepkg -si || "Cannot compile paru"
+
     surround "All the programs compiled succesfully" "success"
 }
 
 install_configs() {
-    # TODO
-    # Compile yay
     surround "Beginning config installation"
+
     [ "$(basename "$PWD")" != "dotfiles" ] && error "Not in dotfiles directory, abording"
     
     # Create backup folder
@@ -123,7 +135,7 @@ make_configs() {
     # Install fonts
     surround "Running install fonts script"
     printf 'AnonymousPro\nUbuntuMono\nRobotoMono\nSauceCodePro\nDejaVuSansMono\n' | 
-        xargs -t -I {} $FONTSPATH/install.sh {} || error "Cannot install fonts"
+        xargs -t -I {} "$FONTSPATH"/install.sh {} || error "Cannot install fonts"
 
     # Change default shell
     surround "Change zsh to default shell"
@@ -135,11 +147,10 @@ make_configs() {
     if [ ! -f "$PROFILE" ]; then
         touch "$PROFILE"
         chmod +x "$PROFILE"
-        echo -e "#!/bin/sh\n" >> "$PROFILE"
+        printf '%s\n\n' "#!/bin/sh"
     fi
     {
         echo "profile=\"/home/$USER/.config/profile\" "
-        echo "# shellcheck source=/dev/null "
         echo "[ -f \"\$profile\" ] && . \"\${profile}\""
     } >> "$PROFILE"
 
@@ -169,7 +180,7 @@ make_configs() {
     DWMSCRIPT="/usr/local/bin/startdwm"
     # Put dwm in an infinite loop so when restarting you don't need to login again
     sudo touch "$DWMSCRIPT" || error "Cannot create dwm start script"
-    echo "#!/bin/sh" | sudo tee "$DWMSCRIPT" > /dev/null
+    printf '%s\n\n' "#!/bin/sh" | sudo tee "$DWMSCRIPT" > /dev/null
     {
         echo "while true; do"
         echo "    dwm >> /home/$USER/logs/dwm/\$(date +%Y-%m-%d.log)"
@@ -189,15 +200,15 @@ reboot_time() {
     printf '\n%s' "Reboot? (y/n): "
     read -r RES
     case $RES in
-        [yY]* ) echo "Wise move!" ; sudo reboot ;;
+        [yY]* ) echo "Wise move!" ; sleep 3 ; sudo reboot ;;
         *) echo "To bad man..." && exit 1 ;;
     esac
 }
 
 # Call all the functions to begin the installation
-install_programs || error "Error installing programs!"
-compile_programs || error "Error while compilling programs!"
-install_configs || error "Error installing configuration files."
-make_configs || error "Cannot make modification to system"
+#install_programs || error "Error installing programs!"
+#compile_programs || error "Error while compilling programs!"
+#install_configs || error "Error installing configuration files."
+#make_configs || error "Cannot make modification to system"
 # Ask for reboot for changes to take effect
-reboot_time || error "Cannot reboot"
+#reboot_time || error "Cannot reboot"
