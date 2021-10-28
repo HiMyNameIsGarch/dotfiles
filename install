@@ -120,25 +120,37 @@ install_configs() {
     surround "Success creating the configuration files." "success"
 }
 
+font_install() {
+    URL="$1"
+    [ -z "$URL" ] && surround "Font url is empty" "warning" && return 0
+    FONT_DIR="${2:-font}"
+    FONT_ARCH="$FONT_DIR.zip"
+    sudo mkdir -p "/usr/share/fonts/$FONT_DIR"
+    sudo wget -O "$FONT_ARCH" "$URL" || error "Cannot download $FONT_DIR font!"
+    sudo unzip "$FONT_ARCH" -d "/usr/share/fonts/$FONT_DIR" || 
+        error "Cannot unzip $FONT_DIR archive!"
+    sudo rm "$FONT_ARCH" || surround "Cannot remove $FONT_DIR archive" "warn"
+    surround "Font $FONT_DIR installed succesfully" "success"
+}
+
 # Make some additional changes to the system to work properly
 make_configs() {
     # Fonts
     surround "Installing fonts"
-    FONTSPATH="$HOME/Dev/nerd-fonts"
-    # Make sure nerd fonts folder does not exists
-    [ -d "$FONTSPATH" ] && sudo rm -r "$FONTSPATH"
-    mkdir -p "$FONTSPATH"
-    surround "Cloning nerd fonts repository"
-    git clone "https://github.com/ryanoasis/nerd-fonts" "$FONTSPATH" || 
-        error "Cannot clone nerd fonts repository"
-
-    # Install fonts
-    surround "Running install fonts script"
-    printf 'AnonymousPro\nUbuntuMono\nRobotoMono\nSauceCodePro\nDejaVuSansMono\n' | 
-        xargs -t -I {} "$FONTSPATH"/install.sh {} || error "Cannot install fonts"
+    surround "Installing Anonymous Pro"
+    font_install "https://github-releases.githubusercontent.com/27574418/4108d280-4532-11ea-97cb-84fb3f779d83?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211028%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211028T120115Z&X-Amz-Expires=300&X-Amz-Signature=5f121ab40c2a84e9f7459c9b60e8de5e3b4b37b70ebdbd83f6805762480b7e28&X-Amz-SignedHeaders=host&actor_id=60199981&key_id=0&repo_id=27574418&response-content-disposition=attachment%3B filename%3DAnonymousPro.zip&response-content-type=application%2Foctet-stream" "Anonymous Pro"
+    surround "Installing Ubuntu Mono"
+    font_install "https://github-releases.githubusercontent.com/27574418/bd4de680-452f-11ea-82c6-68daa635b6e8?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211028%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211028T120134Z&X-Amz-Expires=300&X-Amz-Signature=1c0e07fcdf666efc90ba1685d96d3e8bf337fbbd47de96be4ed63428a2563d2f&X-Amz-SignedHeaders=host&actor_id=60199981&key_id=0&repo_id=27574418&response-content-disposition=attachment%3B filename%3DUbuntuMono.zip&response-content-type=application%2Foctet-stream" "Ubuntu Mono"
+    surround "Installing Roboto Mono"
+    font_install "https://github-releases.githubusercontent.com/27574418/c048d700-452f-11ea-84e0-312d33a5ec6f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211028%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211028T120154Z&X-Amz-Expires=300&X-Amz-Signature=e9a153d3a2627c05eb122b291f9adc217bf98bb15b40c0e95a7e76bad4a02931&X-Amz-SignedHeaders=host&actor_id=60199981&key_id=0&repo_id=27574418&response-content-disposition=attachment%3B filename%3DRobotoMono.zip&response-content-type=application%2Foctet-stream" "Roboto Mono"
+    surround "Installing Sauce Code Pro"
+    font_install "https://github-releases.githubusercontent.com/27574418/a6a78f80-452f-11ea-9d8b-14d4d0e7d760?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211028%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211028T120207Z&X-Amz-Expires=300&X-Amz-Signature=93f4343c1b474ff5091f6d4abe0125f0025a40cb137b836d8d5a3d602f480069&X-Amz-SignedHeaders=host&actor_id=60199981&key_id=0&repo_id=27574418&response-content-disposition=attachment%3B filename%3DSourceCodePro.zip&response-content-type=application%2Foctet-stream" "Source Code Pro"
+    surround "Installing DejaVu Sans Mono"
+    font_install "https://github-releases.githubusercontent.com/27574418/9e4f5480-452f-11ea-9ad0-0777f961b1be?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211028%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211028T120227Z&X-Amz-Expires=300&X-Amz-Signature=e51b69b7d63940c2c439976622dea09fb4dc07bea35c89ecee2138e4cf0e9b78&X-Amz-SignedHeaders=host&actor_id=60199981&key_id=0&repo_id=27574418&response-content-disposition=attachment%3B filename%3DDejaVuSansMono.zip&response-content-type=application%2Foctet-stream" "DejaVu Sans Mono"
+    surround "All fonts installed succesfully" "success"
 
     # Change default shell
-    surround "Change zsh to default shell"
+    surround "Change default shell to zsh"
     sudo usermod --shell /usr/bin/zsh "$USER" || error "Cannot change default shell"
 
     # Many env variables are set in profile file, so we need to source it in xprofile
@@ -192,6 +204,12 @@ make_configs() {
     surround "Success creating last changes for the system" "success"
 }
 
+add_themes() {
+    surround "Adding additional themes for some programs"
+    surround "Add lightdm theme"
+    surround "Add grub theme"
+}
+
 # Ask the user for a reboot in order the changes to take effect
 reboot_time() {
     surround "Success, your system is ready to rock" "success"
@@ -206,9 +224,10 @@ reboot_time() {
 }
 
 # Call all the functions to begin the installation
-#install_programs || error "Error installing programs!"
-#compile_programs || error "Error while compilling programs!"
-#install_configs || error "Error installing configuration files."
-#make_configs || error "Cannot make modification to system"
+install_programs || error "Error installing programs"
+install_configs || error "Error installing configuration files"
+compile_programs || error "Error while compilling programs"
+make_configs || error "Cannot make modification to system"
+add_themes || error "Error while installing system themes"
 # Ask for reboot for changes to take effect
-#reboot_time || error "Cannot reboot"
+reboot_time || error "Cannot reboot"
