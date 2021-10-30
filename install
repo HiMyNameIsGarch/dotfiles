@@ -90,6 +90,8 @@ compile_programs() {
     cd "$PARUPATH" || error "Cannot change diretory to paru"
     surround "Compiling paru"
     makepkg -si || "Cannot compile paru"
+    surround "Remove paru's directory"
+    sudo rm -r "$PARUPATH" || surround "Cannot remove paru's directory" "warn"
 
     surround "All the programs compiled succesfully" "success"
 }
@@ -206,19 +208,23 @@ make_configs() {
 
 add_themes() {
     surround "Adding additional themes for some programs"
-    surround "Add lightdm theme"
+    surround "Add Lightdm Webkit Osmos Theme"
     paru -S "lightdm-webkit-theme-osmos" || error "Cannot install lightdm theme"
-    surround "Add grub theme"
+    surround "Add Vimix Grub theme"
     cd "$USER/Dev" || error "Cannot change directory"
     wget "https://dl2.pling.com/api/files/download/j/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE1NzIyNTAzOTIiLCJ1IjpudWxsLCJsdCI6ImRvd25sb2FkIiwicyI6Ijk2ODg1YjJiNDQ5ZDM1NTA4NDhiOTUxMGQ4N2ZiZGRmZmY4ZjE2MzYwM2Q2ZjBiM2FiMmNjNmQ1MWYxMTk5YzAzZjA0OTM1MzAyNzAwMmJhNDFjYmM1ZmFmZTFmM2UxNjNkYTA4NGY2OGVmOWEyYmVkZmI0NTk2NzU5MTk2ZTRiIiwidCI6MTYzNTYwMzM2NCwic3RmcCI6ImZiZTczNDk4M2I0Y2ZiODA2ODEwYWE0OTc4MmM3YjI1Iiwic3RpcCI6Ijc4Ljk3LjU5LjExNCJ9.pbkDktYVJZShTfxSLKxTwZjCzigFdDVs5-FnugwytPU/Vimix-1080p.tar.xz" ||
         error "Cannot download grub theme"
     tar xf "Vimix-1080p.tar.xz" || error "Cannot unzip theme"
     cd "Vimix-1080p" || error "Cannot change directory to theme"
     sudo ./install.sh || error "Cannot install new theme"
+
+    surround "Remove vimix's directory"
+    sudo rm -r "$USER/Dev/Vimix-1080p" || surround "Cannot remove Vimix's directory" "warn"
+
     surround "Themes installed succesfully" "success"
 }
 
-# Ask the user for a reboot in order the changes to take effect
+# Ask the user to reboot in order the changes to take effect
 reboot_time() {
     surround "Success, your system is ready to rock" "success"
     surround "But you need to reboot in order the changes to take effect" "success"
@@ -237,5 +243,5 @@ install_configs || error "Error installing configuration files"
 compile_programs || error "Error while compilling programs"
 make_configs || error "Cannot make modification to system"
 add_themes || error "Error while installing system themes"
-# Ask for reboot for changes to take effect
+# Ask to reboot for changes to take effect
 reboot_time || error "Cannot reboot"
