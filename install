@@ -31,6 +31,9 @@ create_backup() {
 
 error() { surround "$1" "error" ; exit 1 ; }
 
+# Make sure this script isn't run as root
+[ "$(id -u)" = "0" ] && error "Please do not run this script as root!"
+
 # Presentation prompt
 surround "Install Garch's system configuration and programs." "warn"
 surround "It's recommended to run this script on a base install of Arch based distro!" "warn"
