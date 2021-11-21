@@ -12,12 +12,17 @@ help-menu(){
     echo e - all elements in this directory.
 }
 
+[ -z "$1" ] && help-menu && exit 1
+# Allow user to put a directory to remove spaces from 
+CD="$PWD"
+[ -z "$2" ] || CD="$2"
+
 case $1 in
-    f) files="$(find . -maxdepth 1 -name "* *" -type f)" ;;
-    d) files="$(find . -maxdepth 1 -name "* *" -type d)" ;;
-    e) files="$(find . -maxdepth 1 -name "* *")" ;;
-    r) files="$(find . -name "* *")" ;;
-    help | h | *) help-menu  && exit 1;;
+    f) files="$(find "$CD" -maxdepth 1 -name "* *" -type f)" ;;
+    d) files="$(find "$CD" -maxdepth 1 -name "* *" -type d)" ;;
+    e) files="$(find "$CD" -maxdepth 1 -name "* *")" ;;
+    r) files="$(find "$CD" -name "* *")" ;;
+    help | h) help-menu  && exit 1;;
 esac
 [ -z "$files" ] && echo No elements were found! && exit 1
 export -f rnm
