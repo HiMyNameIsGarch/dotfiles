@@ -11,20 +11,22 @@ quickmarks $HOME/.config/qutebrowser/quickmarks
 alacritty $HOME/.config/alacritty/alacritty.yml
 youtube-dl $HOME/.config/youtube-dl/config
 dunst $HOME/.config/dunst/dunstrc
-dwm $HOME/suckless/dwm/config.def.h 
+dwm $HOME/Dev/dwm/config.def.h 
 dwm-autostart $HOME/.local/share/dwm/autostart.sh 
 dwmblocks $HOME/suckless/dwmblocks/blocks.def.h
 bash $HOME/.bashrc 
 zsh $HOME/.config/zsh/.zshrc
 vim $HOME/.vim/vimrc 
 nvim $HOME/.config/nvim/init.vim 
-dmenu $HOME/suckless/dmenu/config.def.h
+dmenu $HOME/Dev/dwm/dmenu/config.def.h
 picom $HOME/.config/picom/picom.conf
 aliases $HOME/.config/aliasrc 
 profile $HOME/.config/profile
 functions $HOME/.config/functions
 sites $HOME/Media/Data/sites
 insults $HOME/Media/Data/insults
+rss-config $HOME/.config/newsboat/config
+rss-urls $HOME/.config/newsboat/urls
 this $HOME/.local/bin/dmenu/confs" # Opens this file
 
 choice=$(printf '%s' "$configs" | dmenu -i -l 10 -p 'Edit config: ' | awk '{print $2}')

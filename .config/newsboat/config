@@ -1,0 +1,23 @@
+# General Settings
+auto-reload yes
+
+# Unbind Keys
+unbind-key ENTER
+unbind-key j
+unbind-key k
+unbind-key J
+unbind-key K
+
+# Bind Keys - vim
+bind-key j down
+bind-key k up
+bind-key l open
+bind-key h quit
+
+# Colors
+color listnormal cyan default
+color listfocus black yellow
+color listnormal_unread blue default
+color listfocus_unread yellow default bold
+color info red black bold
+color article cyan default
