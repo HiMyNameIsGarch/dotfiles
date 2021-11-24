@@ -147,15 +147,15 @@ config.bind('<Ctrl-p>', 'completion-item-focus prev', mode='command')
 c.fonts.default_family = '"SauceCodePro Nerd Font"'
 
 # Type: String
-c.fonts.default_size = '12pt'
+c.fonts.default_size = '11pt'
 
 # Font used in the completion widget.
 # Type: Font
-c.fonts.completion.entry = '12pt "SauceCodePro Nerd Font"'
+c.fonts.completion.entry = '11pt "SauceCodePro Nerd Font"'
 
 # Font used for the debugging console.
 # Type: Font
-c.fonts.debug_console = '12pt "SauceCodePro Nerd Font"'
+c.fonts.debug_console = '11pt "SauceCodePro Nerd Font"'
 
 # Font used for prompts.
 # Type: Font
@@ -163,7 +163,7 @@ c.fonts.prompts = 'default_size sans-serif'
 
 # Font used in the statusbar.
 # Type: Font
-c.fonts.statusbar = '12pt "SauceCodePro Nerd Font"'
+c.fonts.statusbar = '11pt "SauceCodePro Nerd Font"'
 
 # base16-qutebrowser (https://github.com/theova/base16-qutebrowser)
 # Base16 qutebrowser template by theova
