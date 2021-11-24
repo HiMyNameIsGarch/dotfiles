@@ -1,4 +1,5 @@
 " Remaps
+"
 " Baby steps into vim
 noremap <Up> <Nop>
 noremap <Down> <Nop>
@@ -68,7 +69,11 @@ Plug 'neovim/nvim-lspconfig'
 " Completion
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+" lsp king
+Plug 'onsails/lspkind-nvim'
 " Tree-sitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 " Telescope to see files better

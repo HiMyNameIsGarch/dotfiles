@@ -2,6 +2,8 @@
 lua << EOF
 
 local cmp = require('cmp')
+local lspkind = require('lspkind')
+lspkind.init()
 
 cmp.setup({
   sources = {
@@ -10,6 +12,17 @@ cmp.setup({
     { name = 'path' },
     { name = 'tags' },
   },
+  formatting = {
+      format = lspkind.cmp_format {
+          with_text = true,
+          menu = {
+             buffer = "[buf]",
+             nvim_lsp = "[LSP]",
+             path = "[path]",
+             tags = "[tags]",
+          }
+      }
+  }
 })
 
 EOF
