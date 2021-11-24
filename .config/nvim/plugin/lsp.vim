@@ -5,11 +5,18 @@ lua << EOF
     require'lspconfig'.vuels.setup{}
     require'lspconfig'.vimls.setup{}
     require'lspconfig'.bashls.setup{}
+    require'lspconfig'.pyright.setup{}
 
     -- OmniSharp
     local pid = vim.fn.getpid()
+    local function on_cwd()
+        return vim.loop.cwd()
+    end
+
     local omnisharp_bin = "/home/himynameisgarch/.local/share/nvim/omnisharp/run"
     require'lspconfig'.omnisharp.setup{
+        on_attach = on_attach,
+        root_dir = on_cwd,
         cmd = { omnisharp_bin, "--languageserver", "hostPID", tostring(pid) };
     }
 

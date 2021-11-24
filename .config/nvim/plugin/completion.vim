@@ -5,9 +5,9 @@ local cmp = require('cmp')
 
 cmp.setup({
   sources = {
-    { name = 'buffer' },
     { name = 'nvim_lsp' },
-    { name = 'treesitter' },
+    { name = 'buffer', keyword_length = 4 },
+    { name = 'path' },
     { name = 'tags' },
   },
 })
