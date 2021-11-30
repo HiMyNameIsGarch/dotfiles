@@ -5,6 +5,15 @@
 if [ -f "$SHELPER" ]; then . "$SHELPER"; else
     notify-send -u critical "Error" "Cannot source helper script!"; exit 1; fi
 
+MODE="${1-tty}"
+case $MODE in
+    menu) PROGRAM="dmenu -i -l 10 -p Edit: "
+        EDITOR="alacritty -e nvim" ;;
+    tty) PROGRAM="fzf --prompt=Edit:"
+        EDITOR="nvim" ;;
+    *) s_notify critical "No mode selected..." "Please select a mode" && exit 1;;
+esac
+
 configs="qutebrowser $HOME/.config/qutebrowser/config.py
 tmux $HOME/.config/tmux/tmux.conf
 quickmarks $HOME/.config/qutebrowser/quickmarks
@@ -29,10 +38,10 @@ rss-config $HOME/.config/newsboat/config
 rss-urls $HOME/.config/newsboat/urls
 this $HOME/.local/bin/dmenu/confs" # Opens this file
 
-choice=$(printf '%s' "$configs" | dmenu -i -l 10 -p 'Edit config: ' | awk '{print $2}')
+choice=$(printf '%s' "$configs" | awk '{print $1}'| $PROGRAM )
 [ -z "$choice" ] && exit 1
-[ ! -f "$choice" ] && 
-    s_notify critical "File Error" "File $choice \nDoes not exist!" && exit 1
+FILE="$(printf '%s' "$configs" | awk "/^$choice.*/ {print \$2}")"
+[ ! -f "$FILE" ] && 
+    s_notify critical "File Error" "File $FILE \nDoes not exist!" && exit 1
 
-EDITOR="alacritty -e nvim"
-$EDITOR "$choice"
+$EDITOR "$FILE" & # put it in a sub process to terminate the script
