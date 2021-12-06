@@ -101,6 +101,7 @@ start() {
 Run 'dict add' or 'dict edit' to add some more!"
     # Start the actual game
     echo "Current file: ${BDICT##*/}"
+    CORRECT_ANSWERS=0
     while IFS= read -r w; do
         VALUE="${w##*| }"
         KEY="$(echo "${w%%| *}" | sed 's/,/ or/g')"
@@ -115,18 +116,20 @@ Run 'dict add' or 'dict edit' to add some more!"
         echo "$VALUE" | tr ',' '\n' | sed -r 's/^\s*|\s*$//g' > "options"
         while IFS= read -r v; do
             if [ "$v" = "$RES" ]; then
-                echo Correct!
+                echo -e "$green Correct!$nc"
+                CORRECT_ANSWERS=$((CORRECT_ANSWERS + 1))
                 loganswer "Success" "$VALUE" "$RES"
                 AS=true
                 break
             fi
         done < options
         if ! $AS; then
-            echo Incorrect, the answer is: "$(echo "$VALUE" | sed 's/,/ or/g')"
+            echo -e "$red Incorrect$nc, the answer is: $(echo "$VALUE" | sed 's/,/ or/g')"
             loganswer "Fail" "$VALUE" "$RES"
         fi
         rm options
     done < "$DICT"
+    echo -e "\nNice, you got $CORRECT_ANSWERS from $(cat $DICT | wc -l) pairs!"
     rm "$DICT"
 }
 
