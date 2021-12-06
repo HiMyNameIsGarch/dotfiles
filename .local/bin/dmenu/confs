@@ -40,8 +40,8 @@ this $HOME/.local/bin/dmenu/confs" # Opens this file
 
 choice=$(printf '%s' "$configs" | awk '{print $1}'| $PROGRAM )
 [ -z "$choice" ] && exit 1
-FILE="$(printf '%s' "$configs" | awk "/^$choice.*/ {print \$2}")"
+FILE="$(printf '%s' "$configs" | awk "/^$choice .*/ {print \$2}")"
 [ ! -f "$FILE" ] && 
     s_notify critical "File Error" "File $FILE \nDoes not exist!" && exit 1
 
-$EDITOR "$FILE" & # put it in a sub process to terminate the script
+$EDITOR "$FILE"
