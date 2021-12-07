@@ -11,7 +11,7 @@ lock screen"
 
 choice=$(printf "%s" "$options" | dmenu -i -p "Choose:")
 [ -z "$choice" ] && exit 1
-[ "$(printf "Yes\nNo" | dmenu -i -p "Are you sure?")" = "Yes" ] || exit 1
+[ "$(printf "No\nYes" | dmenu -i -p "Are you sure?")" = "Yes" ] || exit 1
 
 checkDisks() {
     MOUNTEDDISKS="$(mount | tail -n1 | grep "^/dev/sd.*")"
