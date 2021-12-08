@@ -6,8 +6,16 @@ local lspkind = require('lspkind')
 lspkind.init()
 
 cmp.setup({
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+
+    end,
+
+  },
   sources = {
     { name = 'nvim_lsp' },
+    { name = 'vsnip' },
     { name = 'buffer', keyword_length = 4 },
     { name = 'path' },
     { name = 'tags' },
@@ -20,6 +28,7 @@ cmp.setup({
              nvim_lsp = "[LSP]",
              path = "[path]",
              tags = "[tags]",
+             vsnip = "[Snippet]"
           }
       }
   }
