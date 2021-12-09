@@ -13,7 +13,7 @@ unclutter --jitter 50 --ignore-scrolling &
 xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
 
 # Start compositor picom
-# picom --experimental-backends >/dev/null &
+picom >/dev/null &
 
 # Start redshift
 redshift >/dev/null &
@@ -23,5 +23,5 @@ dunst &
 
 # Output sound to speaker 
 soundCard="HDA-Intel - HDA Intel PCH"
-cardNum="$(grep "$soundCard" "/proc/asound/cards" | awk '{print $1}')"
+cardNum="$(awk "/$soundCard/ {print \$1}" /proc/asound/cards)"
 amixer -c "$cardNum" sset "Auto-Mute Mode" 'Speaker Only' </dev/null

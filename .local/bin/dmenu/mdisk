@@ -18,7 +18,7 @@ TMP="/tmp/tempdisks"
 # Make sure file is empty
 [ -f "$TMP" ] && rm "$TMP" && touch "$TMP"
 # get all usbs
-VOL=$(lsblk -d -o NAME,TRAN | grep usb | awk '{print $1}')
+VOL=$(lsblk -d -o NAME,TRAN | awk '/usb/ {print $1}')
 for d in $VOL; do
     lsblk | grep "$d.*part" >> "$TMP"
 done
