@@ -18,7 +18,7 @@ configs="qutebrowser $HOME/.config/qutebrowser/config.py
 tmux $HOME/.config/tmux/tmux.conf
 quickmarks $HOME/.config/qutebrowser/quickmarks
 alacritty $HOME/.config/alacritty/alacritty.yml
-youtube-dl $HOME/.config/youtube-dl/config
+yt-dlp $HOME/.config/yt-dlp/config
 dunst $HOME/.config/dunst/dunstrc
 dwm $HOME/Dev/dwm/config.def.h 
 dwm-autostart $HOME/.local/share/dwm/autostart.sh 
