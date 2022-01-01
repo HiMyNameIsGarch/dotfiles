@@ -23,10 +23,6 @@ Change rezolution for DroidCam.
 Create empty scripts much easier.
 
 ---
-#### dict (Dictionary)
-A script that helps you to get better at words.
-
----
 #### lk (Link)
 Create a symbolic link from anywhere in your dotfiles directory.
 
