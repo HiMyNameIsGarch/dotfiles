@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# tinit ( tmux init ) - a way to init my tmux instance
+
+if [ ! -z "$TMUX" ]; then
+    echo Tmux is already running, see this sessions: 
+    tmux list-sessions
+    exit 1
+fi
+
+tmux new-session -s music -d
+tmux new-session -d -s chat element-desktop
+tmux send-keys -t music:1 bangers Enter
+tmux a -t music

@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# tsession - tmux session ( creates a new tmux session )
+
+WORK="$HOME/Dev/"
+
+if [ $# -eq 1 ]; then
+    SESSION_PATH="$1"
+else
+    SESSION_PATH=$(find "$WORK" -mindepth 1 -maxdepth 2 -type d ! -path "*.git*" | 
+        sed -r "s#$WORK##g" | fzf)
+fi
+
+if [ ! -d "$SESSION_PATH" ]; then
+    echo "Directory: $SESSION_PATH does not exists"
+    exit 1
+fi
+
+SESSION_NAME="${SESSION_PATH##*/}"
+TMUX_ALIVE="$(pgrep tmux)"
+
+if [ -z "$TMUX" ] && [ -z "$TMUX_ALIVE" ]; then
+    tmux new-session -s "$SESSION_NAME" -c "$SESSION_PATH"
+    exit 0
+fi
+if ! tmux has-session -t "$SESSION_NAME" 2> /dev/null; then
+    tmux new-session -ds "$SESSION_NAME" -c "$SESSION_PATH"
+fi
+
+tmux switch-client -t "$SESSION_NAME"
