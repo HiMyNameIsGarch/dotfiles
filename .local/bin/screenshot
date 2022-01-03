@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# A little script to take screenshots
+
+DATE="$(date +%s)"
+NAME="$HOME/Media/Screenshots/$DATE.png"
+
+if [ -z "$1" ]; then
+    maim "--select" | tee "$NAME" | 
+        xclip -selection clipboard -t image/png
+else
+    maim "$NAME"
+    xclip -selection clipboard -t image/png "$NAME"
+fi
