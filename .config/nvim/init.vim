@@ -1,3 +1,4 @@
+let mapleader=" "
 " Remaps
 "
 " Baby steps into vim
@@ -24,8 +25,6 @@ nnoremap <leader>j :m .+1<CR>==
 nnoremap <leader>k :m .-2<CR>==
 
 " Keep it centered
-nnoremap <C-d> <C-d>zz
-nnoremap <C-u> <C-u>zz
 nnoremap n nzzzv
 nnoremap N Nzzzv
 nnoremap J mzJ`z
@@ -87,6 +86,9 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim', { 'do': 'make' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 " Pair
 Plug 'jiangmiao/auto-pairs'
+" Debugger
+Plug 'szw/vim-maximizer'
+Plug 'puremourning/vimspector'
 
 call plug#end()
 

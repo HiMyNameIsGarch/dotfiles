@@ -1,4 +1,3 @@
-let mapleader=" "
 set guicursor=
 set relativenumber
 set nohlsearch
