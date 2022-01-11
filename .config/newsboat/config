@@ -1,5 +1,5 @@
 # General Settings
-auto-reload yes
+#auto-reload yes
 
 # Unbind Keys
 unbind-key ENTER
@@ -21,3 +21,9 @@ color listnormal_unread blue default
 color listfocus_unread yellow default bold
 color info red black bold
 color article cyan default
+
+# Maps
+browser linkhandler
+macro , open-in-browser
+macro v set browser "mpv"; open-in-browser; set browser linkhandler
+macro b set browser "librewolf"; open-in-browser; set browser linkhandler
