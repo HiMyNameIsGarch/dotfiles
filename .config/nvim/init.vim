@@ -46,6 +46,18 @@ vnoremap ( <esc>`>a)<esc>`<i(<esc>
 vnoremap [ <esc>`>a]<esc>`<i[<esc>
 vnoremap { <esc>`>a}<esc>`<i{<esc>
 
+" Copy-Pasta master
+vnoremap <leader>y "+y
+nnoremap <leader>y "+y
+nnoremap <leader>Y gg"+yG
+" P is for Paste
+nnoremap <leader>p "+P
+vnoremap <leader>p "+P
+xnoremap <leader>p "_dP
+" Black hole
+vnoremap <leader>d "_d
+nnoremap <leader>d "_d
+
 " Please no
 nnoremap Q <nop>
 command! W write
