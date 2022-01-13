@@ -9,6 +9,6 @@ if [ ! -z "$TMUX" ]; then
 fi
 
 tmux new-session -s music -d
-tmux new-session -d -s chat element-desktop
+#tmux new-session -d -s chat element-desktop
 tmux send-keys -t music:1 bangers Enter
 tmux a -t music

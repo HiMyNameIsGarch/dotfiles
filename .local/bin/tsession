@@ -9,6 +9,7 @@ if [ $# -eq 1 ]; then
 else
     SESSION_PATH=$(find "$WORK" -mindepth 1 -maxdepth 2 -type d ! -path "*.git*" | 
         sed -r "s#$WORK##g" | fzf)
+    SESSION_PATH="$WORK$SESSION_PATH"
 fi
 
 if [ ! -d "$SESSION_PATH" ]; then
