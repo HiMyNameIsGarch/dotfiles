@@ -1,4 +1,3 @@
-
 # Short some commands
 alias vim="nvim"
 alias t="touch"
@@ -19,9 +18,9 @@ alias dl="cd ~/Downloads && ls"
 
 # Media 
 alias AND="cd ~/Media/Youtube/Arhiva-Nationala-Diaconu && ls"
+alias hl="cd ~/Media/Highlights && ls"
 alias md="cd ~/Media && ls"
 alias bo="cd ~/Media/Books && ls"
-alias cs="cd ~/Media/Courses && ls"
 alias da="cd ~/Media/Data && ls"
 alias mo="cd ~/Media/Movies && ls"
 alias mu="cd ~/Media/Music && ls"
@@ -89,10 +88,10 @@ alias mv="mv -i"
 alias cp="cp -i"
 
 # ls commands with 'exa'
-alias ls="exa -al --color=always --group-directories-first"
-alias la="exa -a --color=always --group-directories-first"
-alias ll="exa -l --color=always --group-directories-first"
-alias lt="exa -aT --color=always --group-directories-first"
+alias ls="exa -al --color=always --group-directories-first --no-time"
+alias la="exa -a --color=always --group-directories-first --no-time"
+alias ll="exa -l --color=always --group-directories-first --no-time"
+alias lt="exa -aT --color=always --group-directories-first --no-time"
 
 # Navigation on directories with 'cd'
 alias ..="cd .."
