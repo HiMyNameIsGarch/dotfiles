@@ -19,12 +19,12 @@ checkDisks() {
 }
 SLEEPNUM=5
 logSysShutdown() {
-    DATE="$(date '+%A-%B-%Y')"
+    DATE="$(date '+%d-%B-%Y')"
     OPEN="$(uptime -s)"
     TOTAL="$(uptime -p)"
     FILE="/home/himynameisgarch/logs/sys/uptime"
     echo "${1^} at: $(date '+%T')" >> "$FILE" 
-    echo "On $DATE you opened you pc at ${OPEN#* }" >> "$FILE"
+    echo "On $DATE you opened your pc at ${OPEN#* }" >> "$FILE"
     echo "Total time spent: ${TOTAL#* }" >> "$FILE"
     echo "---------------------" >> "$FILE"
 }
