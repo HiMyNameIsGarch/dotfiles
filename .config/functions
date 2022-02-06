@@ -87,9 +87,6 @@ yplay() {
 bangers() {
     mpv "https://youtube.com/playlist?list=PLm323Lc7iSW9oSIDihesMJXmMNfh8U59k" --no-video --shuffle
 }
-doom() {
-    mpv "https://youtube.com/playlist?list=PL9qahmMHuxzSpTHbPNJfLlLN1HpzKNH2A" --no-video
-}
 
 # Mkdir and cd into one command
 mkd() {
@@ -102,6 +99,9 @@ aliases() {
     alias | grep "$1"
 }
 
+chist() {
+    echo "$(cat "$HISTFILE" | fzf)" | tr "\n" " " | xclip -sel c
+}
 hist() { 
     grep "$1" "$HISTFILE" 
 }
