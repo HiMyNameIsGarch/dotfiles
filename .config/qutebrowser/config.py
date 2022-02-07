@@ -137,11 +137,19 @@ c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}',
 c.downloads.location.directory = '~/Downloads'
 
 # Bindings
+
+# Youtube stuff
 config.bind('M', 'hint links spawn mpv {hint-url}')
 config.bind('Z', 'hint links spawn alacritty -e yt-dlp {hint-url}')
 # Move through completion items more easy
 config.bind('<Ctrl-n>', 'completion-item-focus next', mode='command')
 config.bind('<Ctrl-p>', 'completion-item-focus prev', mode='command')
+# K means go up in tabs and J means go back in tabs ( feels more natural this way )
+config.bind('K', 'tab-next', mode='normal')
+config.bind('J', 'tab-prev', mode='normal')
+
+# Unbindings
+config.unbind('<Ctrl-q>', mode='normal')
 
 # Type: List of Font, or Font
 c.fonts.default_family = '"SauceCodePro Nerd Font"'
