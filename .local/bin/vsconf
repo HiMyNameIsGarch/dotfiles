@@ -2,9 +2,16 @@
 
 # Create a vimspector configuration file for debugging (vsconf)
 
-terminate() { printf "%s\n" "vsconf: $1" && exit 1 ; }
+terminate() { printf "%s\n" "$(basename $0): $1" && exit 1 ; }
 [ -z "$1" ] && terminate "No language provided!"
-filename=".vimspector.json"
+fileName=".vimspector.json"
+
+[ -f "$fileName" ] && printf '%s' "The .vimspector config file already exists, override? [Y/N]: "
+read -n 1 -r res
+case "$res" in
+    Y|y) printf '\n%s\n' "Override existing config file...";;
+    *) exit 1 ;;
+esac
 
 csharp() {
     basePath=$(pwd)
@@ -12,20 +19,22 @@ csharp() {
     projName="${basePath##*/}"
 
     # write config to file
-    printf "%s\n" "{
-    \"configurations\": {
-        \"launch - netcoredbg\": {
-         \"adapter\": \"netcoredbg\",
-         \"configuration\": { 
-            \"request\": \"launch\",
-            \"program\":\"$basePath/bin/Debug/net$dotnetVersion/$projName.dll\",
-            \"args\": [],
-            \"stopAtEntry\": true,
-            \"cwd\": \""$basePath"\"
+    echo "{
+  \"configurations\": {
+    \"launch - netcoredbg\": {
+      \"adapter\": \"netcoredbg\",
+      \"filetypes\": [ \"cs\", \"fsharp\", \"vbnet\" ],
+      \"configuration\": {
+        \"request\": \"launch\",
+        \"program\": \"$basePath/bin/Debug/net$dotnetVersion/$projName.dll\",
+        \"args\": [ ],
+        \"stopAtEntry\": true,
+        \"cwd\": \"$basePath\",
+        \"env\": {}
       }
     }
   }
-}" > "$filename" 
+} " > "$fileName"
 
 }
 
