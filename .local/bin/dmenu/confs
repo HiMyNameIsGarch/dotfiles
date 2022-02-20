@@ -16,6 +16,7 @@ esac
 
 configs="qutebrowser $HOME/.config/qutebrowser/config.py
 tmux $HOME/.config/tmux/tmux.conf
+mpv $HOME/.config/mpv/mpv.conf
 quickmarks $HOME/.config/qutebrowser/quickmarks
 alacritty $HOME/.config/alacritty/alacritty.yml
 yt-dlp $HOME/.config/yt-dlp/config
