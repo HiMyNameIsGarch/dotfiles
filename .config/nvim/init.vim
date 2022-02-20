@@ -101,6 +101,8 @@ Plug 'jiangmiao/auto-pairs'
 " Debugger
 Plug 'szw/vim-maximizer'
 Plug 'puremourning/vimspector'
+" This is a comment
+Plug 'numToStr/Comment.nvim'
 
 call plug#end()
 
