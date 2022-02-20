@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Small script to run CLI dotnet application in another tmux window
+
+args="$*"
+session="$(tmux display-message -p "#S")"
+name="dotnet run"
+target="$session:$name"
+cmd="dotnet run $args"
+
+if ! tmux has-session -t "$target" 2> /dev/null; then
+    tmux neww -n "$name"
+fi
+
+tmux a -t "$target"
+tmux send-keys -t "$target" C-l "$cmd" Enter
