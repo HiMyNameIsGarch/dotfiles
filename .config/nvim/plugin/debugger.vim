@@ -1,5 +1,5 @@
 " Maximizer
-nnoremap <C-m> :MaximizerToggle!<CR>
+nnoremap <silent> M <cmd>MaximizerToggle!<CR>
 
 " Vimspector
 fun MaxWin(id)
