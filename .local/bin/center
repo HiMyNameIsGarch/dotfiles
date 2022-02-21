@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Center the text from input and add lines to fill in the spaces
+
+words="< $* >"
+length="${#words}"
+max="80"
+
+if [ "$length" -gt "$(( "$max" - 6 ))" ]; then
+    exit 1
+fi
+
+getLine() {
+    line=""
+    len="$1"
+    for (( i = 0; i < "$len"; i++ )); do
+        line="$line-"
+    done
+    echo "$line"
+}
+
+main="$(( "$max" - "$length" ))"
+left="$(( "$main" / 2 ))"
+
+if [ $(( "$length" % 2)) -eq 0 ]; then
+    part="$(getLine "$left")"
+    echo "$part$words$part"
+else
+    right="$(( "$left" + 1 ))"
+    left="$(getLine "$left")"
+    right="$(getLine "$right")"
+    echo "$left$words$right"
+fi

@@ -103,6 +103,7 @@ Plug 'puremourning/vimspector'
 Plug 'numToStr/Comment.nvim'
 " AutoPairs
 Plug 'windwp/nvim-autopairs'
+Plug 'dstein64/vim-startuptime'
 
 call plug#end()
 
@@ -110,3 +111,13 @@ call plug#end()
 colorscheme gruvbox
 hi Normal guibg=NONE ctermbg=NONE
 let g:vim_be_good_log_file = 1
+
+
+function! Middle()
+    call inputsave()
+    let text = input('Enter text to center: ')
+    call inputrestore()
+    execute 'read !center ' . text
+endfunction
+
+nnoremap <leader>md :call Middle()<CR>
