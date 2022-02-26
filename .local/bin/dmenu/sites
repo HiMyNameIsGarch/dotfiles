@@ -15,8 +15,8 @@ CACHEDIR=${XDG_CACHE_HOME:-"$HOME/.cache"}
 CACHE="$CACHEDIR/sites_recent"
 touch "$CACHE"
 
-# Get sites from cache 
-MOSTUSED=$(sort "$CACHE" | uniq -c | sort -rh | awk -F" " '{print $2}')
+# Get sites from cache ( exclude the links that are on cache and not in sites file )
+MOSTUSED=$(sort "$CACHE" | uniq -c | sort -rh | awk -F" " '{print $2}' | grep -xF "$(cat $SITESFILE)")
 # Combine cache with sites then output
 CHOICE=$((echo "$MOSTUSED"; awk '{print $1}' "$SITESFILE" | grep -vxF "$MOSTUSED") | 
     dmenu -i -l 10 -p "Open site: ")
