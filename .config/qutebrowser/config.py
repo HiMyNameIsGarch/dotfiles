@@ -152,18 +152,18 @@ config.bind('J', 'tab-prev', mode='normal')
 config.unbind('<Ctrl-q>', mode='normal')
 
 # Type: List of Font, or Font
-c.fonts.default_family = '"SauceCodePro Nerd Font"'
+c.fonts.default_family = '"JetBrainsMono Nerd Font Mono"'
 
 # Type: String
 c.fonts.default_size = '11pt'
 
 # Font used in the completion widget.
 # Type: Font
-c.fonts.completion.entry = '11pt "SauceCodePro Nerd Font"'
+c.fonts.completion.entry = '11pt "JetBrainsMono Nerd Font Mono"'
 
 # Font used for the debugging console.
 # Type: Font
-c.fonts.debug_console = '11pt "SauceCodePro Nerd Font"'
+c.fonts.debug_console = '11pt "JetBrainsMono Nerd Font Mono"'
 
 # Font used for prompts.
 # Type: Font
@@ -171,7 +171,7 @@ c.fonts.prompts = 'default_size sans-serif'
 
 # Font used in the statusbar.
 # Type: Font
-c.fonts.statusbar = '11pt "SauceCodePro Nerd Font"'
+c.fonts.statusbar = '11pt "JetBrainsMono Nerd Font Mono"'
 
 # base16-qutebrowser (https://github.com/theova/base16-qutebrowser)
 # Base16 qutebrowser template by theova
