@@ -24,7 +24,7 @@ fileStatus=$(file "$file")
 test "${fileStatus#*"symbolic link"}" != "$fileStatus" ||
     s_err "File \"$1\" is not a symbolic link"
 dotfiles="$HOME/Dev/dotfiles"
-test "${fileStatus#*$dotfiles}" != "$fileStatus" || 
+test "${fileStatus#*"$dotfiles"}" != "$fileStatus" || 
     s_err "This symbolic link is not in dotfiles directory:\n$dotfiles"
 symLinkPath="/${fileStatus#*/}"
 rm "$file"

@@ -11,7 +11,7 @@ acceptedRez="640 480
 dWidth="${1:-NULL}"
 dHeigth="${2:-NULL}"
 fullRez="$dWidth $dHeigth"
-if test "${acceptedRez#*$fullRez}" != "$acceptedRez"; then
+if test "${acceptedRez#*"$fullRez"}" != "$acceptedRez"; then
     sudo rmmod v4l2loopback_dc
     sudo insmod /lib/modules/"$(uname -r)"/kernel/drivers/media/video/v4l2loopback-dc.ko width="$dWidth" height="$dHeigth"
     text="options v4l2loopback_dc width=$dWidth height=$dHeigth"

@@ -13,8 +13,10 @@ fi
 getLine() {
     line=""
     len="$1"
-    for (( i = 0; i < "$len"; i++ )); do
+    i=0
+    while [ "$i" -lt "$len" ]; do 
         line="$line-"
+        i=$((i + 1))
     done
     echo "$line"
 }

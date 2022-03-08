@@ -2,12 +2,12 @@
 
 # Create a vimspector configuration file for debugging (vsconf)
 
-terminate() { printf "%s\n" "$(basename $0): $1" && exit 1 ; }
+terminate() { printf "%s\n" "$(basename "$0"): $1"; exit 1 ; }
 [ -z "$1" ] && terminate "No language provided!"
 fileName=".vimspector.json"
 
 [ -f "$fileName" ] && printf '%s' "The .vimspector config file already exists, override? [Y/N]: "
-read -n 1 -r res
+read -r res
 case "$res" in
     Y|y) printf '\n%s\n' "Override existing config file...";;
     *) exit 1 ;;
