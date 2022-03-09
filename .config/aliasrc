@@ -2,7 +2,6 @@
 alias vim="nvim"
 alias t="touch"
 alias cat="bat"
-alias ed="element-desktop"
 alias qbind="feh ~/Media/Data/qb-bindings.png &"
 alias pvim="nvim -c VimBeGood"
 alias gvim="nvim -c Git"
@@ -17,9 +16,8 @@ alias sdb="cd ~/.local/bin/dwm-bar && ls"
 alias dl="cd ~/Downloads && ls"
 
 # Media 
-alias AND="cd ~/Media/Youtube/Arhiva-Nationala-Diaconu && ls"
-alias hl="cd ~/Media/Highlights && ls"
 alias md="cd ~/Media && ls"
+alias hl="cd ~/Media/Highlights && ls"
 alias bo="cd ~/Media/Books && ls"
 alias da="cd ~/Media/Data && ls"
 alias mo="cd ~/Media/Movies && ls"
@@ -30,12 +28,11 @@ alias vs="cd ~/Media/Videos && ls"
 alias wa="cd ~/Media/Wallpapers && ls"
 alias yt="cd ~/Media/Youtube && ls"
 alias de="cd ~/Media/Devices && ls"
+alias le="cd ~/Media/Lectures && ls"
+alias pz="cd ~/Media/Puzzles && ls"
 alias sch="cd ~/Media/School && ls"
 alias bac="cd ~/Media/Bac && ls"
-
-# Dotnet commands
-alias dn="dotnet"
-alias dnbr="dotnet build && dotnet run"
+alias scr="cd ~/Media/Screenshots && ls"
 
 # System information
 alias psa="ps auxf"
