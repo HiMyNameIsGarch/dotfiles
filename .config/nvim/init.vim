@@ -83,8 +83,6 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/cmp-vsnip'
 " lsp king
 Plug 'onsails/lspkind-nvim'
 " Tree-sitter
@@ -104,6 +102,9 @@ Plug 'numToStr/Comment.nvim'
 " AutoPairs
 Plug 'windwp/nvim-autopairs'
 Plug 'dstein64/vim-startuptime'
+" Lua Snip
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
 
 call plug#end()
 

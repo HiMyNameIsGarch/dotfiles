@@ -8,7 +8,8 @@ lspkind.init()
 cmp.setup({
   snippet = {
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
+      -- vim.fn["vsnip#anonymous"](args.body)
+      require('luasnip').lsp_expand(args.body)
 
     end,
 
@@ -24,7 +25,7 @@ cmp.setup({
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'vsnip' },
+    { name = 'luasnip' },
     { name = 'buffer', keyword_length = 4 },
     { name = 'path' },
     { name = 'tags' },
@@ -37,7 +38,7 @@ cmp.setup({
              nvim_lsp = "[LSP]",
              path = "[path]",
              tags = "[tags]",
-             vsnip = "[Snippet]"
+             luasnip = "[Snippet]"
           }
       }
   }
