@@ -105,6 +105,8 @@ Plug 'dstein64/vim-startuptime'
 " Lua Snip
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
+" Decompile support for csharp
+Plug 'Hoffs/omnisharp-extended-lsp.nvim'
 
 call plug#end()
 

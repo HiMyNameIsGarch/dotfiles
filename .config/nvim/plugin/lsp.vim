@@ -6,7 +6,7 @@ lua << EOF
     require'lspconfig'.vimls.setup{}
     require'lspconfig'.bashls.setup{}
     require'lspconfig'.pyright.setup{}
-    --require'lspconfig'.csharp_ls.setup{}
+    require'lspconfig'.sumneko_lua.setup{}
 
     -- OmniSharp
     local pid = vim.fn.getpid()
@@ -15,10 +15,14 @@ lua << EOF
     end
 
     local omnisharp_bin = "/home/himynameisgarch/.local/share/nvim/omnisharp/run"
+
     require'lspconfig'.omnisharp.setup{
        on_attach = on_attach,
        root_dir = on_cwd,
-       cmd = { omnisharp_bin, "--languageserver", "hostPID", tostring(pid) };
+       cmd = { omnisharp_bin, "--languageserver", "hostPID", tostring(pid) },
+         handlers = {
+           ["textDocument/definition"] = require('omnisharp_extended').handler,
+         },
     }
 
 EOF
