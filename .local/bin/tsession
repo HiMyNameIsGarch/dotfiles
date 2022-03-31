@@ -4,12 +4,12 @@
 
 WORK="$HOME/Dev/"
 
-if [ $# -eq 1 ]; then
-    SESSION_PATH="$1"
-else
+if [ $# -eq 0 ]; then
     SESSION_PATH=$(find "$WORK" -mindepth 1 -maxdepth 2 -type d ! -path "*.git*" | 
         sed -r "s#$WORK##g" | fzf)
     SESSION_PATH="$WORK$SESSION_PATH"
+else 
+    SESSION_PATH="$1"
 fi
 
 if [ ! -d "$SESSION_PATH" ]; then
@@ -17,7 +17,11 @@ if [ ! -d "$SESSION_PATH" ]; then
     exit 1
 fi
 
-SESSION_NAME="${SESSION_PATH##*/}"
+if [ -z "$2" ]; then
+    SESSION_NAME="${SESSION_PATH##*/}"
+else
+    SESSION_NAME="$2"
+fi
 TMUX_ALIVE="$(pgrep tmux)"
 
 if [ -z "$TMUX" ] && [ -z "$TMUX_ALIVE" ]; then
