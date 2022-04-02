@@ -1,0 +1,39 @@
+#!/bin/sh
+
+SPEC="$1"
+[ -z "$SPEC" ] && exit 1 
+
+startStack() {
+    WNAME="code"
+    SNAME="cuz-$1"
+    CMD="$2" # Command to run on first window
+    if tmux has-session -t "$SNAME" 2> /dev/null; then
+        tmux switch-client -t "$SNAME"
+    else
+        tsession "$HOME/Dev/Csharp/cuzzle-$1" "$SNAME"
+        tmux send-keys -t "$SNAME:1" "$CMD" Enter
+        tmux neww -t "$SNAME" -n "$WNAME" -c "$HOME/Dev/Csharp/cuzzle-$1"
+        # This third argument will decide if the editor will open
+        [ -z "$3" ] && tmux send-keys -t "$SNAME:$WNAME" "nvim -c \"Telescope find_files\"" Enter
+    fi
+}
+
+fullstack() {
+    startStack "api" "dotnet watch run" "."
+    startStack "ui" "npm run serve" "."
+}
+
+helpmenu() {
+    echo "1 | api  | a  is for API"
+    echo "2 | ui   | u  is for UI"
+    echo "3 | full | f  is for fullstack"
+    echo "If you choose API/UI it will open an editor to cut down some commands"
+}
+
+case "$SPEC" in
+    1|api|a) startStack "api" "dotnet watch run" ;;
+    2|ui|u) startStack "ui" "npm run serve" ;;
+    3|full|f) fullstack ;;
+    h|help) helpmenu ;;
+    *) exit 1 ;;
+esac
