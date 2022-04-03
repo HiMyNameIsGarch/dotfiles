@@ -1,0 +1,24 @@
+#!/bin/sh
+
+date_and_hour() {
+    DATE="$(date '+%H:%M:%S %d-%b-%y')"
+    printf '%s' "$DATE"
+}
+
+sys_uptime() {
+    UPT="$(uptime --pretty | sed -e 's/up //g;s/ days/D/g;s/ day/D/g;s/ hours/H/g;s/ hour/H/g;s/ minutes/M/g;s/, / /g')"
+    printf '%s | ' "$UPT"
+}
+
+tasks() {
+    TASKS="$(cat "$HOME/Media/Data/todo" | wc -l)"
+    printf '%sT | ' "$TASKS"
+}
+
+main() {
+    tasks
+    sys_uptime
+    date_and_hour
+}
+
+main
