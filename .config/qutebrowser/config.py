@@ -140,7 +140,7 @@ c.downloads.location.directory = '~/Downloads'
 
 # Youtube stuff
 config.bind('M', 'hint links spawn mpv {hint-url}')
-config.bind('Z', 'hint links spawn alacritty -e yt-dlp {hint-url}')
+config.bind('Z', 'hint links spawn alacritty -e yt-dlp -S "res:1080" {hint-url}')
 # Move through completion items more easy
 config.bind('<Ctrl-n>', 'completion-item-focus next', mode='command')
 config.bind('<Ctrl-p>', 'completion-item-focus prev', mode='command')
