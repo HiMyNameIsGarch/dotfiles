@@ -47,6 +47,7 @@ mountDisk() {
     # Check if dir is empty (make sure you don't mount on something existing)
     cd "$LOC" || s_notify_exit "critical" "Cannot change directory to\n$LOC"
     [ "$(ls | wc -l)" = "0" ] || s_notify_exit "critical" "Cannot mount" "Cannot mount on \n$LOC \nThere are files"
+
     if sudo -A mount "$DM" "$LOC"; then
         s_notify_exit "normal" "Success" "Usb mounted on\n$LOC"
     else

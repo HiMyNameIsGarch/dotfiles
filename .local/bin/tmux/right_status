@@ -1,7 +1,7 @@
 #!/bin/sh
 
 date_and_hour() {
-    DATE="$(date '+%H:%M:%S %d-%b-%y')"
+    DATE="$(date '+%H:%M %d-%b-%y')"
     printf '%s' "$DATE"
 }
 
@@ -11,7 +11,7 @@ sys_uptime() {
 }
 
 tasks() {
-    TASKS="$(cat "$HOME/Media/Data/todo" | wc -l)"
+    TASKS="$(cat "$HOME/.local/share/todo" | wc -l)"
     printf '%sT | ' "$TASKS"
 }
 

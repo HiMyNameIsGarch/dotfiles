@@ -6,8 +6,8 @@
 # add it.
 #
 
-file="$HOME/Media/Data/todo"
-touch "$file"
+file="$HOME/.local/share/todo"
+[ -f "$file" ] || touch "$file" # this won't affect programs like entr
 height=$(wc -l "$file" | awk '{print $1}')
 prompt="Add/Del a task: "
 
@@ -21,7 +21,6 @@ while [ -n "$cmd" ]; do
 		echo "$cmd" >> "$file"
 		height=$(( height + 1 ))
  	fi
-
 	cmd=$(dmenu -l "$height" -p "$prompt" "$@" < "$file")
 done
 

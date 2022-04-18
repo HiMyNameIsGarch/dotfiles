@@ -1,7 +1,6 @@
 #!/bin/sh
 
 SPEC="$1"
-[ -z "$SPEC" ] && exit 1 
 
 startStack() {
     WNAME="code"
@@ -35,5 +34,5 @@ case "$SPEC" in
     2|ui|u) startStack "ui" "npm run serve" ;;
     3|full|f) fullstack ;;
     h|help) helpmenu ;;
-    *) exit 1 ;;
+    *) helpmenu; exit 1 ;;
 esac
