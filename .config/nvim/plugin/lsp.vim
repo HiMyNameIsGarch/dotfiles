@@ -7,6 +7,7 @@ lua << EOF
     require'lspconfig'.bashls.setup{}
     require'lspconfig'.pyright.setup{}
     require'lspconfig'.sumneko_lua.setup{}
+    require'lspconfig'.dartls.setup{}
 
     -- OmniSharp
     local pid = vim.fn.getpid()
