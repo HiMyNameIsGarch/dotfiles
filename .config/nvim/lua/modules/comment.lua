@@ -1,5 +1,5 @@
-lua << EOF
-require('Comment').setup ({
+local comment = require('Comment')
+comment.setup ({
     ---Add a space b/w comment and the line
     padding = true,
 
@@ -18,7 +18,7 @@ require('Comment').setup ({
         line = 'gcc',
         ---Block-comment toggle keymap
         block = 'gbc',
-        },
+    },
 
     ---LHS of operator-pending mappings in NORMAL + VISUAL mode
     opleader = {
@@ -58,4 +58,3 @@ require('Comment').setup ({
     ---Post-hook, called after commenting is done
     post_hook = nil,
 })
-EOF
