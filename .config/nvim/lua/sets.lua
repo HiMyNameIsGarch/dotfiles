@@ -2,6 +2,7 @@ vim.g.mapleader = " "
 
 local o = vim.opt
 
+o.laststatus = 3 -- oh yeah
 o.guicursor = ""
 o.relativenumber = true
 o.hlsearch = false

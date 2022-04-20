@@ -64,7 +64,4 @@ mapkey.set('n', 'Q', '<nop>', opts)
 vim.cmd [[ command! W write ]]
 
 -- Source better
-mapkey.set('n', '<Leader><CR>', ':so ~/.config/nvim/init.vim<CR>', opts)
-
--- Customs
-mapkey.set('n', '<leader>md', ':lua require("functions").middle()<CR>', opts)
+mapkey.set('n', '<Leader><CR>', ':so ~/.config/nvim/init.lua<CR>', opts)
