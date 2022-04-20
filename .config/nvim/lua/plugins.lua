@@ -35,7 +35,7 @@ Plug('nvim-telescope/telescope-fzy-native.nvim', { ['do'] = vim.fn['make'] })
 Plug('iamcco/markdown-preview.nvim', {['do'] = vim.fn['mkdp#util#install'], ['for'] = {'markdown', 'vim-plug'} } )
 -- Debugger
 Plug 'szw/vim-maximizer'
-Plug 'puremourning/vimspector'
+-- Plug 'puremourning/vimspector'
 -- This is a comment
 Plug 'numToStr/Comment.nvim'
 -- AutoPairs

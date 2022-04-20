@@ -4,11 +4,12 @@ telescope.setup {
     defaults = {
         prompt_prefix = "-> ",
         selection_caret = "> ",
-        file_previewer = require'telescope.previewers'.cat.new,
+        file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
         file_ignore_patterns = {
             ".git/",
             "plugged/",
-            "node_modules/"
+            "node_modules/",
+            "undodir/"
         }
     },
     extensions = {
@@ -16,14 +17,14 @@ telescope.setup {
           fuzzy = true,
           override_generic_sorter = false,
           override_file_sorter = true,
-          case_mode = "smart_case",
+          case_mode = "smart_case"
         }
     }
 }
 telescope.load_extension('fzy_native')
 
 local keymap = vim.keymap
-local opts = { noremap = true }
+local opts = { noremap = true, silent = true }
 
 -- Maps
 keymap.set('n', '<C-_>', function ()
