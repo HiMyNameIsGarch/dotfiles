@@ -7,9 +7,10 @@ cmp.setup({
     snippet = {
         expand = function(args)
             require('luasnip').lsp_expand(args.body)
-
-        end,
-
+        end
+    },
+    view = {
+        entries = 'native'
     },
     mapping = {
         ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
@@ -35,7 +36,7 @@ cmp.setup({
                 nvim_lsp = "[LSP]",
                 path = "[path]",
                 tags = "[tags]",
-                luasnip = "[Snippet]"
+                luasnip = "[Snip]"
             }
         }
     }
