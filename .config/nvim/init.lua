@@ -10,8 +10,6 @@ vim.cmd('colorscheme gruvbox')
 vim.cmd('hi Normal guibg=NONE ctermbg=NONE')
 vim.cmd('hi Winseparator guibg=None')
 
-require("functions")
-
 -- Modules
 require("modules.lsp")
 require('nvim-autopairs').setup{}
