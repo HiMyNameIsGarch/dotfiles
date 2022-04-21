@@ -1,6 +1,3 @@
-" Maximizer
-nnoremap <silent> M <cmd>MaximizerToggle!<CR>
-
 " " Vimspector
 " fun MaxWin(id)
 "     call win_gotoid(a:id)
