@@ -6,6 +6,7 @@ lspconfig.vimls.setup{}
 lspconfig.bashls.setup{}
 lspconfig.pyright.setup{}
 lspconfig.dartls.setup{}
+
 -- Lua
 lspconfig.sumneko_lua.setup {
     settings = {
@@ -56,17 +57,17 @@ keymap.set('n', '<leader>ca', function ()
     vimbuf.code_action() end , opts)
 keymap.set('n', '<leader>rn', function ()
     vimbuf.rename() end , opts)
-keymap.set('n', '<silent> gd', function ()
+keymap.set('n', '<leader>gd', function ()
     vimbuf.definition() end , opts)
-keymap.set('n', '<silent> gD', function ()
+keymap.set('n', 'gD', function ()
     vimbuf.declaration() end , opts)
-keymap.set('n', '<silent> gr', function ()
+keymap.set('n', '<leader>gr', function ()
     vimbuf.references() end , opts)
-keymap.set('n', '<silent> gi', function ()
+keymap.set('n', '<leader>gi', function ()
     vimbuf.implementation() end , opts)
-keymap.set('n', '<silent> K', function ()
+keymap.set('n', 'K', function ()
     vimbuf.hover() end , opts)
-keymap.set('n', '<silent> <C-K>', function ()
+keymap.set('n', '<C-K>', function ()
     vimbuf.signature_help() end , opts)
 keymap.set('n', '<C-p>', function ()
     vim.diagnostic.goto_prev() end , opts)
