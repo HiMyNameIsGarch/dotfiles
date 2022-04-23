@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Problem: I have a single folder with all my screenshots, and it gets bigger
+# Solve: Create a script that will create a folder for one week of screenshots
+# Example: 23-April-2022 ( will contain screenshots from prev folder date and the current folder date )
+# Combine this script with cronjobs to automate it
+# Example cron job: @weekly ~/.local/bin/folderize-ss
+
+SC="$HOME/Media/Screenshots"
+
+SCS="$(find "$SC" -mindepth 1 -maxdepth 1 -type f -name "*.png")"
+[ -z "$SCS" ] && exit 1
+
+FN="$SC/$(date '+%d-%h-%Y')"
+
+[ -d "$FN" ] || mkdir -p "$FN"
+echo "$SCS" | xargs -I {} mv {} "$FN"
+
+# These 2 lines are for cron jobs in order to work with notify-send
+DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
+export DBUS_SESSION_BUS_ADDRESS
+
+notify-send "Screenshots organized!" "I organized a total of $(echo "$SCS" | wc -l) screenshots!"
+exit 0
