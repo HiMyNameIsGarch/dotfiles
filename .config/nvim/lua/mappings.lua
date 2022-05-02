@@ -5,7 +5,7 @@ local opts = { noremap = true }
 -- Baby steps into vim
 function RemoveArrows(mode)
         local arrows = { 'Up', 'Down', 'Left', 'Right' }
-        for i, arrow in ipairs(arrows) do
+        for _, arrow in ipairs(arrows) do
             mapkey.set(mode, '<' .. arrow .. '>', '<Nop>', opts)
         end
 end
@@ -65,3 +65,6 @@ vim.cmd [[ command! W write ]]
 
 -- Source better
 mapkey.set('n', '<Leader><CR>', ':so ~/.config/nvim/init.lua<CR>', opts)
+
+-- Netrw
+mapkey.set('n', '<leader>le', ":Lex<CR>", opts)
