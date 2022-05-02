@@ -46,5 +46,9 @@ Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 -- Decompile support for csharp
 Plug 'Hoffs/omnisharp-extended-lsp.nvim'
+-- Databases
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'kristijanhusak/vim-dadbod-completion'
 
 vim.call('plug#end')

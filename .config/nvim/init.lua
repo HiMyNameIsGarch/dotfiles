@@ -32,3 +32,9 @@ vim.keymap.set('n', '<leader>gj', ':diffget //2')
 
 require("modules.dotnet")
 require("modules.snippets")
+
+-- dadbod for databases
+vim.g.db_ui_save_location = "~/.local/share/db_queries"
+vim.keymap.set('n', '<leader>db', ":DBUIToggle<CR>",            { silent = true, noremap = true })
+vim.keymap.set('n', '<leader>dl', ":DBUIHideNotifications<CR>", { silent = true, noremap = true })
+vim.keymap.set('n', '<leader>di', ":DBUILastQueryInfo<CR>",     { noremap = true })

@@ -36,8 +36,14 @@ cmp.setup({
                 nvim_lsp = "[LSP]",
                 path = "[path]",
                 tags = "[tags]",
-                luasnip = "[Snip]"
+                luasnip = "[Snip]",
             }
         }
-    }
+    },
+})
+-- Add source for vim dadbod completion
+cmp.setup.filetype('sql', {
+    sources = cmp.config.sources({
+        { name = 'vim-dadbod-completion' },
+    }),
 })
