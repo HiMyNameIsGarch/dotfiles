@@ -119,10 +119,10 @@ config.set('content.javascript.enabled', True, 'chrome://*/*')
 # Type: Bool
 config.set('content.javascript.enabled', True, 'qute://*/*')
 
-#add dark mode
-config.set("colors.webpage.darkmode.enabled",True)
+# Add dark mode
+config.set("colors.webpage.darkmode.enabled", True)
 
-#default search engines
+# Default search engines
 c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}',
         'aw': 'https://wiki.archlinux.org/?search={}',
         'sr': 'https://www.reddit.com/r/{}',

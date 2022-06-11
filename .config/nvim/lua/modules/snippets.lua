@@ -8,7 +8,6 @@ ls.config.set_config {
 }
 
 -- Keymaps
-
 -- Reload faster
 vim.keymap.set('n', '<leader><leader>s', "<cmd>source ~/.config/nvim/lua/modules/snippets.lua<CR>")
 
@@ -80,12 +79,14 @@ ls.add_snippets(nil, {
             namespace {}.Controllers;
 
             [ApiController]
-            [Route("[controller]")]
+            [Route("api/[controller]")]
             public class {}Controller: ControllerBase
             {{
+                private readonly ILogger<{}Controller> _logger;
+
                 public {}Controller(ILogger<{}Controller> logger)
                 {{
-                    // this is my logger
+                    _logger = logger;
                 }}
             }}
             ]], {
@@ -94,7 +95,12 @@ ls.add_snippets(nil, {
                     local proj = cwd[#cwd] or "Changeme"
                     return proj:gsub("-", "_")
                 end),
-                i(1), same(1), same(1)})
-        )
+                i(1), same(1), same(1), same(1)})
+        ),
+        s("prop",
+            fmt([[
+            {} {} {} {{ get; set; }}
+            ]], { i(1), i(2), i(3)})
+        ),
     }
 })
