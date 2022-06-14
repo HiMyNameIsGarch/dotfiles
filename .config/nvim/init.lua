@@ -39,3 +39,20 @@ vim.g.db_ui_save_location = "~/.local/share/db_queries"
 vim.keymap.set('n', '<leader>db', ":DBUIToggle<CR>",            { silent = true, noremap = true })
 vim.keymap.set('n', '<leader>dl', ":DBUIHideNotifications<CR>", { silent = true, noremap = true })
 vim.keymap.set('n', '<leader>di', ":DBUILastQueryInfo<CR>",     { noremap = true })
+
+-- Formatting
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = { "*.ts", "*.js", "*.vue" },
+    command = "Neoformat"
+})
+vim.g.neoformat_try_node_exe = 1
+
+vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
+    pattern = { "*.ejs" },
+    command = "set filetype=html"
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
+    command = ':%s/\\s\\+$//e'
+})
