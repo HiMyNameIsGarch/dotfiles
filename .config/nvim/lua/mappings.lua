@@ -1,70 +1,73 @@
-local mapkey = vim.keymap
-
-local opts = { noremap = true }
+-- mapper ???
+local map = function(mode, lhs, rhs)
+    vim.keymap.set(mode, lhs, rhs, { noremap = true })
+end
 
 -- Baby steps into vim
 function RemoveArrows(mode)
         local arrows = { 'Up', 'Down', 'Left', 'Right' }
         for _, arrow in ipairs(arrows) do
-            mapkey.set(mode, '<' .. arrow .. '>', '<Nop>', opts)
+            map(mode, '<' .. arrow .. '>', '<Nop>')
         end
 end
 RemoveArrows('')
 RemoveArrows('i')
 
 -- improvements
-mapkey.set('n', 'Y', 'y$', opts)
-mapkey.set('i', 'kj', '<esc>', opts)
-mapkey.set('i', '<C-c>', '<esc>', opts)
+map('n', 'Y', 'y$')
+map('i', 'kj', '<esc>')
+map('i', '<C-c>', '<esc>')
 
 -- Move lines with skill
-mapkey.set('v', 'K', ':m \'<-2<CR>gv=gv', opts)
-mapkey.set('v', 'J', ':m \'<+1<CR>gv=gv', opts)
-mapkey.set('i', '<C-j>', '<esc>:m .+1<CR>==', opts)
-mapkey.set('i', '<C-k>', '<esc>:m .-2<CR>==', opts)
-mapkey.set('n', '<leader>j', ':m .+1<CR>==', opts)
-mapkey.set('n', '<leader>k', ':m .-2<CR>==', opts)
+map('v', 'K', ':m \'<-2<CR>gv=gv')
+map('v', 'J', ':m \'<+1<CR>gv=gv')
+map('i', '<C-j>', '<esc>:m .+1<CR>==')
+map('i', '<C-k>', '<esc>:m .-2<CR>==')
+map('n', '<leader>j', ':m .+1<CR>==')
+map('n', '<leader>k', ':m .-2<CR>==')
 
 -- Keep it centered
-mapkey.set('n', 'n', 'nzzzv', opts)
-mapkey.set('n', 'N', 'Nzzzv', opts)
-mapkey.set('n', 'J', 'mzJ`z', opts)
+map('n', 'n', 'nzzzv')
+map('n', 'N', 'Nzzzv')
+map('n', 'J', 'mzJ`z')
 
 -- Undo better
-mapkey.set('i', ',', ',<c-g>u', opts)
-mapkey.set('i', '.', '.<c-g>u', opts)
-mapkey.set('i', '!', '!<c-g>u', opts)
-mapkey.set('i', '?', '?<c-g>u', opts)
+map('i', ',', ',<c-g>u')
+map('i', '.', '.<c-g>u')
+map('i', '!', '!<c-g>u')
+map('i', '?', '?<c-g>u')
 
 -- Quick search and replace
-mapkey.set('n', 'cn', '*``cgn', opts)
-mapkey.set('n', 'cN', '*``cgN', opts)
+map('n', 'cn', '*``cgn')
+map('n', 'cN', '*``cgN')
 
 -- Surround
-mapkey.set('v', '\'', '<esc>`>a\'<esc>`<i\'<esc>', opts)
-mapkey.set('v', '"', '<esc>`>a"<esc>`<i"<esc>', opts)
-mapkey.set('v', '(', '<esc>`>a)<esc>`<i(<esc>', opts)
-mapkey.set('v', '[', '<esc>`>a]<esc>`<i[<esc>', opts)
-mapkey.set('v', '{', '<esc>`>a}<esc>`<i{<esc>', opts)
+map('v', '\'', '<esc>`>a\'<esc>`<i\'<esc>')
+map('v', '"', '<esc>`>a"<esc>`<i"<esc>')
+map('v', '(', '<esc>`>a)<esc>`<i(<esc>')
+map('v', '[', '<esc>`>a]<esc>`<i[<esc>')
+map('v', '{', '<esc>`>a}<esc>`<i{<esc>')
 
 -- Copy-Pasta master
-mapkey.set('v', '<leader>y', '"+y', opts)
-mapkey.set('n', '<leader>y', '"+y', opts)
-mapkey.set('n', '<leader>Y', 'gg"+yG', opts)
+map('v', '<leader>y', '"+y')
+map('n', '<leader>y', '"+y')
+map('n', '<leader>Y', 'gg"+yG')
+
 -- P is for Paste
-mapkey.set('v', '<leader>p', '"+P', opts)
-mapkey.set('n', '<leader>p', '"+P', opts)
-mapkey.set('x', '<leader>p', '"_dP', opts)
+map('v', '<leader>p', '"+P')
+map('n', '<leader>p', '"+P')
+map('x', '<leader>p', '"_dP')
+
 -- Black hole
-mapkey.set('v', '<leader>d', '"_d', opts)
-mapkey.set('n', '<leader>d', '"_d', opts)
+map('v', '<leader>d', '"_d')
+map('n', '<leader>d', '"_d')
 
 -- Please no
-mapkey.set('n', 'Q', '<nop>', opts)
+map('n', 'Q', '<nop>')
 vim.cmd [[ command! W write ]]
 
 -- Source better
-mapkey.set('n', '<Leader><CR>', ':so ~/.config/nvim/init.lua<CR>', opts)
+map('n', '<Leader><CR>', ':so ~/.config/nvim/init.lua<CR>')
 
 -- Netrw
-mapkey.set('n', '<leader>le', ":Lex<CR>", opts)
+map('n', '<leader>le', ":Lex<CR>")

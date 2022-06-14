@@ -33,6 +33,7 @@ lspconfig.sumneko_lua.setup {
         }
     }
 }
+
 -- OmniSharp
 local omnisharp_bin = "/home/himynameisgarch/.local/share/nvim/omnisharp/run"
 lspconfig.omnisharp.setup{
@@ -46,30 +47,19 @@ lspconfig.omnisharp.setup{
     },
 }
 
-local opts = { noremap = true }
-local vimbuf = vim.lsp.buf
-local keymap = vim.keymap
 
 -- Maps
-keymap.set('n', '<leader>rf', function ()
-    require('telescope.builtin').lsp_references() end , opts)
-keymap.set('n', '<leader>ca', function ()
-    vimbuf.code_action() end , opts)
-keymap.set('n', '<leader>rn', function ()
-    vimbuf.rename() end , opts)
-keymap.set('n', '<leader>gd', function ()
-    vimbuf.definition() end , opts)
-keymap.set('n', 'gD', function ()
-    vimbuf.declaration() end , opts)
-keymap.set('n', '<leader>gr', function ()
-    vimbuf.references() end , opts)
-keymap.set('n', '<leader>gi', function ()
-    vimbuf.implementation() end , opts)
-keymap.set('n', 'K', function ()
-    vimbuf.hover() end , opts)
-keymap.set('n', '<C-K>', function ()
-    vimbuf.signature_help() end , opts)
-keymap.set('n', '<C-p>', function ()
-    vim.diagnostic.goto_prev() end , opts)
-keymap.set('n', '<C-n>', function ()
-    vim.diagnostic.goto_next() end , opts)
+local map = function(lhs, rhs)
+    vim.keymap.set("n", lhs, rhs, { noremap = true })
+end
+map('<leader>rf', require('telescope.builtin').lsp_references)
+map('<leader>ca', vim.lsp.buf.code_action)
+map('<leader>rn', vim.lsp.buf.rename)
+map('<leader>gd', vim.lsp.buf.definition)
+map('<leader>gr', vim.lsp.buf.references)
+map('<leader>gi', vim.lsp.buf.implementation)
+map('<C-K>', vim.lsp.buf.signature_help)
+map('<C-p>', vim.diagnostic.goto_prev)
+map('<C-n>', vim.diagnostic.goto_next)
+map('gD', vim.lsp.buf.declaration)
+map('K', vim.lsp.buf.hover)
