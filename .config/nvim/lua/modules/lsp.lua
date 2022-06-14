@@ -1,14 +1,41 @@
-local lspconfig = require("lspconfig")
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-lspconfig.tsserver.setup{}
-lspconfig.vuels.setup{}
-lspconfig.vimls.setup{}
-lspconfig.bashls.setup{}
-lspconfig.pyright.setup{}
-lspconfig.dartls.setup{}
+local function config(_config)
+    return vim.tbl_deep_extend("force", {
+        capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities),
+        on_attach = function()
+            local map = function(lhs, rhs)
+                vim.keymap.set("n", lhs, rhs, { noremap = true })
+            end
+
+            map('<leader>rf', require('telescope.builtin').lsp_references)
+            map('<leader>ca', vim.lsp.buf.code_action)
+            map('<leader>rn', vim.lsp.buf.rename)
+            map('<leader>gd', vim.lsp.buf.definition)
+            map('<leader>gr', vim.lsp.buf.references)
+            map('<leader>gi', vim.lsp.buf.implementation)
+            map('<C-K>', vim.lsp.buf.signature_help)
+            map('<C-p>', vim.diagnostic.goto_prev)
+            map('<C-n>', vim.diagnostic.goto_next)
+            map('gD', vim.lsp.buf.declaration)
+            map('K', vim.lsp.buf.hover)
+        end,
+    }, _config or {})
+end
+
+local lspconfig = require("lspconfig")
+lspconfig.tsserver.setup(config())
+lspconfig.vuels.setup(config())
+lspconfig.vimls.setup(config())
+lspconfig.bashls.setup(config())
+lspconfig.pyright.setup(config())
+lspconfig.dartls.setup(config())
+lspconfig.cssls.setup(config())
+lspconfig.html.setup(config())
 
 -- Lua
-lspconfig.sumneko_lua.setup {
+lspconfig.sumneko_lua.setup(config({
     settings = {
         Lua = {
             runtime = {
@@ -32,12 +59,11 @@ lspconfig.sumneko_lua.setup {
             }
         }
     }
-}
+}))
 
 -- OmniSharp
 local omnisharp_bin = "/home/himynameisgarch/.local/share/nvim/omnisharp/run"
-lspconfig.omnisharp.setup{
-    -- on_attach = on_attach,
+lspconfig.omnisharp.setup(config({
     root_dir = function()
         return vim.loop.cwd()
     end,
@@ -45,21 +71,4 @@ lspconfig.omnisharp.setup{
     handlers = {
         ["textDocument/definition"] = require('omnisharp_extended').handler,
     },
-}
-
-
--- Maps
-local map = function(lhs, rhs)
-    vim.keymap.set("n", lhs, rhs, { noremap = true })
-end
-map('<leader>rf', require('telescope.builtin').lsp_references)
-map('<leader>ca', vim.lsp.buf.code_action)
-map('<leader>rn', vim.lsp.buf.rename)
-map('<leader>gd', vim.lsp.buf.definition)
-map('<leader>gr', vim.lsp.buf.references)
-map('<leader>gi', vim.lsp.buf.implementation)
-map('<C-K>', vim.lsp.buf.signature_help)
-map('<C-p>', vim.diagnostic.goto_prev)
-map('<C-n>', vim.diagnostic.goto_next)
-map('gD', vim.lsp.buf.declaration)
-map('K', vim.lsp.buf.hover)
+}))
