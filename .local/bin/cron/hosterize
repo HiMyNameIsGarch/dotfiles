@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# This script will update the hosts file
+# Combine this script with cron jobs to have the 'latest' host records for whatever sites you want
+# Only root please
+# Example cronjob: 0 12 * * 0 hosterize >> /tmp/hosts_log
+
+URL="https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts"
+START_POINT="# Start"
+TMP_FILE="/tmp/hosts_tmp"
+HOSTS="/etc/hosts"
+
+if [ "$(whoami)" != "root" ]; then
+    echo "Please run as root"
+    exit 1
+fi
+
+main() {
+    echo "Removing current hosts..."
+
+    sed -i "/$START_POINT.*/,\$d" "$HOSTS"
+
+    echo "Downloading new hosts..."
+
+    wget -O "$TMP_FILE" "$URL"
+
+    echo "Adding new hosts..."
+
+    echo "$START_POINT StevenBlack" >> "$HOSTS"
+    sed "1,/$START_POINT.*/d" "$TMP_FILE" >> "$HOSTS"
+
+    echo "Clean up..."
+
+    rm "$TMP_FILE"
+
+    echo "Restarting NetworkManager..."
+
+    sudo systemctl restart NetworkManager
+}
+
+main || echo "Cannot change hosts file..."
