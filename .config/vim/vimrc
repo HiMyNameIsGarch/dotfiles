@@ -1,0 +1,76 @@
+" Warning - this is my old vimrc I don't quite use it but I keep in just in
+" case
+" Runtime better
+set runtimepath^=$XDG_CONFIG_HOME/vim
+set runtimepath+=$XDG_DATA_HOME/vim
+set runtimepath+=$XDG_CONFIG_HOME/vim/after
+
+set packpath^=$XDG_DATA_HOME/vim,$XDG_CONFIG_HOME/vim
+set packpath+=$XDG_CONFIG_HOME/vim/after,$XDG_DATA_HOME/vim/after
+
+let g:netrw_home = $XDG_DATA_HOME."/vim"
+call mkdir($XDG_DATA_HOME."/vim/spell", 'p')
+
+set backupdir=$XDG_STATE_HOME/vim/backup | call mkdir(&backupdir, 'p')
+set directory=$XDG_STATE_HOME/vim/swap   | call mkdir(&directory, 'p')
+set undodir=$XDG_STATE_HOME/vim/undo     | call mkdir(&undodir,   'p')
+set viewdir=$XDG_STATE_HOME/vim/view     | call mkdir(&viewdir,   'p')
+
+if !has('nvim') | set viminfofile=$XDG_STATE_HOME/vim/viminfo | endif
+
+syntax on
+
+"       Maps
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+inoremap kj <esc>
+vnoremap K :m '<-2<CR>gv=gv
+vnoremap J :m '>+1<CR>gv=gv
+command! W write
+nnoremap Q <nop>
+
+"       Setters
+let mapleader = " "
+set splitright
+set noerrorbells
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
+set smartindent
+set relativenumber
+set nohlsearch
+set nu
+set nowrap
+set noswapfile
+set nobackup
+set viminfo=%,<800,'10,/50,:100,h,f0,n$XDG_STATE_HOME/vim/viminfo
+set undofile
+set incsearch
+set scrolloff=8
+set signcolumn=yes
+set laststatus=2
+set noshowmode
+set colorcolumn=80
+set showcmd
+set cmdheight=2
+set updatetime=50
+
+"       Plugins
+call plug#begin('~/.config/vim/plugged')
+
+" Better line
+Plug 'itchyny/lightline.vim'
+" Fuzzy finder
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+" Gruvbox
+Plug 'gruvbox-community/gruvbox'
+
+call plug#end()
+
+"       Gruvbox
+"colorscheme gruvbox
+"hi Normal guibg=NONE ctermbg=NONE
