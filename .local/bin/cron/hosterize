@@ -10,6 +10,7 @@ START_POINT="# Start"
 TMP_FILE="/tmp/hosts_tmp"
 HOSTS="/etc/hosts"
 
+date # Print out the date when this script runs
 if [ "$(whoami)" != "root" ]; then
     echo "Please run as root"
     exit 1
@@ -35,7 +36,7 @@ main() {
 
     echo "Restarting NetworkManager..."
 
-    sudo systemctl restart NetworkManager
+    systemctl restart NetworkManager
 }
 
 main || echo "Cannot change hosts file..."

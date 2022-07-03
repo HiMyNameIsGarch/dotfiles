@@ -52,7 +52,7 @@ Plug 'Hoffs/omnisharp-extended-lsp.nvim'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'kristijanhusak/vim-dadbod-completion'
--- Formatting code with prettier
+-- Formatting code
 Plug 'sbdchd/neoformat'
 
 vim.call('plug#end')
