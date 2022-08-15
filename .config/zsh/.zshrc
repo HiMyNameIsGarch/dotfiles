@@ -11,6 +11,7 @@ PROMPTNORMAL="$LEFTPROMPT-N-$RIGHTPROMPT"
 HISTFILE=~/.cache/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
+export PATH=${PATH}:"${XDG_DATA_HOME}/npm/bin"
 
 # vi mode
 bindkey -v

@@ -22,8 +22,8 @@ logSysShutdown() {
     DATE="$(date '+%d-%B-%Y')"
     OPEN="$(uptime -s)"
     TOTAL="$(uptime -p)"
-    FILE="/home/himynameisgarch/logs/sys/uptime"
-    echo "${1^} at: $(date '+%T')" >> "$FILE" 
+    FILE="/home/himynameisgarch/.local/share/sys_track/uptime"
+    echo "${1^} at: $(date '+%T')" >> "$FILE"
     echo "On $DATE you opened your pc at ${OPEN#* }" >> "$FILE"
     echo "Total time spent: ${TOTAL#* }" >> "$FILE"
     echo "---------------------" >> "$FILE"
@@ -42,16 +42,16 @@ rebootSys(){
 }
 
 option() { printf "%s" "$options" | sed "$1q;d" ; }
-case $choice in 
-    "$(option 1)") 
-        checkDisks || 
+case $choice in
+    "$(option 1)")
+        checkDisks ||
             s_notify_exit "critical"  "Mounted Disks detected!" "You can't shutdown because you have mounted disks!"
         shutDown ;;
-    "$(option 2)") 
-        checkDisks || 
+    "$(option 2)")
+        checkDisks ||
             s_notify_exit "critical"  "Mounted Disks detected!" "You can't reboot because you have mounted disks!"
         rebootSys ;;
     "$(option 3)") s_notify "Doom Guy says" "Your screen will be locked" ; i3lock-fancy ;;
-    *) exit 1 ;; 
+    *) exit 1 ;;
 esac
 

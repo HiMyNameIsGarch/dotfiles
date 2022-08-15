@@ -31,7 +31,7 @@ window:
     y: 4
 
   # Background opacity
-  opacity: 0.8
+  opacity: 0.6
 
   # Window title
   title: Alacritty
@@ -53,7 +53,7 @@ font:
   normal:
     family: BlexMono Nerd Font
     style: Regular
-  
+
   bold:
     family: BlexMono Nerd Font
     style: Bold
@@ -89,7 +89,7 @@ draw_bold_text_with_bright_colors: true
 colors:
   # Default colors
   primary:
-    background : '0x1d2021' # hard
+    background : '0x000000' # hard
     #background: '0x282828'
     #background: '0x32302f' # soft
     foreground: '0xebdbb2'
