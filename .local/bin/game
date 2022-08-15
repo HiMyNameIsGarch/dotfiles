@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# I have my games on a differnt account and I have to type the same commands over and over again so this is why I made this script
+# Depedencies: fzf, mangohud (optional)
+
+
+BASE="$HOME/Games/"
+CHOICE="$(find "$BASE" -mindepth 1 -maxdepth 1 -type d | xargs -I {} basename {} | fzf --header "Enter the name of the game you wanna play!")"
+[ -z "$CHOICE" ] && exit 1
+GAME_DIR="$BASE$CHOICE"
+
+START="start.sh"
+if [ ! -f "$GAME_DIR/$START" ]; then
+    echo "Your game folder needs to have a 'start.sh' file! Abording..."
+    exit 1
+fi
+
+printf '%s' "Do you want to print statistics with MangoHud over your game [y/n]? "
+read -r STATS
+
+greeting() {
+    echo "Enjoy playing $CHOICE!"
+    exit 0
+}
+
+if [ "$STATS" = "y" ]; then
+    nohup mangohud "$GAME_DIR/$START" > "/tmp/tmp_$CHOICE" 2>&1 &
+    greeting
+fi
+
+nohup "$GAME_DIR/$START" > "/tmp/tmp_$CHOICE" 2>&1 &
+greeting
