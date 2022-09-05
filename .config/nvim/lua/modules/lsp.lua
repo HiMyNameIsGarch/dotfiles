@@ -32,6 +32,7 @@ lspconfig.bashls.setup(config())
 lspconfig.pyright.setup(config())
 lspconfig.dartls.setup(config())
 lspconfig.cssls.setup(config())
+lspconfig.tailwindcss.setup(config())
 lspconfig.html.setup(config())
 
 -- Lua

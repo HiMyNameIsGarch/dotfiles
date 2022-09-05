@@ -71,6 +71,18 @@ ls.add_snippets(nil, {
     lua = {
         ls.parser.parse_snippet("lf", "local $1 = function($2)\n\t$0\nend")
     },
+    vue = {
+        s("tscript",
+        fmt([[
+            <script lang="ts">
+            import {{ defineComponent }} from 'vue';
+
+            export default defineComponent({{
+                {}
+            }})
+            </script>
+        ]], i(1)))
+    },
     cs = {
         s("controller",
             fmt([[
@@ -101,6 +113,39 @@ ls.add_snippets(nil, {
             fmt([[
             {} {} {} {{ get; set; }}
             ]], { i(1), i(2), i(3)})
+        ),
+        s("test",
+            fmt([[
+            [{}]
+            public void {}()
+            {{
+            }}
+            ]], { i(1), i(2)})
+        ),
+        s("xtest",
+            fmt([[
+            using Xunit;
+            using Moq;
+
+            namespace Tests;
+
+            public class {}Test
+            {{
+                private readonly Mock<IDbService> _db = new Mock<IDbService>();
+
+                public {}Test()
+                {{
+                }}
+
+                [Fact]
+                public void Should()
+                {{
+                    // Arrange
+                    // Act
+                    // Assert
+                }}
+            }}
+            ]], { i(1), same(1)})
         ),
     }
 })
