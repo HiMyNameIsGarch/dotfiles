@@ -33,7 +33,7 @@ local function getErrors()
                 return
             end
 
-            if #data then
+            if #data == 1 then
                 print ("No errors found!")
                 return
             end
@@ -52,9 +52,3 @@ end
 
 
 vim.keymap.set('n', '<leader>drr', getErrors)
-
--- Clear quickfix list
-vim.keymap.set('n', '<leader>clr', function()
-    vim.fn.setqflist({})
-    vim.notify_once("Quickfix cleared!")
-end)
