@@ -71,3 +71,14 @@ map('n', '<Leader><CR>', ':so ~/.config/nvim/init.lua<CR>')
 
 -- Netrw
 map('n', '<leader>le', ":Lex<CR>")
+
+-- Quickfix list
+map('n', '<leader>clr', function() -- Clear
+    vim.fn.setqflist({})
+    vim.notify_once("Quickfix cleared!")
+end)
+map('n', '<leader>cj', ':cprev<CR>')
+map('n', '<leader>ck', ':cnext<CR>')
+map('n', '<leader>cl', function () -- Spawn telescope quickfix list window
+    require('telescope.builtin').quickfix()
+end)

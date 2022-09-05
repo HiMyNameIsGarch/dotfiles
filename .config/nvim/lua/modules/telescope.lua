@@ -40,4 +40,8 @@ map('<leader>gf', require('telescope.builtin').git_files)
 map('<leader>df', function ()
     require("telescope.builtin").find_files({ prompt_title = "< DotFiles >", cwd = "~/Dev/dotfiles", hidden = true, })
 end)
+-- Not just files, you know?
 map('<leader>bf', require('telescope.builtin').buffers)
+map('<leader>km', require('telescope.builtin').keymaps)
+map('<leader>h', require('telescope.builtin').help_tags)
+map('<leader>mp', require('telescope.builtin').man_pages)
