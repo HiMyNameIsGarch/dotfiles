@@ -7,7 +7,7 @@ vim.keymap.set('n', '<leader>dnr', function ()
     vim.fn.inputsave()
     local text = vim.fn.input('dotnet run ')
     vim.fn.inputrestore()
-    vim.cmd('silent !tmux-dotnet ' .. text)
+    vim.cmd('silent !tmux-run dotnet run ' .. text)
 end , opts)
 
 local function getEntryFromErr(line)
@@ -49,6 +49,5 @@ local function getErrors()
         end,
     })
 end
-
 
 vim.keymap.set('n', '<leader>drr', getErrors)

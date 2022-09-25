@@ -33,6 +33,7 @@ vim.keymap.set('n', '<leader>gj', ':diffget //2')
 require("modules.dotnet")
 require("modules.snippets")
 require("modules.debugger")
+require("modules.cplusplus")
 
 -- dadbod for databases
 vim.g.db_ui_save_location = "~/.local/share/db_queries"

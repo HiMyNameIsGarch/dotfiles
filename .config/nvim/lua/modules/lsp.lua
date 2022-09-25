@@ -25,6 +25,10 @@ local function config(_config)
 end
 
 local lspconfig = require("lspconfig")
+lspconfig.clangd.setup(config())
+-- lspconfig.ccls.setup(config( {
+--     single_file_support= true
+-- }))
 lspconfig.tsserver.setup(config())
 lspconfig.vuels.setup(config())
 lspconfig.vimls.setup(config())
