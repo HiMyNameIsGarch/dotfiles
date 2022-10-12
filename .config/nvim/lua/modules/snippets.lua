@@ -7,6 +7,7 @@ ls.config.set_config {
     ext_opts = nil
 }
 
+
 -- Keymaps
 -- Reload faster
 vim.keymap.set('n', '<leader><leader>s', "<cmd>source ~/.config/nvim/lua/modules/snippets.lua<CR>")
@@ -50,7 +51,6 @@ local same = function(index)
         return args[1]
     end, { index })
 end
-
 ls.add_snippets(nil, {
     all = {
         s("md",
@@ -67,6 +67,19 @@ ls.add_snippets(nil, {
                 end, { 1 })}
             )
         ),
+    },
+    cpp = {
+        s("main",
+        fmt([[
+        #include <iostream>
+
+        using namespace std;
+
+        // Solution for: {}
+        int main() {{
+            return 0;
+        }}
+        ]], i(1)))
     },
     lua = {
         ls.parser.parse_snippet("lf", "local $1 = function($2)\n\t$0\nend")
