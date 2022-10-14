@@ -1,12 +1,5 @@
 local opts = { noremap = true }
 
-vim.keymap.set('n', '<leader>cpp', function ()
-    vim.fn.inputsave()
-    local args = vim.fn.input('args?: ')
-    vim.fn.inputrestore()
-    vim.cmd('silent !tmux-run gocpp ' .. args) -- 'gocpp' is an alias for 'clang++ main.cpp && ./a.out' or build and run
-end , opts)
-
 local path_to_buf = "/tmp/buf_nr_cpp"
 
 local function Read_buf_from_file(path)
@@ -16,7 +9,6 @@ local function Read_buf_from_file(path)
     file:close()
     return tonumber(content)
 end
-
 
 local function Write_buf_to_file(path, buf)
     local file = io.open(path, "w+")
@@ -31,16 +23,6 @@ function WriteToBuf(buf, data)
         Write_buf_to_file(path_to_buf, buf)
     end
 end
-
-vim.keymap.set('n', '<leader>cs', function () -- clear solution
-    vim.fn.inputsave()
-    local name = vim.fn.input('solution name: ')
-    vim.fn.inputrestore()
-    vim.cmd("silent !mkdir " .. name)
-    vim.cmd("w " .. name .. "/main.cpp")
-    vim.cmd("1,%d")
-    vim.api.nvim_feedkeys("imain", 'i', true)
-end)
 
 local function Append_program_in(buf)
     vim.fn.jobstart({"clang++", "main.cpp"}, {
@@ -81,3 +63,22 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     end
 })
 
+vim.keymap.set('n', '<leader>cpp', function ()
+    vim.fn.inputsave()
+    local args = vim.fn.input('args?: ')
+    vim.fn.inputrestore()
+    vim.cmd('silent !tmux-run gocpp ' .. args) -- 'gocpp' is an alias for 'clang++ main.cpp && ./a.out' or build and run
+end , opts)
+
+vim.keymap.set('n', '<leader>cs', function () -- clear solution
+    vim.fn.inputsave()
+    local name = vim.fn.input('solution name: ')
+    vim.fn.inputrestore()
+    vim.cmd("silent !mkdir " .. name)
+    vim.cmd("w " .. name .. "/main.cpp")
+    vim.cmd("1,%d")
+    -- Call snippet
+    local luasnip = require('luasnip')
+    local snip = luasnip.get_snippets("cpp")[1]
+    luasnip.snip_expand(snip)
+end)
