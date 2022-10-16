@@ -1,14 +1,14 @@
 -- Maps for dotnet development
-local opts = { noremap = true }
+local nnoremap = require("keymap").nnoremap
 
-vim.keymap.set('n', '<leader>dnb', ':!dotnet build<CR>', opts)
+nnoremap('<leader>dnb', ':!dotnet build<CR>')
 
-vim.keymap.set('n', '<leader>dnr', function ()
+nnoremap('<leader>dnr', function ()
     vim.fn.inputsave()
     local text = vim.fn.input('dotnet run ')
     vim.fn.inputrestore()
     vim.cmd('silent !tmux-run dotnet run ' .. text)
-end , opts)
+end)
 
 local function getEntryFromErr(line)
     if line == nil or line == '' then
@@ -50,4 +50,4 @@ local function getErrors()
     })
 end
 
-vim.keymap.set('n', '<leader>drr', getErrors)
+nnoremap('<leader>drr', getErrors)

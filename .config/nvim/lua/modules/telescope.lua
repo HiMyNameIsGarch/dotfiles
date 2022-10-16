@@ -24,9 +24,8 @@ telescope.setup {
 telescope.load_extension('fzy_native')
 
 -- Maps
-local map = function(lhs, rhs)
-    vim.keymap.set("n", lhs, rhs, { noremap = true, silent = true })
-end
+local bind = require("keymap").bind
+local map = bind('n', {noremap = true, silent = true})
 
 map('<C-_>', function ()
     require('telescope.builtin').current_buffer_fuzzy_find({sorting_strategy="ascending", layout_config={prompt_position="top"}})

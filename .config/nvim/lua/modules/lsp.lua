@@ -1,25 +1,24 @@
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+local nnoremap = require("keymap").nnoremap
+
 local function config(_config)
     return vim.tbl_deep_extend("force", {
         capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities),
         on_attach = function()
-            local map = function(lhs, rhs)
-                vim.keymap.set("n", lhs, rhs, { noremap = true })
-            end
 
-            map('<leader>rf', require('telescope.builtin').lsp_references)
-            map('<leader>ca', vim.lsp.buf.code_action)
-            map('<leader>rn', vim.lsp.buf.rename)
-            map('<leader>gd', vim.lsp.buf.definition)
-            map('<leader>gr', vim.lsp.buf.references)
-            map('<leader>gi', vim.lsp.buf.implementation)
-            map('<C-K>', vim.lsp.buf.signature_help)
-            map('<C-p>', vim.diagnostic.goto_prev)
-            map('<C-n>', vim.diagnostic.goto_next)
-            map('gD', vim.lsp.buf.declaration)
-            map('K', vim.lsp.buf.hover)
+            nnoremap('<leader>rf', require('telescope.builtin').lsp_references)
+            nnoremap('<leader>ca', vim.lsp.buf.code_action)
+            nnoremap('<leader>rn', vim.lsp.buf.rename)
+            nnoremap('<leader>gd', vim.lsp.buf.definition)
+            nnoremap('<leader>gr', vim.lsp.buf.references)
+            nnoremap('<leader>gi', vim.lsp.buf.implementation)
+            nnoremap('<C-K>', vim.lsp.buf.signature_help)
+            nnoremap('<C-p>', vim.diagnostic.goto_prev)
+            nnoremap('<C-n>', vim.diagnostic.goto_next)
+            nnoremap('gD', vim.lsp.buf.declaration)
+            nnoremap('K', vim.lsp.buf.hover)
         end,
     }, _config or {})
 end

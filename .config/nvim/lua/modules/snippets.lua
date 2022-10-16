@@ -7,31 +7,37 @@ ls.config.set_config {
     ext_opts = nil
 }
 
-
 -- Keymaps
+local remap = require("keymap")
+local nnoremap = remap.nnoremap
+local inoremap = remap.inoremap
+local bind = remap.bind
+local silent = { silent = true }
+local mmap = bind({'i', 's'}, silent)
+
 -- Reload faster
-vim.keymap.set('n', '<leader><leader>s', "<cmd>source ~/.config/nvim/lua/modules/snippets.lua<CR>")
+nnoremap('<leader><leader>s', "<cmd>source ~/.config/nvim/lua/modules/snippets.lua<CR>")
 
 -- This will expand the current item or jump to the next item within the snippet
-vim.keymap.set({'i', 's'}, '<c-k>', function ()
+mmap('<c-k>', function ()
     if ls.expand_or_jumpable() then
         ls.expand_or_jump()
     end
-end, { silent = true })
+end)
 
 -- This will move to the previous item within the snippet
-vim.keymap.set({'i', 's'}, '<c-j>', function ()
+mmap('<c-j>', function ()
     if ls.jumpable(-1) then
         ls.jump(-1)
     end
-end, { silent = true })
+end)
 
 -- Selecting within list of options, usefull for choice nodes
-vim.keymap.set('i', '<c-l>', function ()
+inoremap('<c-l>', function ()
     if ls.choice_active() then
         ls.change_choice(1)
     end
-end, { silent = true })
+end, silent)
 
 local del = function(len, verify)
     if len == 0 then return '' end
@@ -51,6 +57,7 @@ local same = function(index)
         return args[1]
     end, { index })
 end
+
 ls.add_snippets(nil, {
     all = {
         s("md",

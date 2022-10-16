@@ -1,5 +1,3 @@
-local opts = { noremap = true }
-
 local path_to_buf = "/tmp/buf_nr_cpp"
 
 local function Read_buf_from_file(path)
@@ -63,14 +61,16 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     end
 })
 
-vim.keymap.set('n', '<leader>cpp', function ()
+local nnoremap = require("keymap").nnoremap
+
+nnoremap('<leader>cpp', function ()
     vim.fn.inputsave()
     local args = vim.fn.input('args?: ')
     vim.fn.inputrestore()
     vim.cmd('silent !tmux-run gocpp ' .. args) -- 'gocpp' is an alias for 'clang++ main.cpp && ./a.out' or build and run
-end , opts)
+end)
 
-vim.keymap.set('n', '<leader>cs', function () -- clear solution
+nnoremap('<leader>cs', function () -- clear solution
     vim.fn.inputsave()
     local name = vim.fn.input('solution name: ')
     vim.fn.inputrestore()

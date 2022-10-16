@@ -1,13 +1,12 @@
 -- Mappings
-local map = function(lhs, rhs)
-    vim.keymap.set("n", lhs, rhs, { silent = true })
-end
+local nnoremap = require("keymap").nnoremap
+local silent = { silent = true }
 
-map("<leader>bp", require("dap").toggle_breakpoint)
-map("<F5>", require("dap").step_into)
-map("<F6>", require("dap").step_over)
-map("<F7>", require("dap").step_back)
-map("<F8>", require("dap").continue)
+nnoremap("<leader>bp", require("dap").toggle_breakpoint, silent)
+nnoremap("<F5>", require("dap").step_into, silent)
+nnoremap("<F6>", require("dap").step_over, silent)
+nnoremap("<F7>", require("dap").step_back, silent)
+nnoremap("<F8>", require("dap").continue, silent)
 
 -- DAP
 local dap = require("dap")
