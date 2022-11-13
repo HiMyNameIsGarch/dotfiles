@@ -1,11 +1,7 @@
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
 local nnoremap = require("keymap").nnoremap
 
 local function config(_config)
     return vim.tbl_deep_extend("force", {
-        capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities),
         on_attach = function()
 
             nnoremap('<leader>rf', require('telescope.builtin').lsp_references)
