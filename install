@@ -3,7 +3,7 @@
 # Usefull functions for the install
 surround() {
     COLOR="$2"
-    case $COLOR in 
+    case $COLOR in
         error | err) COLOR="\033[0;31m" ;;
         success | succ) COLOR="\033[0;32m" ;;
         warning | warn) COLOR="\033[0;33m" ;;
@@ -25,7 +25,7 @@ surround() {
 }
 
 create_backup() {
-    [ -d "$HOME/.$1" ] && sudo mkdir -p /etc/backup/"$1" && 
+    [ -d "$HOME/.$1" ] && sudo mkdir -p /etc/backup/"$1" &&
         sudo mv "$HOME/.$1/" "/etc/backup/$1"
 }
 
@@ -42,17 +42,23 @@ surround "TIP: To download programs faster, please enable parallel downloads" "w
 printf '\n\n%s' "Continue installation? (y/n): "
 read -r RESPONSE
 
-case $RESPONSE in 
+case $RESPONSE in
     [yY]* ) printf '\n' ;;
     *) exit 1 ;;
 esac
+
+CWD="$(pwd)"
+
+home() {
+    cd "$CWD" || error "Cannot go back one directory"
+}
 
 # Main functions
 install_programs() {
     surround "Syncing the repos"
     sudo pacman --noconfirm -Sy || error "Cannot syncing the repos"
     surround "Installing necessary packages"
-    sudo cat pkgs.txt | sudo pacman --noconfirm --needed -S - || 
+    sudo cat pkgs.txt | sudo pacman --noconfirm --needed -S - ||
         error "Cannot install packages"
     surround "Programs installed succesfully" "success"
 }
@@ -63,7 +69,7 @@ compile_programs() {
     # Make sure dwm folder does not exists
     [ -d "$DWMPATH" ] && sudo rm -r "$DWMPATH"
     mkdir -p "$DWMPATH"
-    git clone "https://github.com/HiMyNameIsGarch/dwm" "$DWMPATH" || 
+    git clone "https://github.com/HiMyNameIsGarch/dwm" "$DWMPATH" ||
         error "Cannot clone dwm's repository"
 
     # Compiling dwm
@@ -80,21 +86,27 @@ compile_programs() {
     #cd "$DWMPATH/dmenu" || error "Cannot change directory to dmenu"
     #surround "Compiling dmenu"
     #sudo make clean install || "Cannot compile dmenu"
+    surround "Cannot compile dmenu as you forgot lmao"
 
     # Compile paru
     surround "Clonning paru repository"
     PARUPATH="$HOME/Dev/paru"
     [ -d "$PARUPATH" ] && sudo rm -r "$PARUPATH"
     mkdir -p "$PARUPATH"
-    git clone "https://aur.archlinux.org/paru.git" "$PARUPATH" || 
+    git clone "https://aur.archlinux.org/paru.git" "$PARUPATH" ||
         error "Cannot clone paru's repository"
 
     # Compile paru
     cd "$PARUPATH" || error "Cannot change diretory to paru"
     surround "Compiling paru"
-    makepkg -si || "Cannot compile paru"
+    makepkg -si || error "Cannot compile paru"
+
+    home
+
     surround "Remove paru's directory"
     sudo rm -r "$PARUPATH" || surround "Cannot remove paru's directory" "warn"
+    surround "Remove dwm's directory"
+    sudo rm -r "$DWMPATH" || surround "Cannot remove dwm's directory" "warn"
 
     surround "All the programs compiled succesfully" "success"
 }
@@ -103,7 +115,7 @@ install_configs() {
     surround "Beginning config installation"
 
     [ "$(basename "$PWD")" != "dotfiles" ] && error "Not in dotfiles directory, abording"
-    
+
     # Create backup folder
     [ -d "/etc/backup" ] && sudo rm -r /etc/backup ; sudo mkdir -p /etc/backup
 
@@ -114,45 +126,33 @@ install_configs() {
 
     # Create the same folder structrure
     surround "Recreating the folder structure"
-    find . -type d | sed -r '/.*(\.git).*|^\.$/d; s/\.\///g' | 
+    find . -type d | sed -r '/.*(\.git).*|^\.$/d; s/\.\///g' |
         xargs -t -I {} mkdir -p ~/{} || error "Cannot create the same folder structure."
 
     # Symlink the current config files
     surround "Copy the configuration files"
-    find . -type f | sed -r '/.*\.git.*|.*\.\/(README|LICENSE|install|pkgs).*/d; s/\.\///g' | 
+    find . -type f | sed -r '/.*\.git.*|.*\.\/(README|LICENSE|install|pkgs).*/d; s/\.\///g' |
         xargs -t -I {} ln -sf "$PWD"/{} ~/{} || error "Cannot copy the configuation files"
 
     surround "Success creating the configuration files." "success"
-}
-
-font_install() {
-    URL="$1"
-    [ -z "$URL" ] && surround "Font url is empty" "warning" && return 0
-    FONT_DIR="${2:-font}"
-    FONT_ARCH="$FONT_DIR.zip"
-    sudo mkdir -p "/usr/share/fonts/$FONT_DIR"
-    sudo wget -O "$FONT_ARCH" "$URL" || error "Cannot download $FONT_DIR font!"
-    sudo unzip "$FONT_ARCH" -d "/usr/share/fonts/$FONT_DIR" || 
-        error "Cannot unzip $FONT_DIR archive!"
-    sudo rm "$FONT_ARCH" || surround "Cannot remove $FONT_DIR archive" "warn"
-    surround "Font $FONT_DIR installed succesfully" "success"
 }
 
 # Make some additional changes to the system to work properly
 make_configs() {
     # Fonts
     surround "Installing fonts"
-    surround "Installing Anonymous Pro"
-    font_install "https://github-releases.githubusercontent.com/27574418/4108d280-4532-11ea-97cb-84fb3f779d83?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211028%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211028T120115Z&X-Amz-Expires=300&X-Amz-Signature=5f121ab40c2a84e9f7459c9b60e8de5e3b4b37b70ebdbd83f6805762480b7e28&X-Amz-SignedHeaders=host&actor_id=60199981&key_id=0&repo_id=27574418&response-content-disposition=attachment%3B filename%3DAnonymousPro.zip&response-content-type=application%2Foctet-stream" "Anonymous Pro"
-    surround "Installing Ubuntu Mono"
-    font_install "https://github-releases.githubusercontent.com/27574418/bd4de680-452f-11ea-82c6-68daa635b6e8?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211028%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211028T120134Z&X-Amz-Expires=300&X-Amz-Signature=1c0e07fcdf666efc90ba1685d96d3e8bf337fbbd47de96be4ed63428a2563d2f&X-Amz-SignedHeaders=host&actor_id=60199981&key_id=0&repo_id=27574418&response-content-disposition=attachment%3B filename%3DUbuntuMono.zip&response-content-type=application%2Foctet-stream" "Ubuntu Mono"
-    surround "Installing Roboto Mono"
-    font_install "https://github-releases.githubusercontent.com/27574418/c048d700-452f-11ea-84e0-312d33a5ec6f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211028%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211028T120154Z&X-Amz-Expires=300&X-Amz-Signature=e9a153d3a2627c05eb122b291f9adc217bf98bb15b40c0e95a7e76bad4a02931&X-Amz-SignedHeaders=host&actor_id=60199981&key_id=0&repo_id=27574418&response-content-disposition=attachment%3B filename%3DRobotoMono.zip&response-content-type=application%2Foctet-stream" "Roboto Mono"
-    surround "Installing Sauce Code Pro"
-    font_install "https://github-releases.githubusercontent.com/27574418/a6a78f80-452f-11ea-9d8b-14d4d0e7d760?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211028%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211028T120207Z&X-Amz-Expires=300&X-Amz-Signature=93f4343c1b474ff5091f6d4abe0125f0025a40cb137b836d8d5a3d602f480069&X-Amz-SignedHeaders=host&actor_id=60199981&key_id=0&repo_id=27574418&response-content-disposition=attachment%3B filename%3DSourceCodePro.zip&response-content-type=application%2Foctet-stream" "Source Code Pro"
-    surround "Installing DejaVu Sans Mono"
-    font_install "https://github-releases.githubusercontent.com/27574418/9e4f5480-452f-11ea-9ad0-0777f961b1be?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211028%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211028T120227Z&X-Amz-Expires=300&X-Amz-Signature=e51b69b7d63940c2c439976622dea09fb4dc07bea35c89ecee2138e4cf0e9b78&X-Amz-SignedHeaders=host&actor_id=60199981&key_id=0&repo_id=27574418&response-content-disposition=attachment%3B filename%3DDejaVuSansMono.zip&response-content-type=application%2Foctet-stream" "DejaVu Sans Mono"
-    surround "All fonts installed succesfully" "success"
+    git clone --depth 1 "https://github.com/ryanoasis/nerd-fonts.git" || error "Cannot clone nerd fonts repo"
+    cd "nerd-fonts" || error "cannot change dir to nerd-fonts"
+    ./install.sh "IBMPlexMono" || "Cannot install font IBM Plex Mono"
+    ./install.sh "RobotoMono" || "Cannot install font IBM Plex Mono"
+    ./install.sh "DejaVuSansMono" || "Cannot install font DejaVuSansMono"
+    ./install.sh "AnonymousPro" || "Cannot install font AnonymousPro"
+    ./install.sh "Hack" || "Cannot install font Hack"
+    ./install.sh "JetBrainsMono" || "Cannot install font JetBrainsMono"
+    ./install.sh "UbuntuMono" || "Cannot install font UbuntuMono"
+    ./install.sh "SourceCodePro" || "Cannot install font SourceCodePro"
+
+    home
 
     # Change default shell
     surround "Change default shell to zsh"
@@ -164,7 +164,7 @@ make_configs() {
     if [ ! -f "$PROFILE" ]; then
         touch "$PROFILE"
         chmod +x "$PROFILE"
-        printf '%s\n\n' "#!/bin/sh"
+        printf '%s\n\n' "#!/bin/sh" >> "$PROFILE"
     fi
     {
         echo "profile=\"/home/$USER/.config/profile\" "
@@ -172,12 +172,12 @@ make_configs() {
     } >> "$PROFILE"
 
     surround "Starting Lightdm"
-    sudo systemctl enable lightdm || error "Cannot enable lightdm at startup"
+    sudo rc-update add lightdm default || error "Cannot enable lightdm at startup"
 
     # In order for dwm to work with lightdm you need to create manually an entry
     surround "Creating dwm entry for Lightdm"
     sudo mkdir -p "/usr/share/xsessions" || error "Cannot create folder for xsessions"
-    DWMENTRY="/usr/share/xsessions/dwm.desktop" 
+    DWMENTRY="/usr/share/xsessions/dwm.desktop"
     sudo touch "$DWMENTRY" || error "Cannot create desktop entry"
     echo "[Desktop Entry]" | sudo tee "$DWMENTRY" > /dev/null
     {
@@ -187,22 +187,22 @@ make_configs() {
         echo "Exec=startdwm"
         echo "Icon=dwm"
         echo "Type=XSession"
-    } | sudo tee -a "$DWMENTRY" > /dev/null || 
+    } | sudo tee -a "$DWMENTRY" > /dev/null ||
         error "Cannot create dwm desktop entry"
 
-    # Create a script to start dwm - log the output in a file 
+    # Create a script to start dwm - log the output in a file
     surround "Create dwm start script"
     # Create the folder logs for dwm
-    mkdir -p "$HOME/logs/dwm" || error "Cannot create dwm logs folder"
+    mkdir -p "$HOME/.cache/dwm" || error "Cannot create dwm logs folder"
     DWMSCRIPT="/usr/local/bin/startdwm"
     # Put dwm in an infinite loop so when restarting you don't need to login again
     sudo touch "$DWMSCRIPT" || error "Cannot create dwm start script"
     printf '%s\n\n' "#!/bin/sh" | sudo tee "$DWMSCRIPT" > /dev/null
     {
         echo "while true; do"
-        echo "    dwm >> /home/$USER/logs/dwm/\$(date +%Y-%m-%d.log)"
+        echo "    dwm >> /home/$USER/.cache/dwm/\$(date +%Y-%m-%d.log)"
         echo "done"
-    } | sudo tee -a "$DWMSCRIPT" >/dev/null || 
+    } | sudo tee -a "$DWMSCRIPT" >/dev/null ||
         error "Cannot create dwm start script"
     sudo chmod +x "$DWMSCRIPT" || error "Cannot change permission to dwm script"
 
@@ -212,26 +212,33 @@ make_configs() {
 add_themes() {
     surround "Adding additional themes for some programs"
 
-    surround "Add Lightdm Webkit Osmos Theme"
-    paru -S "lightdm-webkit-theme-osmos" || error "Cannot install lightdm theme"
+    #surround "Add Lightdm Nody greeter"
+    #git clone --recursive https://github.com/JezerM/nody-greeter.git || error "Cannot clone Nody repo"
+    #cd nody-greeter || error "Cannot change directory into nody greeter"
+    #npm install || error "Cannot install npm packages"
+    ##npm run rebuild || error "Cannot install npm packages"
+    #npm run build || error "Cannot install npm packages"
+    #sudo node make install || error "Cannot install nody greeter"
 
-    surround "Add Vimix Grub theme"
-    VIMIXPATH="$USER/Dev/Vimix-1080p"
-    cd "$USER/Dev" || error "Cannot change directory"
-    wget "https://dl2.pling.com/api/files/download/j/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE1NzIyNTAzOTIiLCJ1IjpudWxsLCJsdCI6ImRvd25sb2FkIiwicyI6Ijk2ODg1YjJiNDQ5ZDM1NTA4NDhiOTUxMGQ4N2ZiZGRmZmY4ZjE2MzYwM2Q2ZjBiM2FiMmNjNmQ1MWYxMTk5YzAzZjA0OTM1MzAyNzAwMmJhNDFjYmM1ZmFmZTFmM2UxNjNkYTA4NGY2OGVmOWEyYmVkZmI0NTk2NzU5MTk2ZTRiIiwidCI6MTYzNTYwMzM2NCwic3RmcCI6ImZiZTczNDk4M2I0Y2ZiODA2ODEwYWE0OTc4MmM3YjI1Iiwic3RpcCI6Ijc4Ljk3LjU5LjExNCJ9.pbkDktYVJZShTfxSLKxTwZjCzigFdDVs5-FnugwytPU/Vimix-1080p.tar.xz" ||
-        error "Cannot download grub theme"
-    tar xf "Vimix-1080p.tar.xz" || error "Cannot unzip theme"
-    cd "$VIMIXPATH" || error "Cannot change directory to theme"
-    sudo ./install.sh || error "Cannot install new theme"
+    #surround "Changing lightdm config to support Nody greeter"
+    #sudo sed -i 's/^greeter-session.*/greeter-session = nody-greeter/g' /etc/lightdm/lightdm.conf || error "Cannot apply setting to lightdm conf"
 
-    surround "Remove vimix's directory"
-    sudo rm -r "$VIMIXPATH" || surround "Cannot remove Vimix's directory" "warn"
+    #surround "Cleaning repo"
+    #home
+    #rm -r nody-greeter || error "Cannot remove nody-directory"
+
+    surround "Installing grub theme"
+    git clone https://github.com/nobreDaniel/dotfile.git || error "Cannot clone grub repo"
+    sudo cp -r ./dotfile/Arcade /usr/share/grub/themes/ || error "Cannot copy theme into grub themes directory"
+    sudo cp grub_config /etc/default/grub || error "Cannot copy the grub config file"
+    sudo grub-mkconfig -o /boot/grub/grub.cfg || error "Cannot update grub"
 
     surround "Themes installed succesfully" "success"
 }
 
 # Ask the user to reboot in order the changes to take effect
 reboot_time() {
+    surround "One quick note for me, compile dmenu, it's not included in this script, thanks! "
     surround "Success, your system is ready to rock" "success"
     surround "But you need to reboot in order the changes to take effect" "success"
     surround "It will be the last reboot you need to do!" "success"
