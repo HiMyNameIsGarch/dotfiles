@@ -1,0 +1,9 @@
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = *
+
+[Action]
+Description = Reinstalling droidcam camera module...
+When = PostTransaction
+Exec = /home/garch/.local/bin/droidcam-reinstall
