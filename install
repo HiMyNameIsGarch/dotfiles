@@ -83,11 +83,11 @@ compile_programs() {
     sudo make clean install || error "Cannot compile dwmblocks"
 
     # Compiling dmenu
-    #cd "$DWMPATH/dmenu" || error "Cannot change directory to dmenu"
-    #surround "Compiling dmenu"
-    #sudo make clean install || "Cannot compile dmenu"
-    surround "Cannot compile dmenu as you forgot lmao"
-
+    # cd "$DWMPATH/dmenu" || error "Cannot change directory to dmenu"
+    # surround "Compiling dmenu"
+    # sudo make clean install || "Cannot compile dmenu"
+    # TODO: Create command for dmenu sep repo
+    #
     # Compile paru
     surround "Clonning paru repository"
     PARUPATH="$HOME/Dev/paru"

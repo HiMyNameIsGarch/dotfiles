@@ -17,8 +17,8 @@ FN="$SC/$(date '+%d-%h-%Y')"
 echo "$SCS" | xargs -I {} mv {} "$FN"
 
 # These 2 lines are for cron jobs in order to work with notify-send
-DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
-export DBUS_SESSION_BUS_ADDRESS
+# DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
+# export DBUS_SESSION_BUS_ADDRESS
 
-notify-send "Screenshots organized!" "I organized a total of $(echo "$SCS" | wc -l) screenshots!"
+# notify-send "Screenshots organized!" "I organized a total of $(echo "$SCS" | wc -l) screenshots!"
 exit 0

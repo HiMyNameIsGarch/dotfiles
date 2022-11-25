@@ -152,10 +152,10 @@ config.bind('J', 'tab-prev', mode='normal')
 config.unbind('<Ctrl-q>', mode='normal')
 
 # Type: List of Font, or Font
-c.fonts.default_family = '"JetBrainsMono Nerd Font Mono"'
+c.fonts.default_family = "JetBrainsMono Nerd Font Mono"
 
 # Type: String
-c.fonts.default_size = '11pt'
+c.fonts.default_size = '10pt'
 
 # Font used in the completion widget.
 # Type: Font

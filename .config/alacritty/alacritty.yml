@@ -27,7 +27,7 @@ window:
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
-    x: 4
+    x: 0
     y: 4
 
   # Background opacity
@@ -44,7 +44,7 @@ window:
     general: Alacritty
 
 scrolling:
-  history: 5000
+  history: 10000
 
 tabspaces: 4
 

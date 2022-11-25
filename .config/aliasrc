@@ -88,8 +88,8 @@ alias k9="kill -9"
 alias checkbash="checkbashisms"
 
 #-------------------< Prevent making mistakes with rm/cp/mv >-------------------
-alias rm="rm -I"
 alias mv="mv -i"
+alias rm="rm -I"
 alias cp="cp -i"
 
 #---------------------------< ls commands with exa >----------------------------
@@ -113,11 +113,11 @@ alias pacs="sudo pacman -S"
 alias pacr="sudo pacman -R"
 alias pacrs="sudo pacman -Rs"
 alias pacrns="sudo pacman -Rns"
-alias yays="yay -S"
-alias yaysua="yay -Sua"
-alias yaysyu="yay -Syu"
-alias yayr="yay -R"
-alias yayrs="yay -Rs"
+alias yays="paru -S"
+alias yaysua="paru -Sua"
+alias yaysyu="paru -Syu"
+alias yayr="paru -R"
+alias yayrs="paru -Rs"
 
 #--------------------< Get fastest mirror using reflector >---------------------
 alias mirror="sudo reflector -c Romania -c Bulgaria -a 12 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist"

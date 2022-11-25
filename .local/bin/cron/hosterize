@@ -36,7 +36,9 @@ main() {
 
     echo "Restarting NetworkManager..."
 
-    systemctl restart NetworkManager
+    # For systemd
+    # systemctl restart NetworkManager
+    # For openrc
 }
 
-main || echo "Cannot change hosts file..."
+main || echo "ERROR: Cannot change hosts file..."

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Put wallpaper
-feh --bg-scale --no-fehbg --recursive --randomize /home/himynameisgarch/Media/Wallpapers/
+feh --bg-scale --no-fehbg --recursive --randomize /home/garch/Media/Wallpapers/
 
 # Start dwmblocks
 dwmblocks >/dev/null &

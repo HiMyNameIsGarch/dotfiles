@@ -15,10 +15,10 @@ extract() {
                          tar xvf "$n"       ;;
             *.lzma)      unlzma ./"$n"      ;;
             *.bz2)       bunzip2 ./"$n"     ;;
-            *.cbr|*.rar)       
+            *.cbr|*.rar)
                          unrar x -ad ./"$n" ;;
             *.gz)        gunzip ./"$n"      ;;
-            *.cbz|*.epub|*.zip)       
+            *.cbz|*.epub|*.zip)
                          unzip ./"$n"       ;;
             *.z)         uncompress ./"$n"  ;;
             *.7z|*.arj|*.cab|*.cb7|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar)
@@ -26,7 +26,7 @@ extract() {
             *.xz)        unxz ./"$n"        ;;
             *.exe)       cabextract ./"$n"  ;;
             *.cpio)      cpio -id < ./"$n"  ;;
-            *.cba|*.ace)      
+            *.cba|*.ace)
                          unace x ./"$n"      ;;
             *)
                 echo "extract: '$n' - unknown archive method"
@@ -40,7 +40,7 @@ extract() {
 fi
 }
 
-db() { # Directory Browser 
+db() { # Directory Browser
     while [ : ]; do # use Ctrl-C to quit || select "." to go back one dir
         current_dir="$(find . -maxdepth 1 -type d | sed -r 's/\.\///g' | fzf)"
         [ -z "$current_dir" ] && break
@@ -56,19 +56,19 @@ isprime() {
     i=2
     #flag variable
     f=0
-    
+
     #running a loop from 2 to number/2
     while test $i -le $(expr $number / $i); do
-    
+
         #checking if i is factor of number
         test $(expr $number % $i) -eq 0 && f=1
-    
+
         #increment the loop variable
         i=$(expr $i + 1)
 
     done
-    test $f -eq 1 && 
-        echo -e "\e[31m$number is Not Prime" || 
+    test $f -eq 1 &&
+        echo -e "\e[31m$number is Not Prime" ||
         echo -e "\e[32m$number is Prime"
 }
 
@@ -76,7 +76,7 @@ isprime() {
 yplay() {
     [ -z "$1" ] && echo "Please provide a playlist in order to continue..." && return 1
     local ARGS=""
-    case "$2" in 
+    case "$2" in
         audio | a) ARGS="--no-video" ;;
         video | v) ARGS="--fs" ;;
     esac
@@ -102,8 +102,8 @@ aliases() {
 chist() {
     echo "$(cat "$HISTFILE" | fzf)" | tr "\n" " " | xclip -sel c
 }
-hist() { 
-    grep "$1" "$HISTFILE" 
+hist() {
+    grep "$1" "$HISTFILE"
 }
 
 ehist() { # edit the history file
@@ -122,7 +122,7 @@ isthere() {
     echo "|      Results from AUR       |"
     echo "###############################"
     echo
-    yay -Ss "$1"
+    paru -Ss "$1"
 }
 
 clear() { # Don't type clear, use CTRL+l instead!
@@ -138,17 +138,17 @@ dm() {
     cdm() { cd "$BASE" ; }
     case $1 in
         # Actions
-        sheet) qutebrowser "" ;; 
-        pres) qutebrowser "" ;; 
+        sheet) qutebrowser "" ;;
+        pres) qutebrowser "" ;;
         init) initnvm ;;
-        start) cdm && initnvm && npm run dev ;; 
-        stat) cdm && ls && git status ;; 
-        edit) cdm && nvim -c "Telescope find_files" ;; 
+        start) cdm && initnvm && npm run dev ;;
+        stat) cdm && ls && git status ;;
+        edit) cdm && nvim -c "Telescope find_files" ;;
         # Directories
-        db) cd "$BASE/src/app/shared/services/Db" && ls ;; 
-        models) cd "$BASE/src/app/shared/services/Db/Models" && ls ;; 
-        auth) cd "$BASE/src/app/shared/modules/auth" && ls ;; 
-        app) cd "$BASE/src/app" && ls ;; 
+        db) cd "$BASE/src/app/shared/services/Db" && ls ;;
+        models) cd "$BASE/src/app/shared/services/Db/Models" && ls ;;
+        auth) cd "$BASE/src/app/shared/modules/auth" && ls ;;
+        app) cd "$BASE/src/app" && ls ;;
         *) cdm && ls ;;
     esac
 }
