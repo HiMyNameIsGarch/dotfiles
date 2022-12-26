@@ -1,2 +1,3 @@
-0 14 * * 1,3,6 pacman -Sy
-0 14 * * 0,2,4 reflector -c Romania -c Bulgaria -a 12 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
+0 13 * * 0,2,4 pacman -Sy
+0 14 * * 0,2,4 reflector -c Romania -c Bulgaria -a 12 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist-arch
+0 15 * * 0,2,4 /home/garch/.local/bin/cron/mirror-artix
