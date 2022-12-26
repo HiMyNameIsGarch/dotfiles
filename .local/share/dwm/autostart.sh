@@ -24,7 +24,13 @@ dunst &
 # Pulse audio
 pulseaudio -D
 
+# Programs
+qbittorrent &
+qutebrowser &
+
 # Output sound to speaker
 soundCard="HDA-Intel - HDA Intel PCH"
 cardNum="$(awk "/$soundCard/ {print \$1}" /proc/asound/cards)"
 amixer -c "$cardNum" sset "Auto-Mute Mode" 'Speaker Only' </dev/null
+
+exit 0

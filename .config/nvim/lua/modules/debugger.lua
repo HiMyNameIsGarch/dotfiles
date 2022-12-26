@@ -11,6 +11,8 @@ nnoremap("<F8>", require("dap").continue, silent)
 -- DAP
 local dap = require("dap")
 
+-----------------------------------< Csharp >-----------------------------------
+
 dap.adapters.coreclr = {
   type = 'executable',
   command = 'netcoredbg',
@@ -51,7 +53,36 @@ dap.configurations.cs = {
   },
 }
 
--- DAP-UI
+----------------------------------< CPlusPlus >---------------------------------
+dap.adapters.cppdbg = {
+  id = 'cppdbg',
+  type = 'executable',
+  command = '/home/garch/.local/bin/extension/debugAdapters/bin/OpenDebugAD7',
+}
+
+dap.configurations.cpp = {
+  {
+    name = "Launch file",
+    type = "cppdbg",
+    request = "launch",
+    program = function()
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+    end,
+    cwd = '${workspaceFolder}',
+    MIMode = 'gdb',
+    miDebuggerPath = '/usr/bin/gdb',
+    stopAtEntry = true,
+    setupCommands = {
+        {
+            description= "Enable pretty-printing for gdb",
+            text= "-enable-pretty-printing",
+            ignoreFailures= true
+        }
+    }
+  },
+}
+
+-----------------------------------< DAP-UI >-----------------------------------
 require("dapui").setup({
     layouts = {
         {

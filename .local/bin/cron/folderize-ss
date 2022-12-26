@@ -9,7 +9,7 @@
 SC="$HOME/Media/Screenshots"
 
 SCS="$(find "$SC" -mindepth 1 -maxdepth 1 -type f -name "*.png")"
-[ -z "$SCS" ] && exit 1
+[ -z "$SCS" ] && exit 0
 
 FN="$SC/$(date '+%d-%h-%Y')"
 

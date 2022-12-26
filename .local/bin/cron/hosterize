@@ -10,35 +10,47 @@ START_POINT="# Start"
 TMP_FILE="/tmp/hosts_tmp"
 HOSTS="/etc/hosts"
 
-date # Print out the date when this script runs
+BASE="/var/log/cron"
+mkdir -p "$BASE"
+
+LOG="$BASE/hosterize"
+
+prt() { echo "$@" >> "$LOG"; }
+
+prt " "
+prt "$(date)" # Print out the date when this script runs
+
 if [ "$(whoami)" != "root" ]; then
     echo "Please run as root"
     exit 1
 fi
 
 main() {
-    echo "Removing current hosts..."
+    prt "Removing current hosts..."
 
     sed -i "/$START_POINT.*/,\$d" "$HOSTS"
 
-    echo "Downloading new hosts..."
+    prt "Downloading new hosts..."
 
-    wget -O "$TMP_FILE" "$URL"
+    wget -O "$TMP_FILE" "$URL" > "$LOG" 2>&1
 
-    echo "Adding new hosts..."
+    prt "Adding new hosts..."
 
     echo "$START_POINT StevenBlack" >> "$HOSTS"
     sed "1,/$START_POINT.*/d" "$TMP_FILE" >> "$HOSTS"
 
-    echo "Clean up..."
+    prt "Clean up..."
 
     rm "$TMP_FILE"
 
-    echo "Restarting NetworkManager..."
+    prt "Restarting NetworkManager..."
 
     # For systemd
     # systemctl restart NetworkManager
     # For openrc
+    rc-service NetworkManager restart
 }
 
-main || echo "ERROR: Cannot change hosts file..."
+main || prt "ERROR: Cannot change hosts file..."
+
+exit 0

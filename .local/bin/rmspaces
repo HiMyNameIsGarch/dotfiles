@@ -4,8 +4,8 @@ rnm() { mv "$1" "$(echo "$1" | sed -r 's/\s+/-/g; s/\-+/-/g')" ; }
 
 help-menu(){
     echo rmspaces - Remove spaces from files/directory names.
-    echo 
-    echo Options: 
+    echo
+    echo Options:
     echo f - all the files in this directory.
     echo d - all directories in this directory.
     echo r - recursevly all the elements from this directory.
@@ -13,7 +13,7 @@ help-menu(){
 }
 
 [ -z "$1" ] && help-menu && exit 1
-# Allow user to put a directory to remove spaces from 
+# Allow user to put a directory to remove spaces from
 CD="$PWD"
 [ -z "$2" ] || CD="$2"
 

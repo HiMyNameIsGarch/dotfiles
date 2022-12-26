@@ -120,6 +120,6 @@ alias yayr="paru -R"
 alias yayrs="paru -Rs"
 
 #--------------------< Get fastest mirror using reflector >---------------------
-alias mirror="sudo reflector -c Romania -c Bulgaria -a 12 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist"
-alias mirrorl="sudo reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist"
-alias mirrora="sudo reflector --latest 50 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
+alias mirror="sudo reflector -c Romania -c Bulgaria -a 12 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist-arch"
+alias mirrorl="sudo reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist-arch"
+alias mirrora="sudo reflector --latest 50 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist-arch"

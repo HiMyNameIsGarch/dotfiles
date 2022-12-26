@@ -122,6 +122,9 @@ config.set('content.javascript.enabled', True, 'qute://*/*')
 # Add dark mode
 config.set("colors.webpage.darkmode.enabled", True)
 
+# WebGL
+config.set("content.webgl", True)
+
 # Default search engines
 c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}',
         'aw': 'https://wiki.archlinux.org/?search={}',

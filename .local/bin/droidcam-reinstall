@@ -63,4 +63,8 @@ printi "Begin the new installation"
 installDroidCam ||
     s_err "Cannot reinstall droidcam, you can install it manually from here: https://www.dev47apps.com/droidcam/linux/"
 
+printi "Remove tmp files"
+rm "/tmp/droidcam_latest.zip"
+rm -r "/tmp/droidcam"
+
 prints "Success, now you can use your Droidcam"
