@@ -86,7 +86,32 @@ ls.add_snippets(nil, {
         int main() {{
             return 0;
         }}
-        ]], i(1)))
+        ]], i(1))),
+
+        s("cout", fmt([[
+        cout << {} << endl;
+        ]], i(1))),
+
+        s("sfor", fmt([[
+        for(int i = 0; i <= {}; i++){{
+            cout << {}[i] << " ";
+        }}
+        cout << endl;
+        ]], {i(1), i(2)} )),
+
+        s("dfor", fmt([[
+        for(int i = 0; i <= {}; i++){{
+            for(int j = 0; j <= {}; j++){{
+                cout << {}[i][j] << " ";
+            }}
+            cout << endl;
+        }}
+        ]], { i(1), i(2), i(3)})),
+
+        s("fstream", fmt([[
+        ifstream fin("{}.in");
+        ofstream fout("{}.out");
+        ]], { i(1), same(1)}))
     },
     lua = {
         ls.parser.parse_snippet("lf", "local $1 = function($2)\n\t$0\nend")
@@ -127,7 +152,7 @@ ls.add_snippets(nil, {
                     local proj = cwd[#cwd] or "Changeme"
                     return proj:gsub("-", "_")
                 end),
-                i(1), same(1), same(1), same(1)})
+                i(1, "<testme>"), same(1), same(1), same(1)})
         ),
         s("prop",
             fmt([[

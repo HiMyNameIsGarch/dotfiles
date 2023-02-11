@@ -4,13 +4,13 @@ autoload -U colors && colors
 LEFTPROMPT="%B%{$fg[magenta]%}(%{$fg[yellow]%}"
 RIGHTPROMPT="%{$fg[blue]%}%1d%{$fg[magenta]%})%{$fg[green]%}->%b "
 
-PROMPTINSERT="$LEFTPROMPT-I-$RIGHTPROMPT" 
-PROMPTNORMAL="$LEFTPROMPT-N-$RIGHTPROMPT"  
+PROMPTINSERT="$LEFTPROMPT-I-$RIGHTPROMPT"
+PROMPTNORMAL="$LEFTPROMPT-N-$RIGHTPROMPT"
 
 # History in cache directory:
 HISTFILE=~/.cache/zsh/history
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=100000
 export PATH=${PATH}:"${XDG_DATA_HOME}/npm/bin"
 
 # vi mode
