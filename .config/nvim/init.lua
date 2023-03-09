@@ -57,3 +57,24 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*",
     command = ':%s/\\s\\+$//e'
 })
+
+local nnoremap = require("keymap").nnoremap
+
+nnoremap('<leader>st', function ()
+    local fname = vim.fn.expand('%:p')
+
+    vim.cmd('vsplit')
+    local win = vim.api.nvim_get_current_win()
+    local buf = vim.api.nvim_create_buf(true, true)
+    vim.api.nvim_buf_set_name(buf, "practice_pg")
+    vim.api.nvim_win_set_buf(win, buf)
+
+    vim.fn.jobstart({"grep", "-oP", "^\\d.*", fname}, {
+        stdout_buffered = true,
+        on_stdout = function (_, data)
+            if data then
+                vim.api.nvim_buf_set_lines(buf, 0, 0, false, data)
+            end
+        end,
+    })
+end)
