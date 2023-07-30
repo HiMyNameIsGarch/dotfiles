@@ -21,6 +21,11 @@ redshift >/dev/null &
 # Start dunst
 dunst &
 
+# Output sound to speaker
+soundCard="HDA-Intel - HDA Intel PCH"
+cardNum="$(awk "/$soundCard/ {print \$1}" /proc/asound/cards)"
+amixer -c "$cardNum" sset "Auto-Mute Mode" 'Speaker Only' </dev/null
+
 # Pulse audio
 pulseaudio -D
 
@@ -28,9 +33,8 @@ pulseaudio -D
 qbittorrent &
 qutebrowser &
 
-# Output sound to speaker
-soundCard="HDA-Intel - HDA Intel PCH"
-cardNum="$(awk "/$soundCard/ {print \$1}" /proc/asound/cards)"
-amixer -c "$cardNum" sset "Auto-Mute Mode" 'Speaker Only' </dev/null
+sleep 1s
+
+mpg123 -q /usr/share/event-sounds/boot_welcome.mp3 >/dev/null &
 
 exit 0
