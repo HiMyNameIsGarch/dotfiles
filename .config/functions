@@ -129,6 +129,24 @@ clear() { # Don't type clear, use CTRL+l instead!
     shuf -n 1 "$HOME/Media/Data/insults"
 }
 
+pd() {
+    local BASE="$HOME/Dev/priveste-test"
+    initnvm() {
+        source /usr/share/nvm/init-nvm.sh
+        nvm use 18
+    }
+    cdm() { cd "$BASE" ; }
+    case $1 in
+        # Actions
+        init) initnvm ;;
+        start) cdm && initnvm && npm run dev ;;
+        stat) cdm && ls && git status ;;
+        edit) cdm && nvim -c "Telescope find_files" ;;
+        # Directories
+        *) cdm && ls ;;
+    esac
+}
+
 dm() {
     local BASE="$HOME/Dev/DigitalMagazine"
     initnvm() {
