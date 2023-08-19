@@ -18,6 +18,9 @@ require("modules.completion")
 require("modules.telescope")
 require("modules.lightline")
 require'nvim-treesitter.configs'.setup {
+    indent = {
+        enable = true
+    },
     highlight = {
         enable = true,
         additional_vim_regex_highlighting = true
@@ -34,6 +37,7 @@ require("modules.dotnet")
 require("modules.snippets")
 require("modules.debugger")
 require("modules.cplusplus")
+require("modules.typescript")
 
 -- dadbod for databases
 vim.g.db_ui_save_location = "~/.local/share/db_queries"
