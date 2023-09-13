@@ -82,12 +82,21 @@ compile_programs() {
     surround "Compiling dwmblocks"
     sudo make clean install || error "Cannot compile dwmblocks"
 
-    # Compiling dmenu
-    # cd "$DWMPATH/dmenu" || error "Cannot change directory to dmenu"
-    # surround "Compiling dmenu"
-    # sudo make clean install || "Cannot compile dmenu"
-    # TODO: Create command for dmenu sep repo
-    #
+    # Dmenu
+    surround "Clonning dmenu repository"
+    DMENUPATH="$HOME/Dev/dmenu"
+
+    # Make sure dmenu folder does not exists
+    [ -d "$DMENUPATH" ] && sudo rm -r "$DMENUPATH"
+    mkdir -p "$DMENUPATH"
+    git clone "https://github.com/HiMyNameIsGarch/dmenu" "$DMENUPATH" ||
+        error "Cannot clone dmenu's repository"
+    cd "$DMENUPATH" || error "Cannot change directory to dmenu"
+
+    # Compile dmenu
+    surround "Compiling dmenu"
+    sudo make clean install || error "Cannot compile dmenu"
+
     # Compile paru
     surround "Clonning paru repository"
     PARUPATH="$HOME/Dev/paru"
@@ -228,10 +237,10 @@ add_themes() {
     #rm -r nody-greeter || error "Cannot remove nody-directory"
 
     surround "Installing grub theme"
-    git clone https://github.com/nobreDaniel/dotfile.git || error "Cannot clone grub repo"
-    sudo cp -r ./dotfile/Arcade /usr/share/grub/themes/ || error "Cannot copy theme into grub themes directory"
-    sudo cp grub_config /etc/default/grub || error "Cannot copy the grub config file"
-    sudo grub-mkconfig -o /boot/grub/grub.cfg || error "Cannot update grub"
+    #git clone https://github.com/nobreDaniel/dotfile.git || error "Cannot clone grub repo"
+    #sudo cp -r ./dotfile/Arcade /usr/share/grub/themes/ || error "Cannot copy theme into grub themes directory"
+    #sudo cp grub_config /etc/default/grub || error "Cannot copy the grub config file"
+    #sudo grub-mkconfig -o /boot/grub/grub.cfg || error "Cannot update grub"
 
     surround "Themes installed succesfully" "success"
 }
@@ -255,6 +264,6 @@ install_programs || error "Error installing programs"
 install_configs || error "Error installing configuration files"
 compile_programs || error "Error while compilling programs"
 make_configs || error "Cannot make modification to system"
-add_themes || error "Error while installing system themes"
+#add_themes || error "Error while installing system themes"
 # Ask to reboot for changes to take effect
 reboot_time || error "Cannot reboot"

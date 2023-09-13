@@ -1,1 +1,14 @@
 librewolf-bin
+codelldb-bin
+firebase-tools-bin
+librewolf-bin
+netcoredbg
+omnisharp-roslyn
+onlyoffice-bin
+plymouth-nosystemd
+plymouth-theme-archlinux
+rankmirrors
+rar
+spotify
+spotify-adblock-git
+v4l2loopback-dc-dkms
