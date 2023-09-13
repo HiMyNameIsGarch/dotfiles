@@ -54,32 +54,28 @@ dap.configurations.cs = {
 }
 
 ----------------------------------< CPlusPlus >---------------------------------
-dap.adapters.cppdbg = {
-  id = 'cppdbg',
-  type = 'executable',
-  command = '/home/garch/.local/bin/extension/debugAdapters/bin/OpenDebugAD7',
+dap.adapters.codelldb = {
+  type = 'server',
+  port = "${port}",
+  executable = {
+    -- CHANGE THIS to your path!
+    command = '/usr/bin/codelldb',
+    args = {"--port", "${port}"},
+  }
 }
 
 dap.configurations.cpp = {
-  {
-    name = "Launch file",
-    type = "cppdbg",
-    request = "launch",
-    program = function()
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-    end,
-    cwd = '${workspaceFolder}',
-    MIMode = 'gdb',
-    miDebuggerPath = '/usr/bin/gdb',
-    stopAtEntry = true,
-    setupCommands = {
-        {
-            description= "Enable pretty-printing for gdb",
-            text= "-enable-pretty-printing",
-            ignoreFailures= true
-        }
-    }
-  },
+    {
+        name = "Launch file",
+        type = "codelldb",
+        request = "launch",
+        program = function()
+            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+    },
+
 }
 
 -----------------------------------< DAP-UI >-----------------------------------

@@ -37,4 +37,6 @@ sleep 1s
 
 mpg123 -q /usr/share/event-sounds/boot_welcome.mp3 >/dev/null &
 
+xinput --set-prop 8 'libinput Accel Speed' -0.4
+
 exit 0

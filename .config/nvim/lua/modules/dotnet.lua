@@ -1,5 +1,29 @@
 -- Maps for dotnet development
 local nnoremap = require("keymap").nnoremap
+local inoremap = require("keymap").inoremap
+
+nnoremap('<leader>cg', function ()
+    require('luasnip.extras.otf').on_the_fly("")
+end)
+
+nnoremap('<leader>cc', function ()
+    vim.fn.inputsave()
+    local name = vim.fn.input('Name of controller: ')
+    vim.fn.inputrestore()
+    -- Create controller file
+    local cbuf = vim.api.nvim_create_buf(true,true)
+    vim.api.nvim_buf_set_option(cbuf, 'buftype', 'nofile')
+    vim.api.nvim_buf_set_option(cbuf, 'filetype', 'cs')
+    vim.api.nvim_buf_set_option(cbuf, 'modifiable', true)
+    vim.api.nvim_buf_set_name(cbuf, name .. 'Controller.cs')
+    -- Execute snippet
+    vim.api.nvim_buf_call(cbuf, function ()
+        local luasnip = require('luasnip')
+        local snip = luasnip.get_snippets("cs")[1]
+        luasnip.snip_expand(snip)
+        vim.cmd('%s/<testme>/' .. name .. '/g')
+    end)
+end)
 
 nnoremap('<leader>dnb', ':!dotnet build<CR>')
 

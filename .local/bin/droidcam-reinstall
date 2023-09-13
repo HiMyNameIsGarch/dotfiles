@@ -17,18 +17,18 @@ s_err() { # Print an error than exit
 }
 
 printi "Remove the current droidcam:"
-if sudo /opt/droidcam-uninstall; then
-    prints "Droidcam removed succesfully"
-else
-    s_err "Cannot remove droidcam, exiting"
-fi
+# if sudo /opt/droidcam-uninstall; then
+#     prints "Droidcam removed succesfully"
+# else
+#     s_err "Cannot remove droidcam, exiting"
+# fi
 
 installDroidCam() {
     printi "Going in /tmp directory"
     cd /tmp/ || return 0
 
     printi "Getting the zip"
-    if wget -O droidcam_latest.zip https://files.dev47apps.net/linux/droidcam_1.8.0.zip ; then
+    if wget -O droidcam_latest.zip https://files.dev47apps.net/linux/droidcam_2.0.0.zip ; then
         prints "Done"
     else
         s_err "Cannot get the zip file"

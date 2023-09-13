@@ -130,16 +130,19 @@ clear() { # Don't type clear, use CTRL+l instead!
 }
 
 pd() {
-    local BASE="$HOME/Dev/priveste-test"
+    local BASE="$HOME/Dev/Vue/priveste-test"
     initnvm() {
-        source /usr/share/nvm/init-nvm.sh
+        . /usr/share/nvm/init-nvm.sh
         nvm use 18
+    }
+    libreme() {
+        nohup librewolf localhost:3000 >/dev/null &
     }
     cdm() { cd "$BASE" ; }
     case $1 in
         # Actions
         init) initnvm ;;
-        start) cdm && initnvm && npm run dev ;;
+        start) cdm && initnvm && libreme && npm run dev ;;
         stat) cdm && ls && git status ;;
         edit) cdm && nvim -c "Telescope find_files" ;;
         # Directories
