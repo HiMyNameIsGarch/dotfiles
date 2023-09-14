@@ -1,0 +1,10 @@
+#!/bin/sh
+
+
+PERC=$(cat /sys/class/power_supply/BAT1/capacity)
+STAT=$(cat /sys/class/power_supply/BAT1/status)
+[ "$STAT" = "Discharging" ] && STAT="--" || STAT="++"
+
+echo "B:$PERC%$STAT"
+
+
