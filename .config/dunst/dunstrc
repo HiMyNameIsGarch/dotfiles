@@ -226,7 +226,7 @@
 
     # Ignore the dbus closeNotification message.
     # Useful to enforce the timeout set by dunst configuration. Without this
-    # parameter, an application may close the notification sent before the 
+    # parameter, an application may close the notification sent before the
     # user defined timeout.
     ignore_dbusclose = false
 
@@ -292,25 +292,26 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#282828"
-    foreground = "#fbf1c7"
-    frame_color= "#fe8019"
+    background = "#dfdfdf"
+    foreground = "#2d2b3c"
+    frame_color= "#242424"
     timeout = 5
-    icon = /home/himynameisgarch/.config/dunst/normal.png
+    icon = /home/garch/.config/dunst/normal.png
 
 [urgency_normal]
-    background = "#3c3836"
-    foreground = "#fbf1c7"
-    frame_color= "#d65d0e"
+    background = "#dfdfdf"
+    foreground = "#2d2b3c"
+    frame_color= "#242424"
+    highlight="#242424"
     timeout = 5
-    icon = /home/himynameisgarch/.config/dunst/normal.png
+    icon = /home/garch/.config/dunst/normal.png
 
 [urgency_critical]
     background = "#6a040f"
     foreground = "#ebdbb2"
     frame_color = "#cc241d"
     timeout = 6
-    icon = /home/himynameisgarch/.config/dunst/urgent.png 
+    icon = /home/garch/.config/dunst/urgent.png
 
 # Every section that isn't one of the above is interpreted as a rules to
 # override settings for certain messages.

@@ -4,6 +4,8 @@ export EDITOR="nvim"
 export BROWSER="librewolf"
 export SHELPER="$HOME/.local/bin/shelper"
 
+export FUN_SOUNDS="anything"
+
 export PATH="${PATH}":"${XDG_DATA_HOME}/npm/bin":"${HOME}/.local/bin":"${HOME}/.local/bin/dmenu":"${HOME}/.local/bin/dwm-bar":/usr/share/bin:/opt/VStudio
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"

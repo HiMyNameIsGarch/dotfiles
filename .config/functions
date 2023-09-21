@@ -130,7 +130,7 @@ clear() { # Don't type clear, use CTRL+l instead!
 }
 
 pd() {
-    local BASE="$HOME/Dev/Vue/priveste-test"
+    local BASE="$HOME/Dev/Vue/priveste-dincolo"
     initnvm() {
         . /usr/share/nvm/init-nvm.sh
         nvm use 18
@@ -150,26 +150,3 @@ pd() {
     esac
 }
 
-dm() {
-    local BASE="$HOME/Dev/DigitalMagazine"
-    initnvm() {
-        local NVM_DIR="$HOME/.local/share/nvm"
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm use 12.14.0
-    }
-    cdm() { cd "$BASE" ; }
-    case $1 in
-        # Actions
-        sheet) qutebrowser "" ;;
-        pres) qutebrowser "" ;;
-        init) initnvm ;;
-        start) cdm && initnvm && npm run dev ;;
-        stat) cdm && ls && git status ;;
-        edit) cdm && nvim -c "Telescope find_files" ;;
-        # Directories
-        db) cd "$BASE/src/app/shared/services/Db" && ls ;;
-        models) cd "$BASE/src/app/shared/services/Db/Models" && ls ;;
-        auth) cd "$BASE/src/app/shared/modules/auth" && ls ;;
-        app) cd "$BASE/src/app" && ls ;;
-        *) cdm && ls ;;
-    esac
-}

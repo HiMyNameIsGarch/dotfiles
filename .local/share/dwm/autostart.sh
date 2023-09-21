@@ -35,7 +35,7 @@ qutebrowser &
 
 sleep 1s
 
-mpg123 -q /usr/share/event-sounds/boot_welcome.mp3 >/dev/null &
+sys_sound_play boot_welcome
 
 xinput --set-prop 8 'libinput Accel Speed' -0.4
 
