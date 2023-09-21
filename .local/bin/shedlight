@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# Dependencies: xbacklight
+#
+# This script will increase or decrease the brightness of your screen
+#
+# Default value for incrementing and decrementing the value is 10, you can change
+# it anytime you want
+#
+# Also it will display the current level of brightness using notify-send
+#
+
+LEVEL=10
+notifyBrightChange() {
+    NO=$(xbacklight -get)
+    notify-send "Brightness now at: $NO%" -h int:value:"$NO" -h string:synchronous:"-"
+}
+case "$1" in
+    up | u) xbacklight -inc "$LEVEL"; notifyBrightChange ;;
+    down | d) xbacklight -dec "$LEVEL"; notifyBrightChange ;;
+esac >> "$HOME/.cache/brightness_log"
+

@@ -1,0 +1,40 @@
+#!/bin/sh
+#
+# This script uses xrandr to rotate your screen, usually I want to invert it
+# but I added some extentions for other screens and other rotation types: left, right
+# also you can specify your display in the first argument
+#
+# Help menu:
+# The first argument is for the screen output, default value is 'eDP'
+# The second argument is for the rotation type, default 'inverted'
+#
+# Example 1: > rotate_screen
+#   it will invert the screen 'eDP'
+#
+# Example 2: > rotate_screen eDP right
+#   it will rotate the screen on the right way
+#
+# Disclaimer: running the script again with the same arguments will revert the
+# changes, meaning going back to 'normal' rotation
+
+SCREEN="${1:-eDP}"
+OUT="$(xrandr | grep "^$SCREEN.*")"
+
+if echo "$OUT" | grep "disconnected"; then
+    echo "The display: '$SCREEN' is currently disconnected, check 'xrandr' for more information"
+    exit 1
+fi
+
+ALTROT="${2:-inverted}" # ALTernative ROTation
+if [ -z "$ALTROT" ]; then
+    echo "Please provide an argument for the rotation: inverted, left, right"
+    exit 1
+fi
+
+if echo "$OUT" | grep --quiet -oP "^.*$ALTROT.*\("; then
+    ROTATION="normal"
+else
+    ROTATION="$ALTROT"
+fi
+
+xrandr --output "$SCREEN" --rotate "$ROTATION"

@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# Requirements: mpg123
+#
+# This script will check the directory '/etc/sounds/' for sound files of type 'mp3'
+# Then if the first argument provided matches the file names, it will play it
+#
+# Example 1: sys_sound_play boot_welcome
+#   it will play the file /etc/sounds/boot_welcome.mp3
+#
+# It is usefull if you want to have some kind of sounds for some events that is
+# controlled by one script, also you can disable the sounds anytime by unsetting
+# the global variable: "FUN_SOUNDS" like: export FUN_SOUNDS=""
+#
+# Have Fun!
+
+BASE="/etc/sounds/"
+ST="mp3" # Sound Type
+
+if [ -z "$FUN_SOUNDS" ]; then # Check if the variable is set
+    echo "You need to provide a value for \"FUN_SOUNDS\" variable"
+    exit 0
+fi
+
+if [ ! -d "$BASE" ]; then
+    echo "Directory does not exist, exiting..."
+    exit 0
+fi
+
+if [ -z "$(find "$BASE" -name "$1.$ST")" ]; then
+    echo "It seems that this option is not valid, try those ones: "
+    find "$BASE" -mindepth 1 -maxdepth 1 -type f -name "*.$ST"
+    exit 0;
+fi
+
+mpg123 -q "$BASE$1.$ST" >> ~/.cache/fun_sounds_logs
+exit 1
