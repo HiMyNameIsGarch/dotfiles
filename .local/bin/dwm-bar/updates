@@ -1,3 +1,4 @@
 #!/bin/sh
 
 printf "%s\n" " U:$(pacman -Qu | wc -l)"
+exit 0

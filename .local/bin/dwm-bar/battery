@@ -7,4 +7,4 @@ STAT=$(cat /sys/class/power_supply/BAT1/status)
 
 echo "B:$PERC%$STAT"
 
-
+exit 0

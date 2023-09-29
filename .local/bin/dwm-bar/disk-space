@@ -5,4 +5,4 @@ getDiskSpace() {
 }
 
 printf "%s\n" "S:$(getDiskSpace 2)"
-
+exit 0

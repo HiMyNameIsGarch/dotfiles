@@ -2,3 +2,4 @@
 
 temp=$(sensors -A | awk '/^edge/ { print $2 }' | cut -c 2-5)
 printf "%s\n" "G:$temp"
+exit 0

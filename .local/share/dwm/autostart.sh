@@ -13,10 +13,10 @@ unclutter --jitter 50 --ignore-scrolling &
 xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
 
 # Start compositor picom
-picom >/dev/null &
+# picom >/dev/null &
 
 # Start redshift
-redshift >/dev/null &
+# redshift >/dev/null &
 
 # Start dunst
 dunst &
@@ -35,7 +35,7 @@ qutebrowser &
 
 sleep 1s
 
-sys_sound_play boot_welcome
+sys_sound_play boot_welcome &
 
 xinput --set-prop 8 'libinput Accel Speed' -0.4
 
