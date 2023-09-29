@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+#
+#
+BATTERY="/sys/class/power_supply/BAT1/power_now"
+awk '{print "P:" $1*10^-6 " W"}' "$BATTERY"
+exit 0
