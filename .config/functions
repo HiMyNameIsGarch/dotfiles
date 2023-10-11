@@ -150,3 +150,14 @@ pd() {
     esac
 }
 
+uni() {
+    UNI="$HOME/Dev/Uni/"
+    CF="$(find "$UNI" -type f | sed 's/^.*Uni\///g' | fzf --prompt "Uni:")"
+    FT="${CF##*.}"
+    case "$FT" in
+        pdf) firefox "$UNI$CF" ;;
+        py) nvim "$UNI$CF" ;;
+        *) echo "File type {$FT} not supported" ;;
+    esac
+}
+
