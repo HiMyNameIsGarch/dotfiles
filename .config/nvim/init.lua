@@ -38,6 +38,7 @@ require("modules.snippets")
 require("modules.debugger")
 require("modules.cplusplus")
 require("modules.typescript")
+require("modules.python")
 
 -- dadbod for databases
 vim.g.db_ui_save_location = "~/.local/share/db_queries"

@@ -1,41 +1,21 @@
 local path_to_buf = "/tmp/buf_nr_cpp"
 
-local function Read_buf_from_file(path)
-    local file = io.open(path, "r")
-    if not file then return nil end
-    local content = file:read "*a"
-    file:close()
-    return tonumber(content)
-end
-
-local function Write_buf_to_file(path, buf)
-    local file = io.open(path, "w+")
-    if not file then return nil end
-    file:write(buf)
-    file:close()
-end
-
-function WriteToBuf(buf, data)
-    if data then
-        vim.api.nvim_buf_set_lines(buf, 0, 0, false, data)
-        Write_buf_to_file(path_to_buf, buf)
-    end
-end
+local fo = require("file_operation")
 
 local function Append_program_in(buf)
     vim.fn.jobstart({"clang++", "main.cpp"}, {
         stdout_buffered = true,
         stderr_buffered = true,
         on_stderr = function (_, data)
-            WriteToBuf(buf, data)
+            fo.WriteToBuf(path_to_buf, buf, data)
         end,
         on_stdout = function (_, data)
-            WriteToBuf(buf, data)
+            fo.WriteToBuf(path_to_buf, buf, data)
         end,
         on_exit = function()
             vim.fn.jobstart({'./a.out'}, {
                 on_stdout = function(_, data)
-                    WriteToBuf(buf, data)
+                    fo.WriteToBuf(path_to_buf, buf, data)
                 end
             })
         end
@@ -46,7 +26,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     group = vim.api.nvim_create_augroup("Cpp_single_file", {clear = true}),
     pattern = "main.cpp",
     callback = function()
-        local fbuf = Read_buf_from_file(path_to_buf)
+        local fbuf = fo.Read_buf_from_file(path_to_buf)
 
         if fbuf and vim.fn.bufexists(fbuf) == 1 then
             Append_program_in(fbuf)
