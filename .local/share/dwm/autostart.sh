@@ -30,8 +30,8 @@ amixer -c "$cardNum" sset "Auto-Mute Mode" 'Speaker Only' </dev/null
 pulseaudio -D
 
 # Programs
-qbittorrent &
-qutebrowser &
+# qbittorrent &
+# qutebrowser &
 
 sleep 1s
 

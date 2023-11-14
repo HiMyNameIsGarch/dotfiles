@@ -1,7 +1,9 @@
 #!/bin/sh
 
 TMP_MIRROR="/tmp/mirrorlist-artix"
-wget -q -O "$TMP_MIRROR" "https://gitea.artixlinux.org/packagesA/artix-mirrorlist/raw/branch/master/trunk/mirrorlist"
+wget -q -O "$TMP_MIRROR" "https://gitea.artixlinux.org/packages/artix-mirrorlist/raw/branch/master/mirrorlist"
+# Make backup
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 echo "# Mirror list generated with rankmirrors at: $(date)" > "/etc/pacman.d/mirrorlist"
 rankmirrors -v -n 13 "$TMP_MIRROR" | sed 's/^#.*//g; /^$/d' >> "/etc/pacman.d/mirrorlist"
 rm "$TMP_MIRROR"
