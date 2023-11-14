@@ -21,7 +21,17 @@ end
 
 local lspconfig = require("lspconfig")
 
-lspconfig.clangd.setup(config())
+local nproc = string.gsub(vim.fn.system('nproc'), "\n", "")
+lspconfig.clangd.setup(config({
+    cmd = {
+        "clangd",
+        "--header-insertion=never",
+        "-j", nproc,
+        "--background-index",
+        "--enable-config"
+    },
+    filetypes = {"c", "cpp", "objc", "objcpp"}, }))
+
 -- lspconfig.ccls.setup(config( {
 --     single_file_support= true
 -- }))
