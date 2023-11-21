@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# This script utilizes a picker ( fzf in terminal and dmenu for a WM ) to play a yt video
+# Dependencies:
+# dmenu, alacritty
+
+PROMPT="Pick history or type... "
+WH="$HOME/.cache/ytfzf/search_hist"
+HISTORY="$(awk -F" " '{$1=$2=$3=""; print $0}' "$WH" | sed 's/^\s*//g' | uniq)"
+
+OPT="$(echo "$HISTORY" | dmenu -p "$PROMPT")"
+[ -z "$OPT" ] && exit 1
+
+alacritty -e ytfzf "$OPT" >> "/tmp/ytpls_log"
