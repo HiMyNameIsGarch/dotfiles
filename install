@@ -215,6 +215,9 @@ make_configs() {
         error "Cannot create dwm start script"
     sudo chmod +x "$DWMSCRIPT" || error "Cannot change permission to dwm script"
 
+    surround "Syncing grub config"
+    sudo cp grub_config /etc/default/grub || error "Cannot sync grub config"
+
     surround "Success creating last changes for the system" "success"
 }
 

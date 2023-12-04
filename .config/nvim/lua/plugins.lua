@@ -26,6 +26,7 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'onsails/lspkind-nvim'
 -- Tree-sitter
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = vim.fn['TSUpdate']})  -- We recommend updating the parsers on update
+Plug('nvim-treesitter/playground')
 -- Telescope to see files better
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'

@@ -7,4 +7,8 @@ STAT=$(cat /sys/class/power_supply/BAT1/status)
 
 echo "B:$PERC%$STAT"
 
+if [ "$PERC" -lt 25 ]; then
+    notify-send -c critical "Battery under 25%"
+fi
+
 exit 0
