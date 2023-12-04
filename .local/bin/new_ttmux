@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# New Terminal Tmux
+#
+# This script will make sure that every time you create a new alacritty
+# instance via dwm will attach to an existing tmux session
+#
+
+TMUX_ALIVE="$(pgrep tmux)"
+TMUX_SESSIONS="$(tmux ls 2>/dev/null)"
+
+if [ -n "$TMUX_ALIVE" ] && [ -n "$TMUX_SESSIONS" ]; then
+    if [ "$1" = "dmenu" ] ;then
+        if [ "$(echo "$TMUX_SESSIONS" | wc -l )" = 1 ]; then
+            tmux a
+        else
+            SESSION="$(echo "$TMUX_SESSIONS" | dmenu -l 5 -p "Pick session: " | awk -F':' '{print $1}')"
+            tmux a -t "$SESSION"
+        fi
+    else
+        tmux a
+    fi
+else
+    tmux
+fi
