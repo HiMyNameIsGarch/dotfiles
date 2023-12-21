@@ -38,7 +38,19 @@ lspconfig.clangd.setup(config({
 lspconfig.tsserver.setup(config())
 lspconfig.vimls.setup(config())
 lspconfig.bashls.setup(config())
-lspconfig.pyright.setup(config())
+lspconfig.pyright.setup(config({
+    settings = {
+        python = {
+            analisys = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "workspace",
+                strict = true,
+                typeCheckingMode = "strict",
+            },
+        }
+    }
+}))
 lspconfig.dartls.setup(config())
 lspconfig.cssls.setup(config())
 lspconfig.tailwindcss.setup(config())

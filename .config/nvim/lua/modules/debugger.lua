@@ -3,9 +3,9 @@ local nnoremap = require("keymap").nnoremap
 local silent = { silent = true }
 
 nnoremap("<leader>bp", require("dap").toggle_breakpoint, silent)
-nnoremap("<F5>", require("dap").step_into, silent)
-nnoremap("<F6>", require("dap").step_over, silent)
-nnoremap("<F7>", require("dap").step_back, silent)
+nnoremap("<leader><F5>", require("dap").step_into, silent)
+nnoremap("<leader><F6>", require("dap").step_over, silent)
+nnoremap("<leader><F7>", require("dap").step_back, silent)
 nnoremap("<F8>", require("dap").continue, silent)
 
 -- DAP
@@ -20,7 +20,7 @@ dap.adapters.coreclr = {
 }
 
 function GetProjName()
-    local relPath = vim.split(vim.fn.getcwd(), "/", true)
+    local relPath = vim.split(vim.fn.getcwd(), "/", {plain=true})
     return relPath[#relPath] or "NotFound"
 end
 
@@ -28,7 +28,7 @@ function GetPID()
     local cmd = { "pidof", GetProjName() }
     local pid = vim.fn.system(cmd)
     -- make sure to return the first one found
-    return vim.split(pid, " ", true)[1]
+    return vim.split(pid, " ", {plain=true})[1]
 end
 
 dap.configurations.cs = {
@@ -77,6 +77,10 @@ dap.configurations.cpp = {
     },
 
 }
+
+-----------------------------------< Python >-----------------------------------
+require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
+
 
 -----------------------------------< DAP-UI >-----------------------------------
 require("dapui").setup({
