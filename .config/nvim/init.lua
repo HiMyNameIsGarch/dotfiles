@@ -16,7 +16,8 @@ require('nvim-autopairs').setup{}
 require("modules.comment")
 require("modules.completion")
 require("modules.telescope")
-require("modules.lightline")
+require("modules.lualine")
+require('neoscroll').setup()
 require'nvim-treesitter.configs'.setup {
     indent = {
         enable = true

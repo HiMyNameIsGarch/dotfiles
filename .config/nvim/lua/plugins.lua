@@ -10,8 +10,10 @@ vim.call('plug#begin', pluglocation)
 Plug 'tpope/vim-fugitive'
 -- Get faster at vim
 Plug 'ThePrimeagen/vim-be-good'
--- Minimal line
-Plug 'itchyny/lightline.vim'
+-- Minimal line, i guess we'll go with lualine
+Plug 'nvim-lualine/lualine.nvim'
+-- If you want to have icons in your statusline choose one of these
+Plug 'nvim-tree/nvim-web-devicons'
 -- Of course, the best color scheme
 Plug 'gruvbox-community/gruvbox'
 -- Language server protocol
@@ -55,5 +57,11 @@ Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'kristijanhusak/vim-dadbod-completion'
 -- Formatting code
 Plug 'sbdchd/neoformat'
+-- Can't belive I am installing Copilot
+Plug 'github/copilot.vim'
+-- Scroll ig
+Plug 'karb94/neoscroll.nvim'
+-- Oh my python
+Plug 'mfussenegger/nvim-dap-python'
 
 vim.call('plug#end')
