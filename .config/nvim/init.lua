@@ -6,7 +6,7 @@ require("plugins")
 vim.keymap.set('n', '<leader>M', ':MaximizerToggle!<CR>', { noremap = true })
 
 -- Colors
-vim.cmd('colorscheme gruvbox')
+require('modules.colors')
 vim.cmd('hi Normal guibg=NONE ctermbg=NONE')
 vim.cmd('hi Winseparator guibg=None')
 

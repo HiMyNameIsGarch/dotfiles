@@ -33,7 +33,7 @@ Plug('nvim-treesitter/playground')
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug('nvim-telescope/telescope-fzy-native.nvim', { ['do'] = vim.fn['make'] })
+Plug('nvim-telescope/telescope-fzy-native.nvim', { ['do '] = vim.fn['make'] })
 -- Preview some markdown files
 Plug('iamcco/markdown-preview.nvim', {['do'] = vim.fn['mkdp#util#install'], ['for'] = {'markdown', 'vim-plug'} } )
 -- Debugger
@@ -63,5 +63,7 @@ Plug 'github/copilot.vim'
 Plug 'karb94/neoscroll.nvim'
 -- Oh my python
 Plug 'mfussenegger/nvim-dap-python'
+-- New colors scheme, ditch gruvbox??
+Plug 'rose-pine/neovim'
 
 vim.call('plug#end')
