@@ -292,24 +292,27 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#dfdfdf"
-    foreground = "#2d2b3c"
-    frame_color= "#242424"
+    # background = "#dfdfdf"
+    # foreground = "#2d2b3c"
+    # frame_color= "#242424"
+    background = "#232136"
+    foreground = "#e0def4"
+    frame_color= "#3e8fb0"
     timeout = 5
     icon = /home/garch/.config/dunst/normal.png
 
 [urgency_normal]
-    background = "#dfdfdf"
-    foreground = "#2d2b3c"
-    frame_color= "#242424"
-    highlight="#242424"
+    background = "#232136"
+    foreground = "#e0def4"
+    frame_color= "#3e8fb0"
+    highlight="#e0def4"
     timeout = 5
-    icon = /home/garch/.config/dunst/normal.png
+    icon = /home/garch/icon.png
 
 [urgency_critical]
-    background = "#6a040f"
-    foreground = "#ebdbb2"
-    frame_color = "#cc241d"
+    background = "#eb6f92"
+    foreground = "#f2e9e1"
+    frame_color = "#b4637a"
     timeout = 6
     icon = /home/garch/.config/dunst/urgent.png
 
