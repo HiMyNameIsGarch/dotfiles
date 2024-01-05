@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# This script is not actually a script, it containts various methods of working
+# with ffmepg for specific cases, follow along the next sencences:
+#
+#
+# How to combine an image with an audio file?
+# ffmpeg -loop 1 -i img.jpg -i audio.wav -shortest out.mp4
+#
+#
+# Trim a video, skip first 30 seconds and take 10 seconds of it
+# ffmpeg -ss 00:00:30.0 -i input.mp4 -c copy -t 00:00:10.0 output.mp4
