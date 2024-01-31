@@ -1,4 +1,7 @@
 #!/bin/sh
+#
+# Stop bell
+xset b off
 
 # Put wallpaper
 feh --bg-scale --no-fehbg --recursive --randomize /home/garch/Media/Wallpapers/

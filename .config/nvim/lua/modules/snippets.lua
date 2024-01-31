@@ -18,14 +18,14 @@ local mmap = bind({'i', 's'}, silent)
 -- Reload faster
 nnoremap('<leader><leader>s', "<cmd>source ~/.config/nvim/lua/modules/snippets.lua<CR>")
 
--- This will expand the current item or jump to the next item within the snippet
+-- This will expand the current item or jump to the NEXT ITEM within the snippet
 mmap('<c-k>', function ()
     if ls.expand_or_jumpable() then
         ls.expand_or_jump()
     end
 end)
 
--- This will move to the previous item within the snippet
+-- This will move to the PREVIOUS item within the snippet
 mmap('<c-j>', function ()
     if ls.jumpable(-1) then
         ls.jump(-1)
@@ -73,6 +73,99 @@ ls.add_snippets(nil, {
                     return del(#text + 1, false)
                 end, { 1 })}
             )
+        ),
+    },
+    python = {
+        s("purpose",
+            fmt(
+                [[
+            """
+            Purpose: {}
+            """
+            ]], i(1))
+        ),
+        s("__eq",
+            fmt(
+                [[
+            def __eq__(self, other) -> bool:
+                if not isinstance(other, {}):
+                    return False
+                return self.__{} == other.{}
+            ]], { i(1), i(2), same(2) })
+        ),
+        s('getter', fmt(
+                [[
+            @property
+            def {}(self) -> {}:
+                return self.__{}
+            ]], { i(1), i(2), same(1)})
+        ),
+        s('setter', fmt(
+                [[
+            @{}.setter
+            def {}(self, new_{}:{}) -> None:
+                self.__{} = new_{}
+            ]], { i(1), same(1), same(1), i(2), same(1), same(1)})
+        ),
+        s("getset",
+            fmt(
+                [[
+            @property
+            def {}(self) -> {}:
+                return self.__{}
+
+            @{}.setter
+            def {}(self, new_{}:{}) -> None:
+                self.__{} = new_{}
+            ]], { i(1), i(2), same(1), same(1), same(1), same(1), same(2), same(1), same(1) })
+        ),
+        s("unittest",
+            fmt(
+                [[
+            import unittest
+
+            class Test{}(unittest.TestCase):
+                def test_{}(self):
+                    pass
+            ]], { i(1), i(2) })
+        ),
+        s("class",
+            fmt(
+                [[
+            class {}:
+                def __init__(self, {}):
+                    self.__{} = {}
+            ]], { i(1), i(2), same(2), same(2) })
+        ),
+        s("def",
+            fmt(
+                [[
+            def {}({}):
+                pass
+            ]], { i(1), i(2) })
+        ),
+        s("try",
+            fmt(
+                [[
+            try:
+                {}
+            except {} as {}:
+                {}
+            ]], { i(1), i(2), i(3), i(4) })
+        ),
+        s("if",
+            fmt(
+                [[
+            if {}:
+                {}
+            ]], { i(1), i(2) })
+        ),
+        s("test",
+            fmt(
+                [[
+            def test_{}(self):
+                pass{}
+            ]], { i(1), i(2) })
         ),
     },
     cpp = {

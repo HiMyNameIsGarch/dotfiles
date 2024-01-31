@@ -1,4 +1,12 @@
 #!/bin/sh
+#
+
+# Check for memory usage with ps
+# Source: Stack Overflow: 3853655
+mem()
+{
+    ps -eo rss,pid,euser,args:100 --sort %mem | grep -v grep | grep -i $@ | awk '{printf $1/1024 "MB"; $1=""; print }'
+}
 
 # Function To Extract File Archives Of Various Types
 extract() {
