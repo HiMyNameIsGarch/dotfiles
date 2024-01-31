@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+#
+MODEL="$HOME/Media/Voices/en_US-libritts-high.onnx"
+VF="/tmp/voice$(date +%s).wav"
+tgpt -q "answer in under 150 words, $(voice_to_text)" | \
+    piper --model "$MODEL" --output_file "$VF" && notify-send "Gumball" "Here's your answer" && \
+    mpv "$VF" >/dev/null 2>&1
+

@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+#
+DUR=5
+AFILE="$HOME/.cache/voice.wav"
+TFILE="/tmp/voice_text_$(date +%s).txt"
+
+notify-send "Gumball started listening..."
+ffmpeg -y -f alsa -i hw:1 -acodec pcm_s16le -ac 1 -ar 44100 -t "$DUR" -f wav "$AFILE" >/dev/null 2>&1
+notify-send "Gumball stopped listening, transcribing..."
+vosk-transcriber -i "$AFILE" -o "$TFILE" >/dev/null 2>&1
+notify-send "Gumball stopped transcribing, processing..."
+cat "$TFILE"
