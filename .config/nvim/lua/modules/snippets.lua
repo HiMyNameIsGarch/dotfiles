@@ -75,6 +75,20 @@ ls.add_snippets(nil, {
             )
         ),
     },
+    c = {
+        s("template",
+            fmt(
+                [[
+            #include <stdio.h>
+            #include <stdlib.h>
+
+            int main() {{
+                {}
+                return 0;
+            }}
+            ]], i(1))
+        ),
+    },
     python = {
         s("purpose",
             fmt(

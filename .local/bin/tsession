@@ -2,13 +2,24 @@
 
 # tsession - tmux session ( creates a new tmux session )
 
-WORK="$HOME/Dev/"
+WORK="$1"
+# check if WORK is empty
+
+if [ -z "$WORK" ]; then
+    WORK="$HOME/Dev/"
+fi
+
+# Check if WORK is a directory
+if [ ! -d "$WORK" ]; then
+    echo "Directory: $WORK does not exists"
+    exit 1
+fi
 
 if [ $# -eq 0 ]; then
-    SESSION_PATH=$(find "$WORK" -mindepth 1 -maxdepth 2 -type d ! -path "*.git*" | 
+    SESSION_PATH=$(find "$WORK" -mindepth 1 -maxdepth 6 -type d ! -path "*.git*" ! -path "*node_modules*" ! -path "*linux*" |
         sed -r "s#$WORK##g" | fzf)
     SESSION_PATH="$WORK$SESSION_PATH"
-else 
+else
     SESSION_PATH="$1"
 fi
 

@@ -9,8 +9,8 @@ PROMPTNORMAL="$LEFTPROMPT-N-$RIGHTPROMPT"
 
 # History in cache directory:
 HISTFILE=~/.cache/zsh/history
-HISTSIZE=100000
-SAVEHIST=100000
+HISTSIZE=1000000
+SAVEHIST=1000000
 export PATH=${PATH}:"${XDG_DATA_HOME}/npm/bin"
 
 # vi mode
@@ -27,6 +27,9 @@ _comp_options+=(globdots)		# Include hidden files.
 # Do not keep duplicate commands in history
 setopt HIST_IGNORE_ALL_DUPS
 setopt autocd nomatch
+setopt append_history # append rather then overwrite
+setopt inc_append_history # add history immediately after typing a command
+
 
 function zle-line-init zle-keymap-select {
     PS1="${${KEYMAP/vicmd/$PROMPTNORMAL}/(main|viins)/$PROMPTINSERT}"
