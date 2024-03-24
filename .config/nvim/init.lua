@@ -18,6 +18,8 @@ require("modules.completion")
 require("modules.telescope")
 require("modules.lualine")
 require('neoscroll').setup()
+require('modules.sshfs')
+
 require'nvim-treesitter.configs'.setup {
     indent = {
         enable = true
@@ -84,3 +86,5 @@ nnoremap('<leader>st', function ()
         end,
     })
 end)
+require('remote-sshfs').setup({})
+require('telescope').load_extension 'remote-sshfs'

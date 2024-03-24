@@ -65,5 +65,7 @@ Plug 'karb94/neoscroll.nvim'
 Plug 'mfussenegger/nvim-dap-python'
 -- New colors scheme, ditch gruvbox??
 Plug 'rose-pine/neovim'
+-- SSHFS
+Plug 'nosduco/remote-sshfs.nvim'
 
 vim.call('plug#end')
