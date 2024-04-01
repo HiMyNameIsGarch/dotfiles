@@ -218,7 +218,27 @@ ls.add_snippets(nil, {
         s("fstream", fmt([[
         ifstream fin("{}.in");
         ofstream fout("{}.out");
-        ]], { i(1), same(1)}))
+        ]], { i(1), same(1)})),
+        s("class",
+            fmt(
+                [[
+            class {} {{
+            private:
+                {}
+            public:
+                {}
+            }};
+            ]], { i(1), i(2), i(3) })
+        ),
+        s("header",
+            fmt(
+                [[
+            #ifndef {}_H
+            #define {}_H
+            {}
+            #endif
+            ]], { i(1), i(1), i(2) })
+        ),
     },
     lua = {
         ls.parser.parse_snippet("lf", "local $1 = function($2)\n\t$0\nend")
