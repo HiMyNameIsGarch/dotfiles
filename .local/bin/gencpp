@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# Generate a base folder structures for cpp projects
+#
+mkdir debug build src include
+APP="app.cpp"
+touch "$APP"
+touch Makefile
+
+echo "Project files and directories created"
+
+echo "#include <iostream>
+
+int main() {
+    std::cout << \"Hello, World!\" << std::endl;
+    return 0;
+}
+" > "$APP"
+
+echo "Base program created"
+
+echo "defaults:
+    clang++ -o build/app -std=c++17 -Wall -Wextra -Wpedantic -Werror -I include -g src/*.cpp app.cpp && ./build/app" > Makefile
+
+echo "Makefile created"
+
+make

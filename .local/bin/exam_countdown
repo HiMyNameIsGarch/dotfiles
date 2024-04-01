@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Set the initial time in seconds
+time_in_seconds=1800  # 30 minutes
+
+while [ $time_in_seconds -gt 0 ]; do
+    # Format the time as minutes and seconds
+    minutes=$((time_in_seconds / 60))
+    seconds=$((time_in_seconds % 60))
+
+    # Display the notification with the countdown
+    VAL=$(printf "%02d:%02d" $minutes $seconds)
+    notify-send "Countdown: $VAL" -h int:value:"$time_in_seconds" -h string:synchronous:"-"
+
+    # notify-send "Countdown" "$(printf "%02d:%02d" $minutes $seconds)"
+
+    # Sleep for 1 second
+    sleep 1
+
+    # Decrease the time by 1 second
+    ((time_in_seconds--))
+done
+
+# Display a final notification when the countdown reaches 0
+notify-send "Countdown" "Time's up!"
