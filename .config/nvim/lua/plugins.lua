@@ -35,10 +35,12 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug('nvim-telescope/telescope-fzy-native.nvim', { ['do '] = vim.fn['make'] })
 -- Preview some markdown files
-Plug('iamcco/markdown-preview.nvim', {['do'] = vim.fn['mkdp#util#install'], ['for'] = {'markdown', 'vim-plug'} } )
+-- Plug('iamcco/markdown-preview.nvim', {['do'] = vim.fn['mkdp#util#install'], ['for'] = {'markdown', 'vim-plug'} } )
+Plug('iamcco/markdown-preview.nvim', { ['do'] = 'cd app && npx --yes yarn install' })
 -- Debugger
 Plug 'szw/vim-maximizer'
 Plug 'mfussenegger/nvim-dap'
+Plug 'nvim-neotest/nvim-nio'
 Plug 'rcarriga/nvim-dap-ui'
 -- Plug 'puremourning/vimspector'
 -- This is a comment
@@ -67,5 +69,7 @@ Plug 'mfussenegger/nvim-dap-python'
 Plug 'rose-pine/neovim'
 -- SSHFS
 Plug 'nosduco/remote-sshfs.nvim'
+-- The greatest software known to mankind
+Plug('ThePrimeagen/harpoon',  { ['branch'] = 'harpoon2' })
 
 vim.call('plug#end')

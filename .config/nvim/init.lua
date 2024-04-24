@@ -42,6 +42,8 @@ require("modules.debugger")
 require("modules.cplusplus")
 require("modules.typescript")
 require("modules.python")
+-- Our lord thePrimeagen created this tool for us
+require("modules.harpoon")
 
 -- dadbod for databases
 vim.g.db_ui_save_location = "~/.local/share/db_queries"
