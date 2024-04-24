@@ -55,8 +55,8 @@ map('<leader>rd', api.disconnect)
 map('<leader>re', api.edit)
 
 -- (optional) Override telescope find_files and live_grep to make dynamic based on if connected to host
-local builtin = require("telescope.builtin")
-local connections = require("remote-sshfs.connections")
+-- local builtin = require("telescope.builtin")
+-- local connections = require("remote-sshfs.connections")
 
 -- Should I move this into telescope config or not? tell me in the comment section below pls
 -- map("<leader>ff", function()
@@ -67,10 +67,10 @@ local connections = require("remote-sshfs.connections")
 --  end
 -- end, {})
 
-map("<leader>lg", function()
- if connections.is_connected then
-  api.live_grep()
- else
-  builtin.live_grep()
- end
-end, {})
+-- map("<leader>lg", function()
+--  if connections.is_connected then
+--   api.live_grep()
+--  else
+--   builtin.live_grep()
+--  end
+-- end, {})

@@ -22,9 +22,14 @@ end
 local lspconfig = require("lspconfig")
 
 local nproc = string.gsub(vim.fn.system('nproc'), "\n", "")
+-- local unamer = string.gsub(vim.fn.system("uname -r"), "\n", "")
 lspconfig.clangd.setup(config({
     cmd = {
         "clangd",
+        -- "-I",
+        -- "/usr/lib/modules/" .. unamer .. "/build/include",
+        -- "--std=c++11",
+        -- "-target x86_64-unknown-linux-gnu",
         "--header-insertion=never",
         "-j", nproc,
         "--background-index",
