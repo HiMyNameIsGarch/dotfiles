@@ -3,7 +3,7 @@ local path_to_buf = "/tmp/buf_nr_cpp"
 local fo = require("file_operation")
 
 local function Append_program_in(buf)
-    vim.fn.jobstart({"clang++", "main.cpp"}, {
+    vim.fn.jobstart({"clang++","-Wall", "-Wextra", "-Werror",  "-Wpedantic", "-g", "-o", "a.out", "main.cpp"}, {
         stdout_buffered = true,
         stderr_buffered = true,
         on_stderr = function (_, data)
@@ -48,6 +48,77 @@ nnoremap('<leader>cpp', function ()
     local args = vim.fn.input('args?: ')
     vim.fn.inputrestore()
     vim.cmd('silent !tmux-run gocpp ' .. args) -- 'gocpp' is an alias for 'clang++ main.cpp && ./a.out' or build and run
+end)
+
+local function createfile(fpath, ext, txt)
+    local cbuf = vim.api.nvim_create_buf(true, false)
+    local filepath = vim.fn.expand('%:p:h') .. '/' .. fpath .. '.' .. ext
+    local ft = ext
+    if ext == 'h' then
+        ft = 'c'
+    end
+    vim.api.nvim_buf_set_option(cbuf, 'filetype', ft)
+    vim.api.nvim_buf_set_option(cbuf, 'modifiable', true)
+    vim.api.nvim_buf_set_name(cbuf, filepath);
+    -- set class template
+    vim.api.nvim_buf_set_lines(cbuf, 0, -1, false, txt)
+
+    return cbuf, filepath
+
+    -- return cbuf, filepath
+end
+
+local function create_class(cname)
+    local cppbuf, cppf = createfile('src/' .. cname, 'cpp', {
+        '#include "../include/' .. cname .. '.' .. 'h"',
+        ''
+    })
+    vim.api.nvim_buf_call(cppbuf, function ()
+        vim.api.nvim_command("write " .. cppf)
+    end)
+
+    local hbuf, hf = createfile('include/' .. cname, 'h', {
+        '#pragma once',
+        '#ifndef ' .. string.upper(cname) .. '_H',
+        '#define ' .. string.upper(cname) .. '_H',
+        '',
+        'class ' .. cname:gsub("^%l", string.upper) .. ' {',
+        'protected:',
+        '',
+        'private:',
+        '',
+        'public:',
+        '',
+        '};',
+        '',
+        '#endif'
+    })
+
+    vim.api.nvim_buf_call(hbuf, function ()
+        vim.api.nvim_command("write " .. hf)
+    end)
+
+end
+
+nnoremap('<leader>gpp', function ()
+    -- Get input from user
+    vim.fn.inputsave()
+    local flname = vim.fn.input('Class name: ')
+    vim.fn.inputrestore()
+
+    -- strip whitespace
+    flname = flname:match( "^%s*(.-)%s*$" )
+    if flname == '' then
+        return
+    end
+
+    -- iterate over every word separated by space
+    for class in flname:gmatch("%S+") do
+        if class == '' then
+            break
+        end
+        create_class(class)
+    end
 end)
 
 nnoremap('<leader>cs', function () -- clear solution

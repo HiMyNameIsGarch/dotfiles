@@ -15,7 +15,7 @@ int main() {
     std::cout << \"Makefile generated successfully\" << std::endl;
     return 0;
 }
-" > "$APP"
+" >> "$APP"
 
 echo "Base program created"
 
