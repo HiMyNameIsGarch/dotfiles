@@ -58,6 +58,10 @@ local same = function(index)
     end, { index })
 end
 
+local strupper = function(str)
+    return str[1][1]:gsub("^%l", string.upper)
+end
+
 ls.add_snippets(nil, {
     all = {
         s("md",
@@ -238,6 +242,32 @@ ls.add_snippets(nil, {
             {}
             #endif
             ]], { i(1), i(1), i(2) })
+        ),
+        s("getter",
+            fmt(
+                [[
+                {} {}() const {{
+                    return m_{};
+                }}
+                ]], {i(1), i(2), same(1)})
+        ),
+        s("setter", fmt(
+                [[
+                void set{}({} {}){{
+                    m_{} = {};
+                }}
+                ]], { i(1), i(2), i(3), same(1), same(3) })
+        ),
+        s("getset",
+            fmt(
+                [[
+                {}{}() const {{
+                    return m_{};
+                }}
+                void set{}({}new{}){{
+                    m_{} = new{};
+                }}
+                ]], { i(1), i(2), same(2), f(strupper, { 2 }), same(1), f(strupper, { 2 }) , same(2), f(strupper, { 2 }) })
         ),
     },
     lua = {
