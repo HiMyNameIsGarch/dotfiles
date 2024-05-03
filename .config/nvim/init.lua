@@ -68,6 +68,11 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     command = ':%s/\\s\\+$//e'
 })
 
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = "*.tex",
+    command = "silent !latex_prev ./%"
+})
+
 local nnoremap = require("keymap").nnoremap
 
 nnoremap('<leader>st', function ()

@@ -237,6 +237,8 @@ ls.add_snippets(nil, {
         s("header",
             fmt(
                 [[
+            #pragma once
+
             #ifndef {}_H
             #define {}_H
             {}
@@ -253,10 +255,10 @@ ls.add_snippets(nil, {
         ),
         s("setter", fmt(
                 [[
-                void set{}({} {}){{
-                    m_{} = {};
+                void set{}({} new{}){{
+                    m_{} = new{};
                 }}
-                ]], { i(1), i(2), i(3), same(1), same(3) })
+                ]], { i(1), i(2), f(strupper, {1}),same(1) , f(strupper, {1}) })
         ),
         s("getset",
             fmt(
