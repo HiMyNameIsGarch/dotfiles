@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+#
+FILE="/tmp/network-notifications"
+
+# Check if the file exists
+if [ ! -f $FILE ]; then
+    exit 1
+fi
+
+# get last line
+LAST_LINE=$(tail -n 1 $FILE)
+
+notify-send "$LAST_LINE"

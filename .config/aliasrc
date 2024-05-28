@@ -16,6 +16,7 @@ alias sdb="cd ~/.local/bin/dwm-bar && ls"
 alias dl="cd ~/Downloads && ls"
 alias packs="echo No. Packages: $(pacman -Q | wc -l)"
 alias wallset="feh --bg-scale --no-fehbg"
+alias sl="ls"
 
 #-----------------------------------< Media >-----------------------------------
 alias md="cd ~/Media && ls"

@@ -2,7 +2,7 @@
 # Script to run screenkey in a loop
 # Inspiration : theprimeagen dotfiles ( aka the legend himself )
 while [ : ]; do
-    screenkey -s large -p center -g 480x180+1430+1 -f "DejaVu Sans Mono Bold" --mods-mode tux
+    screenkey -s large -p center -g 480x180+1430+1 -f "DejaVu Sans Mono Bold" --mods-mode tux --no-whitespace
     pid=$!
     sleep 5
     kill $pid

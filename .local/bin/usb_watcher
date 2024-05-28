@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#
+# Debugging test script called by udev
+#
+# Script inspired by: https://www.baeldung.com/linux/shell-run-script-usb-plugged
+
+# File paths, to be customized as we need
+LOG_FILE="/tmp/network-notifications"
+DATE_FILE="/tmp/last_usb_event"
+
+# Ensure only one instance is running at a time
+# Info: https://www.baeldung.com/linux/bash-ensure-instance-running#2-using-lsof
+INSTANCES=$(lsof -t "$0" | wc -l)
+if (( "$INSTANCES" > 1 )); then exit 1; fi
+
+# Prevent multiple executions inside a 3-sec time frame
+if [ ! -f $DATE_FILE ]; then
+    echo "lastExecution=0" > $DATE_FILE
+fi
+. "$DATE_FILE" # reads the $lastExecution var from file
+timeframe=$(( $(date +%s) - "$lastExecution" )) # seconds from last execution
+if (( "$timeframe" <= 3 )); then exit 1; fi
+echo "lastExecution=$(date +%s)" > $DATE_FILE
+
+# Debugging info
+echo "USB Device '$ID_VENDOR_ENC' - '$ID_MODEL' plugged in..." >> "$LOG_FILE"
+
+# Do other stuff...
+exit 0
