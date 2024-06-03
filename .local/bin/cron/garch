@@ -1,0 +1,2 @@
+5 8 * * 0 /home/garch/.local/bin/cron/folderize >> /var/log/cron/folderize
+*/5 * * * * rm /tmp/notifications >> /var/log/cron/remove_notifications

@@ -20,5 +20,7 @@ echo "$SCS" | xargs -I {} mv {} "$FN"
 # DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 # export DBUS_SESSION_BUS_ADDRESS
 
+SC_NUM=$(echo "$SCS" | wc -l)
 # notify-send "Screenshots organized!" "I organized a total of $(echo "$SCS" | wc -l) screenshots!"
+echo "Screenshots organized!" "I organized a total of $SC_NUM screenshots!" >> /tmp/notifications
 exit 0

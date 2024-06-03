@@ -26,7 +26,6 @@ local nproc = string.gsub(vim.fn.system('nproc'), "\n", "")
 lspconfig.clangd.setup(config({
     cmd = {
         "clangd",
-        -- "-I",
         -- "/usr/lib/modules/" .. unamer .. "/build/include",
         -- "--std=c++11",
         -- "-target x86_64-unknown-linux-gnu",
@@ -40,6 +39,7 @@ lspconfig.clangd.setup(config({
 -- lspconfig.ccls.setup(config( {
 --     single_file_support= true
 -- }))
+lspconfig.java_language_server.setup{}
 lspconfig.tsserver.setup(config())
 lspconfig.vimls.setup(config())
 lspconfig.bashls.setup(config())

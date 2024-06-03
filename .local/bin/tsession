@@ -16,7 +16,7 @@ if [ ! -d "$WORK" ]; then
 fi
 
 if [ $# -eq 0 ]; then
-    SESSION_PATH=$(find "$WORK" -mindepth 1 -maxdepth 6 -type d ! -path "*.git*" ! -path "*node_modules*" ! -path "*linux*" |
+    SESSION_PATH=$(find "$WORK" -mindepth 1 -maxdepth 6 -type d ! -path "*.git*" ! -path "*node_modules*" ! -path "linux" |
         sed -r "s#$WORK##g" | fzf)
     SESSION_PATH="$WORK$SESSION_PATH"
 else

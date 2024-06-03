@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# This script will ensure to sync your cron jobs
+#
+# Run it with the user you want to sync the cron jobs
+
+crontab "$(whoami)"
