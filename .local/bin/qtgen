@@ -1,11 +1,74 @@
 #!/bin/sh
-
-
 # This script is used to generate a boilerplate for a new QT project.
 #
 # How does it work?
 #
 # You have to create a new directory and run this script inside it.
+# The name of the project will be the parent directory name.
 #
-# It will mock the following structure:
+# and it will generate the following structure:
 #
+# CMakeLists.txt
+# main.cpp
+# mainwindow.cpp
+# mainwindow.h
+# mainwindow.ui
+#
+# These files are already filled with the necessary code to create a simple QT
+# application. You can modify them as you wish and make sure you have them in
+# ~/.local/share/qt_sample
+#
+# Then you can run this script from any directory and it will copy the files to
+# the new project directory. After this it will automatically run cmake and
+# make to build the project and run it.
+#
+# DISCLAIMER: This script is not perfect and may not work in all cases. Use it
+# at your own risk.
+#
+
+# Take the parrent folder
+PROJ_NAME="${PWD##*/}" # exactly like $(basename $PWD) but faster (why? it's fun)
+
+# Make sure the project name is not empty
+if [ -z "$PROJ_NAME" ]; then
+    echo "The project name cannot be empty"
+    exit 1
+fi
+
+SAMPLES="$HOME/.local/share/qt_sample"
+# Make sure qt_sample exists
+if [ ! -d "$SAMPLES" ]; then
+    echo "The directory $SAMPLES does not exist"
+    exit 1
+fi
+
+# Copy the files to the new project directory
+cp -r "$SAMPLES"/* .
+
+# Replace the project name in the files
+sed -i "s/artix-qt5/$PROJ_NAME/g" CMakeLists.txt
+
+
+# Create the build directory and the rest of the structure
+mkdir -p build
+
+if [ ! -d build ]; then
+    echo "Failed to create the build directory"
+    exit 1
+fi
+
+# Run cmake on the source of the project
+cmake -B ./build -S .
+
+# Build the project
+cmake --build ./build
+
+cd build || exit 1
+
+# Optionally generate compile_commands.json
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ../
+
+cd ..
+
+# Run the project
+./build/"$PROJ_NAME"
