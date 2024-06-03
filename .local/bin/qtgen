@@ -1,0 +1,11 @@
+#!/bin/sh
+
+
+# This script is used to generate a boilerplate for a new QT project.
+#
+# How does it work?
+#
+# You have to create a new directory and run this script inside it.
+#
+# It will mock the following structure:
+#

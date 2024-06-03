@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# This script is to hot reload a qt application from source code.
+#
+#
+help() {
+    printf "Hot reload a qt application from source code.\n"
+    printf "Usage: %s [options] <qt-app>\n" "$0"
+    printf "Options:\n"
+}
+
+
+case "$1" in
+    -h|--help|help|h)
+        help
+        exit 0
+        ;;
+esac
+
