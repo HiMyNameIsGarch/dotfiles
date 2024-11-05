@@ -2,6 +2,44 @@ local path_to_buf = "/tmp/buf_nr_cpp"
 
 local fo = require("file_operation")
 
+local nnoremap = require("keymap").nnoremap
+local ts = require 'nvim-treesitter'
+
+nnoremap('<leader>nq', function ()
+    print("hello world")
+    -- get current buffer ( the header file )
+    local bufnr = vim.api.nvim_get_current_buf()
+    -- get the path of the header file
+    -- local header_path = vim.api.nvim_buf_get_name(bufnr)
+    -- get the text of the header file
+    -- local text = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    -- init the parser
+    local parser = ts.get_parser(bufnr, 'cpp')
+    -- query the class node
+    local class_node = parser:query_ast("(class_declaration name: (identifier))")[1]
+    -- get the class name
+    -- local class_name = class_node:child(0):text()
+    local fields = {}
+    for _, node in ipairs(parser:query_ast("(class_declaration name: (identifier) > (access_specifier public) > (field_declaration)")) do
+        local field_declarator = node.child_by_field_name("declarator")
+        print(field_declarator)
+        if field_declarator then
+            local declarator = field_declarator:text()
+            table.insert(fields, {declaration = declarator})
+        end
+    end
+end)
+
+nnoremap('<leader><leader>c', "<cmd>source ~/.config/nvim/lua/modules/snippets.lua<CR>")
+
+local function crazy_header_tocpp()
+    -- take class_specifier from header file
+    -- then in body search for access_specifier and ignore private and protected
+    -- then take all the field declaration and put them in the cpp file
+    -- with the following format:
+    -- <type> <class_name>::<field_name> = <value>;
+end
+
 local function Append_program_in(buf)
     vim.fn.jobstart({"clang++","-Wall", "-Wextra", "-Werror",  "-Wpedantic", "-g", "-o", "a.out", "main.cpp"}, {
         stdout_buffered = true,
@@ -40,8 +78,6 @@ vim.api.nvim_create_autocmd("BufWritePost", {
         end
     end
 })
-
-local nnoremap = require("keymap").nnoremap
 
 nnoremap('<leader>cpp', function ()
     vim.fn.inputsave()

@@ -15,6 +15,15 @@ notifyBrightChange() {
     NO=$(xbacklight -get)
     notify-send "Brightness now at: $NO%" -h int:value:"$NO" -h string:synchronous:"-"
 }
+
+# check if luminosity is already at brighter than 0
+
+NEXT=$(( $(xbacklight -get) - "$LEVEL" ))
+
+if [ "$NEXT" -lt 1 ]; then
+    xbacklight -set 1
+fi
+
 case "$1" in
     up | u) xbacklight -inc "$LEVEL"; notifyBrightChange ;;
     down | d) xbacklight -dec "$LEVEL"; notifyBrightChange ;;

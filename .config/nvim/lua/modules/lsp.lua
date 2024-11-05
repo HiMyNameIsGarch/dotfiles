@@ -39,7 +39,9 @@ lspconfig.clangd.setup(config({
 -- lspconfig.ccls.setup(config( {
 --     single_file_support= true
 -- }))
-lspconfig.java_language_server.setup{}
+lspconfig.java_language_server.setup{
+    cmd = { '/home/garch/Dev/java-language-server/dist/lang_server_linux.sh'}
+}
 lspconfig.tsserver.setup(config())
 lspconfig.vimls.setup(config())
 lspconfig.bashls.setup(config())

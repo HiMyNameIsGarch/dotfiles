@@ -1,6 +1,6 @@
 #!/bin/sh
 
-temp=$(sensors -A | awk '/^Core 0/ { print $3 }' | cut -c 2-5)
+TEMPERATURE=$(sensors -A | sed -n 's/.*Tctl:\s*+\([0-9.]\+\).*/\1/p')
 
-printf  "%s\n" "C:$temp"
+printf  "%s\n" "C:$TEMPERATURE°"
 exit 0

@@ -68,6 +68,46 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     command = ':%s/\\s\\+$//e'
 })
 
+local fo = require("file_operation")
+
+local path_to_buf = "/tmp/sqlisfun"
+
+local function funsql(buf)
+    local current_sql_file = vim.fn.expand('%:p')
+
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, {})
+
+    vim.fn.jobstart({ "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Muielarga69!", "-d", "passman", "-h-1", "-W", "-i", current_sql_file, "-C" }, {
+        stdout_buffered = true,
+        stderr_buffered = true,
+        on_stderr = function (_, data)
+            fo.WriteToBuf(path_to_buf, buf, data)
+        end,
+        on_stdout = function (_, data)
+            fo.WriteToBuf(path_to_buf, buf, data)
+        end
+        })
+end
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+    group = vim.api.nvim_create_augroup("mssql_dummy", {clear = true}),
+    pattern = "*.sql",
+    callback = function ()
+        local fbuf = fo.Read_buf_from_file(path_to_buf)
+
+        if fbuf and vim.fn.bufexists(fbuf) == 1 then
+            funsql(fbuf)
+        else
+            vim.cmd('vsplit')
+            local win = vim.api.nvim_get_current_win()
+            local buf = vim.api.nvim_create_buf(true, true)
+            vim.api.nvim_win_set_buf(win, buf)
+
+            funsql(buf)
+        end
+    end
+})
+
 vim.api.nvim_create_autocmd("BufWritePost", {
     pattern = "*.tex",
     command = "silent !latex_prev ./%"

@@ -4,4 +4,4 @@
 #
 # For notifications comming from the system
 
-echo /tmp/network-notifications | entr -p sh -c '/home/garch/.local/bin/display_notify' &
+echo /tmp/notifications | entr -p sh -c '/home/garch/.local/bin/display_notify' &

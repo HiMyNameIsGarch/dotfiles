@@ -9,7 +9,8 @@ telescope.setup {
             ".git/",
             "plugged/",
             "node_modules/",
-            "undodir/"
+            "undodir/",
+            "bin/.*%.class"
         }
     },
     extensions = {

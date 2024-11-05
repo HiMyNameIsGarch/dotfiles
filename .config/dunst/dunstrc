@@ -307,7 +307,7 @@
     frame_color= "#3e8fb0"
     highlight="#e0def4"
     timeout = 5
-    icon = /home/garch/icon.png
+    icon = /home/garch/.local/share/dunst/icon.png
 
 [urgency_critical]
     background = "#eb6f92"

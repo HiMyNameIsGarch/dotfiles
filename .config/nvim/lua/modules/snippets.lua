@@ -79,6 +79,25 @@ ls.add_snippets(nil, {
             )
         ),
     },
+    tex = {
+        s("frame",
+            fmt(
+                [[
+            \begin{{frame}}
+                \frametitle{{{}}}
+            \end{{frame}}
+            ]], i(1))
+        ),
+        s("image",
+            fmt(
+            [[
+            \begin{{figure}}
+                \includegraphics[width=0.5\linewidth] {{{}}}
+                \label{{fig:{}}}
+            \end{{figure}}
+            ]], {i(1), same(1)})
+        )
+    },
     c = {
         s("template",
             fmt(
@@ -272,6 +291,17 @@ ls.add_snippets(nil, {
                 ]], { i(1), i(2), same(2), f(strupper, { 2 }), same(1), f(strupper, { 2 }) , same(2), f(strupper, { 2 }) })
         ),
     },
+    -- java = {
+    --     s("getset",
+    --         fmt(
+    --             [[
+    --             public {} get{}() {{
+    --                 return {};
+    --             }}
+    --             ]], {}
+    --         )
+    --     ),
+    -- },
     lua = {
         ls.parser.parse_snippet("lf", "local $1 = function($2)\n\t$0\nend")
     },

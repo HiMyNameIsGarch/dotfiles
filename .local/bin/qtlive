@@ -3,6 +3,7 @@
 # This script is to hot reload a qt application from source code.
 #
 #
+
 help() {
     printf "Hot reload a qt application from source code.\n"
     printf "The script will watch the source code and reload the application when the source code is changed.\n"
@@ -10,7 +11,7 @@ help() {
     printf "Usage: qtlive \n"
     printf "You don't need to specify the directory where the source code is located.\n"
     printf "The script will look for the build directory and for the Makefile\n"
-    printf "By default it will compile with the fast version of the Makefile\n"
+    printf "By default it will compile with the fast version of the Makefile and with a few arguments\n"
 }
 
 case "$1" in
@@ -95,5 +96,4 @@ while true; do
             echo "Unknown event: $EVENT, doing nothing"
             ;;
     esac
-
 done
