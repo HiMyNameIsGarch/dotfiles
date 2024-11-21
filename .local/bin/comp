@@ -1,0 +1,24 @@
+#!/bin/sh
+
+rm -r bin
+mkdir -p bin
+
+LIB=$(find /usr/share/java/ -name "*.jar" | tr '\n' ':')
+FILES=$(find . -mindepth 1 -name "*.java")
+
+if javac -d bin -cp "bin:$LIB:." $FILES; then
+    echo "Compilation successful"
+else
+    echo "Compilation failed"
+    exit 1
+fi
+
+TESTS=$(find ./tests/ -name "*Test.java" | sed "s/^.*\///g;s/\.java//g")
+for TEST in $TESTS; do
+    if java -cp "bin:$LIB:." org.junit.runner.JUnitCore tests."$TEST"; then
+        echo "Test run successful"
+    else
+        echo "fucking hell bruh"
+        exit 1
+    fi
+done
