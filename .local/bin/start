@@ -1,0 +1,63 @@
+#!/bin/sh
+
+# check if there are 2 parameters:
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <repository> <project-name>"
+    exit 1
+fi
+
+# check if the first parameter is a valid git repository
+if ! git ls-remote "$1" > /dev/null; then
+    echo "The first parameter is not a valid git repository"
+    exit 1
+fi
+
+# check if the second parameter is a valid project name
+if ! echo "$2" | grep -q "^[a-zA-Z][a-zA-Z0-9]*$"; then # don't be stupid and type some shit as an argument
+    echo "The second parameter is not a valid project name"
+    exit 1
+fi
+
+echo "Clonning the repository"
+git clone "$1"
+
+# get the project name with some regex
+PROJ="$(echo "$1" | sed 's/^.*\///g;s/.git$//g')"
+
+echo "Copying the example files"
+cp -r example/* "$PROJ"/ || exit 1
+
+echo "Changing directory to $PROJ"
+cd "$PROJ" || exit 1
+
+# replace the project name in the files pom.xml with the example project structure
+sed -i "s/CarRental/${2}/g" pom.xml || exit 1
+
+# echo "Changing some classes"
+# mv src/main/java/domain/UI/CarUI.java src/main/java/domain/UI/"${2}UI".java || exit 1
+
+echo "Installing dependencies"
+mvn clean install || exit 1
+
+echo "Running the tests"
+mvn test || exit 1
+
+echo "Building the project"
+mvn package || exit 1
+
+echo "Running the project"
+mvn exec:java || exit 1
+
+# echo "Here comes the Git lol"
+#
+# echo "Adding the files"
+# git add . || exit 1
+#
+# echo "Commiting the changes"
+# git commit -m "Initial commit" || exit 1
+#
+# echo "Pushing the changes"
+# git push || exit 1
+
+echo "Done, the project is ready to be used!"
+echo "Just type \`cd $PROJ\` and start coding!"
