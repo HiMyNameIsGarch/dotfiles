@@ -71,5 +71,7 @@ Plug 'rose-pine/neovim'
 Plug 'nosduco/remote-sshfs.nvim'
 -- The greatest software known to mankind
 Plug('ThePrimeagen/harpoon',  { ['branch'] = 'harpoon2' })
+-- sql stuff
+Plug 'nanotee/sqls.nvim'
 
 vim.call('plug#end')

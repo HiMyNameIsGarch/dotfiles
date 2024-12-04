@@ -10,7 +10,8 @@ telescope.setup {
             "plugged/",
             "node_modules/",
             "undodir/",
-            "bin/.*%.class"
+            "bin/.*%.class",
+            "target/"
         }
     },
     extensions = {

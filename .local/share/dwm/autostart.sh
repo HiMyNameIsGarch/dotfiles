@@ -40,9 +40,9 @@ pulseaudio -D
 # qbittorrent &
 # qutebrowser &
 
-sleep 1s
+# sleep 1s
 
-sys_sound_play boot_welcome &
+# sys_sound_play boot_welcome &
 
 xinput --set-prop 8 'libinput Accel Speed' -0.4
 

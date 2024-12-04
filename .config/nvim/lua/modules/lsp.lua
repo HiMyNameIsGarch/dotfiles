@@ -21,6 +21,24 @@ end
 
 local lspconfig = require("lspconfig")
 
+
+-- SQL
+require'lspconfig'.sqls.setup{
+  on_attach = function(client, bufnr)
+    require('sqls').on_attach(client, bufnr) -- require sqls.nvim
+  end,
+  settings = {
+    sqls = {
+      connections = {
+        {
+          driver = 'mssql',
+          dataSourceName = 'sqlserver://sa:Muielarga69!@hostname:port?database=passman',
+        },
+      },
+    },
+  },
+}
+
 local nproc = string.gsub(vim.fn.system('nproc'), "\n", "")
 -- local unamer = string.gsub(vim.fn.system("uname -r"), "\n", "")
 lspconfig.clangd.setup(config({
@@ -40,7 +58,8 @@ lspconfig.clangd.setup(config({
 --     single_file_support= true
 -- }))
 lspconfig.java_language_server.setup{
-    cmd = { '/home/garch/Dev/java-language-server/dist/lang_server_linux.sh'}
+    cmd = { '/home/garch/Dev/java-language-server/dist/lang_server_linux.sh'},
+    root_dir = lspconfig.util.root_pattern('.git'),
 }
 lspconfig.tsserver.setup(config())
 lspconfig.vimls.setup(config())

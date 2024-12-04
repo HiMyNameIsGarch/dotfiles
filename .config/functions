@@ -10,10 +10,6 @@ runsql() {
     sudo sqlcmd -S localhost -U sa -P 'Muielarga69!' -d passman -i "${1}" -C
 }
 
-javra() {
-    javac "$1" && java "${1}"
-}
-
 mem()
 {
     ps -eo rss,pid,euser,args:100 --sort %mem | grep -v grep | grep -i $@ | awk '{printf $1/1024 "MB"; $1=""; print }'
@@ -170,13 +166,7 @@ pd() {
 }
 
 uni() {
-    UNI="$HOME/Dev/Uni/"
-    CF="$(find "$UNI" -type f | sed 's/^.*Uni\///g' | fzf --prompt "Uni:")"
-    FT="${CF##*.}"
-    case "$FT" in
-        pdf) firefox "$UNI$CF" ;;
-        py) nvim "$UNI$CF" ;;
-        *) echo "File type {$FT} not supported" ;;
-    esac
+    cd "$HOME/Dev/Uni/"
+    db
 }
 
