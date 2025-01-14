@@ -1,0 +1,43 @@
+----------------------------------< GPG error >---------------------------------
+// The error looks like:
+error: GPGME error: No data
+error: GPGME error: No data
+error: GPGME error: No data
+
+// You simply remove the gnupg directory
+sudo rm -r /etc/pacman.d/gnupg
+
+// Delete the repository for the gnupg keys
+sudo pacman -Scc
+
+// Sync them again
+sudo pacman -Syy gnupg archlinux-keyring artix-keyring
+
+// Init
+sudo pacman-key --init
+
+// Populate
+sudo pacman-key --populate archlinux artix
+
+// Refresh ( this might take some time )
+sudo pacman-key --refresh-keys
+
+-------------------------------< Optional steps >-------------------------------
+// Update the packages again ( optional I guess )
+sudo pacman -Syu
+
+// Finally reboot ( optional )
+loginctl reboot
+
+--------------------------------< Back on track >-------------------------------
+// Update the mirrors without the signatures
+sudo pacman -Syyu
+
+// Remove the sync repo
+sudo rm -R /var/lib/pacman/sync
+
+// Update again
+sudo pacman -Syu
+
+// U should be fine by now
+loginctl reboot
