@@ -14,6 +14,9 @@ case $MODE in
     *) s_notify critical "No mode selected..." "Please select a mode" && exit 1;;
 esac
 
+# Grep dinamically all the config files
+FILES="$(find . -mindepth 1 -type f | grep -cvE "git|cache|Cache|Theme|cargo|undodir|plugged|spicetify|chromium|Google")"
+
 configs="qutebrowser $HOME/.config/qutebrowser/config.py
 tmux $HOME/.config/tmux/tmux.conf
 mpv $HOME/.config/mpv/mpv.conf
@@ -21,16 +24,16 @@ quickmarks $HOME/.config/qutebrowser/quickmarks
 alacritty $HOME/.config/alacritty/alacritty.yml
 yt-dlp $HOME/.config/yt-dlp/config
 dunst $HOME/.config/dunst/dunstrc
-dwm $HOME/Dev/dwm/config.def.h 
-dwm-autostart $HOME/.local/share/dwm/autostart.sh 
+dwm $HOME/Dev/dwm/config.def.h
+dwm-autostart $HOME/.local/share/dwm/autostart.sh
 dwmblocks $HOME/suckless/dwmblocks/blocks.def.h
-bash $HOME/.bashrc 
+bash $HOME/.bashrc
 zsh $HOME/.config/zsh/.zshrc
-vim $HOME/.vim/vimrc 
-nvim $HOME/.config/nvim/init.vim 
+vim $HOME/.vim/vimrc
+nvim $HOME/.config/nvim/init.vim
 dmenu $HOME/Dev/dwm/dmenu/config.def.h
 picom $HOME/.config/picom/picom.conf
-aliases $HOME/.config/aliasrc 
+aliases $HOME/.config/aliasrc
 profile $HOME/.config/profile
 functions $HOME/.config/functions
 sites $HOME/Media/Data/sites
@@ -42,7 +45,7 @@ this $HOME/.local/bin/dmenu/confs" # Opens this file
 choice=$(printf '%s' "$configs" | awk '{print $1}'| $PROGRAM )
 [ -z "$choice" ] && exit 1
 FILE="$(printf '%s' "$configs" | awk "/^$choice .*/ {print \$2}")"
-[ ! -f "$FILE" ] && 
+[ ! -f "$FILE" ] &&
     s_notify critical "File Error" "File $FILE \nDoes not exist!" && exit 1
 
 $EDITOR "$FILE"
