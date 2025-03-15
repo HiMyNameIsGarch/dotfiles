@@ -19,6 +19,9 @@ require("modules.telescope")
 require("modules.lualine")
 require('neoscroll').setup()
 require('modules.sshfs')
+require('modules.matlab')
+require('modules.nvim_socket_listener')
+
 
 require'nvim-treesitter.configs'.setup {
     indent = {

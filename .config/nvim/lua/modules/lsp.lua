@@ -22,6 +22,9 @@ end
 local lspconfig = require("lspconfig")
 
 
+-- matlab lsp ( a hell of a job to install this thing )
+require'lspconfig'.matlab_ls.setup{}
+
 -- SQL
 require'lspconfig'.sqls.setup{
   on_attach = function(client, bufnr)
@@ -61,7 +64,7 @@ lspconfig.java_language_server.setup{
     cmd = { '/home/garch/Dev/java-language-server/dist/lang_server_linux.sh'},
     root_dir = lspconfig.util.root_pattern('.git'),
 }
-lspconfig.tsserver.setup(config())
+lspconfig.ts_ls.setup(config())
 lspconfig.vimls.setup(config())
 lspconfig.bashls.setup(config())
 lspconfig.pyright.setup(config({

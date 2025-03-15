@@ -73,5 +73,7 @@ Plug 'nosduco/remote-sshfs.nvim'
 Plug('ThePrimeagen/harpoon',  { ['branch'] = 'harpoon2' })
 -- sql stuff
 Plug 'nanotee/sqls.nvim'
+-- notify me
+Plug 'rcarriga/nvim-notify'
 
 vim.call('plug#end')
