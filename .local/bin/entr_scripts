@@ -1,0 +1,4 @@
+#!/bin/sh
+#
+#
+echo "$HOME/Dev/dwm/config.def.h" | entr -p -n "$HOME/Dev/dwm/recompile" &

@@ -6,7 +6,7 @@ local function start_sql_process(sql_file, buffer)
 
     vim.api.nvim_buf_set_lines(buffer, 0, -1, false, {})
 
-    vim.fn.jobstart({ "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Muielarga69!", "-d", "passman", "-h-1", "-W", "-i", sql_file, "-C" }, {
+    vim.fn.jobstart({ "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Muielarga69!", "-d", "gym", "-h-1", "-W", "-i", sql_file, "-C" }, {
         stdout_buffered = true,
         stderr_buffered = true,
         on_stderr = function (_, data)
