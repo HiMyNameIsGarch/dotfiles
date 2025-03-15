@@ -14,3 +14,5 @@ ALIASESPATH="$HOME/.config/aliasrc"
 # Add functions
 FUNCSPATH="$HOME/.config/functions"
 [[ -f $FUNCSPATH ]] && source $FUNCSPATH
+
+. "$HOME/.local/share/../bin/env"

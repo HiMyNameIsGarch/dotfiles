@@ -6,6 +6,15 @@
 #
 #
 #
+
+mathlab() {
+    export _JAVA_AWT_WM_NONREPARENTING=1
+    # export MATLAB_JAVA=/usr/lib/jvm/java-11-openjdk
+    export MESA_LOADER_DRIVER_OVERRIDE=radeonsi
+    matlab
+}
+
+
 runsql() {
     sudo sqlcmd -S localhost -U sa -P 'Muielarga69!' -d passman -i "${1}" -C
 }

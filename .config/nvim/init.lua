@@ -50,6 +50,13 @@ require("modules.harpoon")
 -- sql please ig
 require("modules.sqlpls")
 
+-- Define the NotifyBackground highlight group
+vim.cmd([[highlight NotifyBackground guibg=#000000]])
+-- Setup nvim-notify
+require("notify").setup({
+  background_colour = "#000000",
+})
+
 -- Formatting
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = { "*.ts", "*.js", "*.vue" },
