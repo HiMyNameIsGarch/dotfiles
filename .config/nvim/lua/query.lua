@@ -1,2 +1,0 @@
-local Query = {}
-return Query

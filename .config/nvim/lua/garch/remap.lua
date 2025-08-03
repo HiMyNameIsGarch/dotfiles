@@ -1,20 +1,13 @@
+-- leader
+vim.g.mapleader = " "
+
 -- Mapper
-local Remap = require("keymap")
+local Remap = require("garch.keymap")
 local nnoremap = Remap.nnoremap
 local vnoremap = Remap.vnoremap
 local inoremap = Remap.inoremap
 local xnoremap = Remap.xnoremap
 local nmap = Remap.nmap
-
--- Baby steps into vim
-function RemoveArrows(mode)
-        local arrows = { 'Up', 'Down', 'Left', 'Right' }
-        for _, arrow in ipairs(arrows) do
-            vim.keymap.set(mode, '<' .. arrow .. '>', '<Nop>', {noremap = true})
-        end
-end
-RemoveArrows('')
-RemoveArrows('i')
 
 -- improvements
 nnoremap('Y', 'y$')
