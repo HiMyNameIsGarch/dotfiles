@@ -11,7 +11,9 @@ telescope.setup {
             "node_modules/",
             "undodir/",
             "bin/.*%.class",
-            "target/"
+            "target/",
+            "Migrations/"
+
         }
     },
     extensions = {

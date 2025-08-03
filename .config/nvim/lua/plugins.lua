@@ -75,5 +75,7 @@ Plug('ThePrimeagen/harpoon',  { ['branch'] = 'harpoon2' })
 Plug 'nanotee/sqls.nvim'
 -- notify me
 Plug 'rcarriga/nvim-notify'
+-- LaTeX
+Plug 'lervag/vimtex'
 
 vim.call('plug#end')

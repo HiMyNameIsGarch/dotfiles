@@ -187,6 +187,13 @@ ins_left {
   },
 }
 
+local lsp_spinner = require("modules.lsp_spinner")
+ins_left {
+  function()
+    return lsp_spinner.status()
+  end,
+  color = { fg = colors.yellow },
+}
 -- Insert mid section. You can make any number of sections in neovim :)
 -- for lualine it's any number greater then 2
 ins_left {
@@ -200,7 +207,7 @@ ins_left {
   function()
     local msg = 'No Active Lsp'
     local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-    local clients = vim.lsp.get_active_clients()
+    local clients = vim.lsp.get_clients()
     if next(clients) == nil then
       return msg
     end

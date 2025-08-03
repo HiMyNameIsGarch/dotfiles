@@ -38,7 +38,7 @@ dap.configurations.cs = {
     request = "launch",
     args = { "status" },
     program = function()
-        return vim.fn.getcwd() .. '/bin/Debug/net6.0/' .. GetProjName() .. '.dll'
+        return vim.fn.getcwd() .. '/bin/Debug/net8.0/' .. GetProjName() .. '.dll'
     end
   },
   {

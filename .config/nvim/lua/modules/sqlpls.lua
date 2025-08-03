@@ -6,7 +6,7 @@ local function start_sql_process(sql_file, buffer)
 
     vim.api.nvim_buf_set_lines(buffer, 0, -1, false, {})
 
-    vim.fn.jobstart({ "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Muielarga69!", "-d", "gym", "-h-1", "-W", "-i", sql_file, "-C" }, {
+    vim.fn.jobstart({ "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "StrongPassword123#", "-d", "AirAssist_Db", "-h-1", "-W", "-i", sql_file, "-C" }, {
         stdout_buffered = true,
         stderr_buffered = true,
         on_stderr = function (_, data)
@@ -67,6 +67,8 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     group = vim.api.nvim_create_augroup("mssql_dummy", {clear = true}),
     pattern = "*.sql",
     callback = function ()
+        -- print message
+        -- vim.notify("Running SQL file: " .. vim.fn.expand('%:p'), vim.log.levels.INFO, { title = "SQL Execution" })
         local fbuf = fo.Read_buf_from_file(path_to_buf)
 
         if fbuf and vim.fn.bufexists(fbuf) == 1 then

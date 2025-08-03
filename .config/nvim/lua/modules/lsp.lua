@@ -1,5 +1,52 @@
 local nnoremap = require("keymap").nnoremap
 
+--------------------------------< notify setup >--------------------------------
+
+-- local notify = require("notify")
+-- local lsp_spinner = require("modules.lsp_spinner")
+--
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--   callback = function(args)
+--     local client = vim.lsp.get_client_by_id(args.data.client_id)
+--     if client then
+--       notify(string.format("LSP '%s' attached!", client.name), "info", { title = "LSP" })
+--       lsp_spinner.start(client.id)
+--     end
+--   end,
+-- })
+--
+-- vim.api.nvim_create_autocmd("DiagnosticChanged", {
+--   callback = function(args)
+--     local bufnr = args.buf
+--     local clients = vim.lsp.get_clients({ bufnr = bufnr })
+--     for _, client in ipairs(clients) do
+--       notify(string.format("LSP '%s' started and ready to use!", client.name), "info", { title = "LSP" })
+--       lsp_spinner.stop(client.id)
+--     end
+--   end,
+-- })
+--
+-- vim.api.nvim_create_autocmd("LspDetach", {
+--   callback = function(args)
+--     local client = vim.lsp.get_client_by_id(args.data.client_id)
+--     if not client then return end
+--
+--     -- Check if client is still attached to any buffer
+--     local still_attached = false
+--     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+--       if #vim.lsp.get_clients({ bufnr = buf }) > 0 then
+--         still_attached = true
+--         break
+--       end
+--     end
+--
+--     if not still_attached then
+--       lsp_spinner.stop(client.id)
+--       notify(string.format("LSP '%s' disconnected", client.name), "warn", { title = "LSP" })
+--     end
+--   end,
+-- })
+
 local function config(_config)
     return vim.tbl_deep_extend("force", {
         on_attach = function()
@@ -35,7 +82,8 @@ require'lspconfig'.sqls.setup{
       connections = {
         {
           driver = 'mssql',
-          dataSourceName = 'sqlserver://sa:Muielarga69!@hostname:port?database=passman',
+          -- dataSourceName = 'sqlserver://sa:StrongPassword123%23@localhost:1433/EF_WebApiDB',
+          dataSourceName = 'sqlserver://sa:StrongPassword123%23@localhost:1433?database=EF_WebApiDB&connection+timeout=30'
         },
       },
     },
@@ -47,9 +95,6 @@ local nproc = string.gsub(vim.fn.system('nproc'), "\n", "")
 lspconfig.clangd.setup(config({
     cmd = {
         "clangd",
-        -- "/usr/lib/modules/" .. unamer .. "/build/include",
-        -- "--std=c++11",
-        -- "-target x86_64-unknown-linux-gnu",
         "--header-insertion=never",
         "-j", nproc,
         "--background-index",
@@ -85,33 +130,34 @@ lspconfig.cssls.setup(config())
 lspconfig.tailwindcss.setup(config())
 lspconfig.html.setup(config())
 
--- Vuejs
-local util = require 'lspconfig.util'
-local function get_typescript_server_path(root_dir)
+-- Vuejs ( no more vue js for now ( conflicting with typescript ) )
+-- local util = require 'lspconfig.util'
+-- local function get_typescript_server_path(root_dir)
+--
+--   local global_ts = '/home/garch/.local/share/npm/lib/node_modules/typescript/lib'
+--   -- Alternative location if installed as root:
+--   -- local global_ts = '/usr/local/lib/node_modules/typescript/lib'
+--   local found_ts = ''
+--   local function check_dir(path)
+--     found_ts =  util.path.join(path, 'node_modules', 'typescript', 'lib')
+--     if util.path.exists(found_ts) then
+--       return path
+--     end
+--   end
+--   if util.search_ancestors(root_dir, check_dir) then
+--     return found_ts
+--   else
+--     return global_ts
+--   end
+-- end
 
-  local global_ts = '/home/garch/.local/share/npm/lib/node_modules/typescript/lib'
-  -- Alternative location if installed as root:
-  -- local global_ts = '/usr/local/lib/node_modules/typescript/lib'
-  local found_ts = ''
-  local function check_dir(path)
-    found_ts =  util.path.join(path, 'node_modules', 'typescript', 'lib')
-    if util.path.exists(found_ts) then
-      return path
-    end
-  end
-  if util.search_ancestors(root_dir, check_dir) then
-    return found_ts
-  else
-    return global_ts
-  end
-end
-
-lspconfig.volar.setup(config({
-    filetypes = {'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json'},
-  on_new_config = function(new_config, new_root_dir)
-    new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
-  end,
-}))
+-- comment out the volar setup
+-- lspconfig.volar.setup(config({
+--     filetypes = {'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json'},
+--   on_new_config = function(new_config, new_root_dir)
+--     new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
+--   end,
+-- }))
 
 -- Lua
 lspconfig.lua_ls.setup(config({
@@ -140,55 +186,10 @@ lspconfig.lua_ls.setup(config({
     }
 }))
 
--- OmniSharp
--- local omnisharp_bin = "/home/himynameisgarch/.local/share/nvim/omnisharp/run"
--- lspconfig.omnisharp.setup(config({
---     root_dir = function()
---         return vim.loop.cwd()
---     end,
---     cmd = { omnisharp_bin, "--languageserver", "hostPID", tostring(vim.fn.getpid()) },
---     handlers = {
---         ["textDocument/definition"] = require('omnisharp_extended').handler,
---     },
--- }))
-local omnisharp_path = "/usr/lib/omnisharp-roslyn/OmniSharp.dll"
-lspconfig.omnisharp.setup(config({
-    handlers = {
-        ["textDocument/definition"] = require('omnisharp_extended').handler,
-    },
-    cmd = { "dotnet", omnisharp_path},
-    -- Enables support for reading code style, naming convention and analyzer
-    -- settings from .editorconfig.
-    enable_editorconfig_support = true,
-
-    -- If true, MSBuild project system will only load projects for files that
-    -- were opened in the editor. This setting is useful for big C# codebases
-    -- and allows for faster initialization of code navigation features only
-    -- for projects that are relevant to code that is being edited. With this
-    -- setting enabled OmniSharp may load fewer projects and may thus display
-    -- incomplete reference lists for symbols.
-    enable_ms_build_load_projects_on_demand = false,
-
-    -- Enables support for roslyn analyzers, code fixes and rulesets.
-    enable_roslyn_analyzers = false,
-
-    -- Specifies whether 'using' directives should be grouped and sorted during
-    -- document formatting.
-    organize_imports_on_format = false,
-
-    -- Enables support for showing unimported types and unimported extension
-    -- methods in completion lists. When committed, the appropriate using
-    -- directive will be added at the top of the current file. This option can
-    -- have a negative impact on initial completion responsiveness,
-    -- particularly for the first few completion sessions after opening a
-    -- solution.
-    enable_import_completion = false,
-
-    -- Specifies whether to include preview versions of the .NET SDK when
-    -- determining which version to use for project loading.
-    sdk_include_prereleases = true,
-
-    -- Only run analyzers against open files when 'enableRoslynAnalyzers' is
-    -- true
-    analyze_open_documents_only = false,
+require('lspconfig').csharp_ls.setup(config({
+    cmd = { "csharp-ls" },
+    filetypes = { "cs" },
+    root_dir = require('lspconfig').util.root_pattern("*.sln", "*.csproj", ".git")
 }))
+
+

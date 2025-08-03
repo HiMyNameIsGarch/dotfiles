@@ -59,7 +59,7 @@ require("notify").setup({
 
 -- Formatting
 vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.ts", "*.js", "*.vue" },
+    pattern = { "*.ts", "*.js", "*.vue", "*.tsx" },
     command = "Neoformat"
 })
 vim.g.neoformat_try_node_exe = 1
