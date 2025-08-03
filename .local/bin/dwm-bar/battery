@@ -6,7 +6,6 @@ STAT=$(cat /sys/class/power_supply/BAT1/status)
 [ "$STAT" = "Discharging" ] && STAT="--" || STAT="++"
 
 echo "B:$PERC%$STAT"
-echo "$PERC " >> "$HOME/.cache/batter_data"
 
 if [ "$PERC" -lt 25 ] && [ "$STAT" = "Discharging" ]; then
     notify-send -c critical "Battery under 25%"

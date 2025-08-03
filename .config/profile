@@ -7,6 +7,9 @@ export SHELPER="$HOME/.local/bin/shelper"
 export FUN_SOUNDS="anything"
 
 export PATH="${PATH}":"${XDG_DATA_HOME}/npm/bin":"${HOME}/.local/bin":"${HOME}/.local/bin/dmenu":"${HOME}/.local/share/go/bin":"${HOME}/.local/bin/dwm-bar":/usr/share/bin:/opt/VStudio:/opt/mssql-tools/bin:/opt/mssql/bin
+# for azure studio bin (TEMPORARY FOR PRACTICE SUMMER 2025)
+export PATH="${PATH}":/opt/azuredatastudio-bin/azuredatastudio-linux-x64/bin
+export PATH="$PATH:/home/garch/.dotnet/tools"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -46,6 +49,9 @@ export JAVA_HOME='/usr/lib/jvm/java-23-openjdk'
 export ANDROID_SDK_ROOT='/opt/android-sdk'
 export ANDROID_SDK_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/android"
 export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
+
+# vagrant
+export VAGRANT_DISABLE_STRICT_DEPENDENCY_ENFORCEMENT=1
 
 # Colors for fzf, maybe will move in another place
 # Source: rose-pine theme

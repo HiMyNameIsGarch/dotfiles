@@ -2,7 +2,7 @@
 #
 # Remove symlinks (rmlk)
 #
-# This script will remove the file/files in the dotfiles directory 
+# This script will remove the file/files in the dotfiles directory
 # and add it in the current directory that this will run
 #
 
@@ -12,20 +12,31 @@ if [ -f "$SHELPER" ]; then . "$SHELPER"; else
     printf '%s: error: %s\n' "${0##*/}" "Cannot source helper script!"; exit 1; fi
 
 file="$1"
+
 [ -z "$file" ] && s_err "No file provided"
+
 if [ "$#" -gt 1 ]; then
     printf "%s\n" "$@" | xargs -I {} rmlk '{}'
     exit 1
 fi
+
 [ -f "$file" ] || s_err "File \"$file\" does not exists"
+
 test "${file#*"/"}" != "$file" &&
     s_err "Please go into the directory, then remove the file ($file)"
+
 fileStatus=$(file "$file")
+
 test "${fileStatus#*"symbolic link"}" != "$fileStatus" ||
     s_err "File \"$1\" is not a symbolic link"
+
 dotfiles="$HOME/Dev/dotfiles"
-test "${fileStatus#*"$dotfiles"}" != "$fileStatus" || 
+
+test "${fileStatus#*"$dotfiles"}" != "$fileStatus" ||
     s_err "This symbolic link is not in dotfiles directory:\n$dotfiles"
+
 symLinkPath="/${fileStatus#*/}"
+
 rm "$file"
+
 mv "$symLinkPath" "$(pwd)"

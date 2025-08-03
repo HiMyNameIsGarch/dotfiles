@@ -16,7 +16,7 @@ mathlab() {
 
 
 runsql() {
-    sudo sqlcmd -S localhost -U sa -P 'Muielarga69!' -d passman -i "${1}" -C
+    sudo sqlcmd -S localhost -U sa -P 'StrongPassword123#' -d AirAssist_Db -i "${1}" -C
 }
 
 mem()

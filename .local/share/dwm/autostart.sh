@@ -1,8 +1,8 @@
 #!/bin/sh
-#
+
 
 # Set screen backlight
-xbacklight -set 50
+xbacklight -set 40
 
 # Stop bell
 xset b off
