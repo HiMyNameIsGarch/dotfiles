@@ -9,6 +9,12 @@ local inoremap = Remap.inoremap
 local xnoremap = Remap.xnoremap
 local nmap = Remap.nmap
 
+nnoremap("<leader>e", function()
+    vim.cmd("vsplit")
+    vim.cmd("Explore")
+end)
+
+
 -- improvements
 nnoremap('Y', 'y$')
 inoremap('kj', '<esc>')

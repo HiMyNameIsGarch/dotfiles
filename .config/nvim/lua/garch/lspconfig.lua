@@ -1,6 +1,5 @@
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function()
-        vim.notify("Lsp attached, loading maps...")
         local opts = { noremap = true, silent = true, buffer = bufnr }
         local keymap = vim.keymap.set
 
@@ -28,7 +27,7 @@ return {
                 "sqls",
                 "clangd",
                 "java_language_server",
-                "tsserver",
+                "typescript-language-server",
                 "vimls",
                 "bashls",
                 "pyright",
@@ -49,6 +48,11 @@ return {
             end,
             ["matlab_ls"] = function()
                 lspconfig.matlab_ls.setup{}
+            end,
+            ["tsserver"] = function()
+                lspconfig.tsserver.setup({
+                    root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", ".git"),
+                })
             end,
             ["sqls"] = function()
                 lspconfig.sqls.setup({

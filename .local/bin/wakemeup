@@ -1,14 +1,13 @@
 #!/bin/sh
-#
 
 # play a sound for 10 seconds from 5 to 5 minutes not to close the bluetooth connection
 while true; do
     mpv --volume=13 --no-video /usr/share/sounds/alsa/Noise.wav > /dev/null 2>&1
     sleep 5m
-    if [ "$(date +%H)" = 09 ]; then
+    if [ "$(date +%H%M)" = 0750 ]; then
         mpv --volume=35 --no-video "$HOME/Media/Sounds/Marauder_wake_up.opus" &
         sleep 30s
-        mpv --volume=55 --no-video "$HOME/Media/Sounds/output.opus"
+        mpv --volume=55 --no-video "$HOME/Media/Sounds/morning.mp3"
         break;
     fi
 done

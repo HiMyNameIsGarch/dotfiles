@@ -1,11 +1,22 @@
 # Enable colors
 autoload -U colors && colors
+setopt PROMPT_SUBST
 
+# Function to get Git branch name
+function git_branch() {
+    local branch
+    branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+    if [[ -n "$branch" ]]; then
+        echo "%{$fg[cyan]%}$branch-%{$reset_color%}"
+    fi
+}
+
+# Set up prompts with Git branch
 LEFTPROMPT="%B%{$fg[magenta]%}(%{$fg[yellow]%}"
-RIGHTPROMPT="%{$fg[blue]%}%1d%{$fg[magenta]%})%{$fg[green]%}->%b "
+RIGHTPROMPT="%B%{$fg[blue]%}%1d%{$fg[magenta]%})%{$fg[green]%}->%b "
 
-PROMPTINSERT="$LEFTPROMPT-I-$RIGHTPROMPT"
-PROMPTNORMAL="$LEFTPROMPT-N-$RIGHTPROMPT"
+PROMPTINSERT="$LEFTPROMPT-I-"'$(git_branch)'"$RIGHTPROMPT"
+PROMPTNORMAL="$LEFTPROMPT-N-"'$(git_branch)'"$RIGHTPROMPT"
 
 # History in cache directory:
 HISTFILE=~/.cache/zsh/history
@@ -22,14 +33,13 @@ autoload -U compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
-_comp_options+=(globdots)		# Include hidden files.
+_comp_options+=(globdots)       # Include hidden files.
 
 # Do not keep duplicate commands in history
 setopt HIST_IGNORE_ALL_DUPS
 setopt autocd nomatch
 setopt append_history # append rather then overwrite
 setopt inc_append_history # add history immediately after typing a command
-
 
 function zle-line-init zle-keymap-select {
     PS1="${${KEYMAP/vicmd/$PROMPTNORMAL}/(main|viins)/$PROMPTINSERT}"
@@ -61,6 +71,8 @@ FUNCS="$HOME/.config/functions"
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 export PATH=$PATH:/home/garch/.spicetify
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+
 
 eval "$(rbenv init -)"
 

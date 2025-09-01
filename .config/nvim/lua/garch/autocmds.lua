@@ -5,12 +5,12 @@ function M.setup()
   local augroup = vim.api.nvim_create_augroup("MyAutoCmds", { clear = true })
 
     -- Formatting
-    vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup,
-        pattern = { "*.ts", "*.js", "*.vue", "*.tsx" },
-        command = "Neoformat"
-    })
-    vim.g.neoformat_try_node_exe = 1
+    -- vim.api.nvim_create_autocmd("BufWritePre", {
+    --     group = augroup,
+    --     pattern = { "*.ts", "*.js", "*.vue", "*.tsx" },
+    --     command = "Neoformat"
+    -- })
+    -- vim.g.neoformat_try_node_exe = 1
 
     vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
         group = augroup,
